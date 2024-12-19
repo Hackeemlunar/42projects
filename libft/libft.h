@@ -1,7 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/19 18:32:15 by hmensah-          #+#    #+#             */
+/*   Updated: 2024/12/19 18:35:04 by hmensah-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <stddef.h> // For size_t
+# include <stddef.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
 
 // ************** Part 1 - Libc functions ************** 
 int		ft_isalpha(int c);
@@ -59,4 +74,3 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 #endif
-
