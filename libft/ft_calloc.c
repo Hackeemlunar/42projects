@@ -1,11 +1,46 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/20 21:06:41 by hmensah-          #+#    #+#             */
+/*   Updated: 2024/12/20 21:07:17 by hmensah-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void *ft_calloc(size_t count, size_t size);
+#include "libft.h"
 
-int main(void)
+void *ft_calloc(size_t count, size_t size)
 {
-    // Example test for *ft_calloc
-    return 0;
+    void    *mem;
+    char    *memCpy;
+    size_t  i;
+    size_t  total_bytes;
+
+    i = 0;
+    total_bytes = size * count;
+    mem = malloc(total_bytes);
+    if (!mem)
+        return (NULL);
+    memCpy = (char *)mem;
+    while (i < total_bytes)
+    {
+        memCpy[i] = 0;
+        i++;
+    }
+    return (mem);
 }
+
+// int main(void)
+// {
+//     int i = 0;
+//     char *numbers = (char *)ft_calloc(10, 4);
+//     while(i < 100000)
+//     {
+//         printf("I %d: %d\n", i, numbers[i]);
+//         i++;
+//     }
+//     return 0;
+// }

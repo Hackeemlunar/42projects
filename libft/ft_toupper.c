@@ -1,11 +1,29 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/20 21:24:44 by hmensah-          #+#    #+#             */
+/*   Updated: 2024/12/20 21:35:53 by hmensah-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int ft_toupper(int c);
+#include "libft.h"
 
-int main(void)
+int ft_toupper(int c)
 {
-    // Example test for ft_toupper
-    return 0;
+    if (c >= 'a' && c <= 'z')
+        return ('A' + (c - 'a'));
+    return (c);
 }
+
+// int main(void)
+// {
+//     int a = '0';
+//     printf("       num: %c\n", a);
+//     printf("ft_toupper: %c\n", ft_toupper(a));
+//     printf("  touppper: %c\n", toupper(a));
+//     return 0;
+// }

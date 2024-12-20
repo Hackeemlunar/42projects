@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 18:32:15 by hmensah-          #+#    #+#             */
-/*   Updated: 2024/12/19 18:35:04 by hmensah-         ###   ########.fr       */
+/*   Updated: 2024/12/20 20:51:26 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <stddef.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <strings.h>
+# include <ctype.h>
 # include <unistd.h>
 
 // ************** Part 1 - Libc functions ************** 

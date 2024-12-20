@@ -1,11 +1,27 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/20 21:05:33 by hmensah-          #+#    #+#             */
+/*   Updated: 2024/12/20 21:05:38 by hmensah-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int ft_isdigit(int c);
+#include "libft.h"
 
-int main(void)
+int ft_isdigit(int c)
 {
-    // Example test for ft_isdigit
-    return 0;
+    if (c >= '0' && c <= '9')
+        return (1);
+    return (0);
 }
+
+// int main(void)
+// {
+//     printf("ft_isdigit %d\n", ft_isdigit('9'));
+//     printf("   isdigit: %d\n", isdigit('9'));
+//     return 0;
+// }

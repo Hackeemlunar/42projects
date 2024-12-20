@@ -1,11 +1,27 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/20 21:05:57 by hmensah-          #+#    #+#             */
+/*   Updated: 2024/12/20 21:06:01 by hmensah-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int ft_isalpha(int c);
 
-int main(void)
+
+int ft_isalpha(int c)
 {
-    // Example test for ft_isalpha
-    return 0;
+    if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
+        return (1);
+    return (0);
 }
+
+// int main(void)
+// {
+//     printf("ft_isalpha: %d\n", ft_isalpha('K'));
+//     printf("   isalpha: %d\n", isalpha('K'));
+//     return 0;
+// }
