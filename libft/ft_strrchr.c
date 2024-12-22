@@ -1,11 +1,41 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "libft.h"
 
-char *ft_strrchr(const char *s, int c);
-
-int main(void)
+char *ft_strrchr(const char *s, int c)
 {
-    // Example test for *ft_strrchr
-    return 0;
+    int i;
+    char *last_occurrence;
+
+    i = 0;
+    while (s[i] != '\0')
+    {
+        if (s[i] == (char)c)
+        {
+            last_occurrence = (char *)&s[i];
+        }
+        i++;
+    }
+
+    if (c == '\0')
+    {
+        return (char *)&s[i];
+    }
+
+    return last_occurrence;
 }
+
+// int main(void)
+// {
+//     // Example test for *ft_strrchr
+//     const char *str = "Hello, world!";
+//     char ch = 'o';
+//     char *result = ft_strrchr(str, ch);
+//     if (result)
+//     {
+//         printf("Last occurrence of '%c' found at position: %ld\n", ch, result - str);
+//     }
+//     else
+//     {
+//         printf("Character '%c' not found in the string.\n", ch);
+//     }
+//     return 0;
+// }
