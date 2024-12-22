@@ -1,11 +1,19 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "libft.h"
 
-void ft_putchar_fd(char c, int fd);
-
-int main(void)
+void ft_putchar_fd(char c, int fd)
 {
-    // Example test for ft_putchar_fd
-    return 0;
+    write(fd, &c, 1);
 }
+
+// int main(void)
+// {
+//     char *a = "Hello World!";
+//     int i = 0;
+//     while (a[i])
+//     {
+//         ft_putchar_fd(a[i], 1);
+//         i++;
+//     }
+//     ft_putchar_fd('\n', 1);
+//     return 0;
+// }

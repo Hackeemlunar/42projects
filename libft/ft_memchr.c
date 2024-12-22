@@ -1,11 +1,35 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "libft.h"
 
-void *ft_memchr(const void *s, int c, size_t n);
-
-int main(void)
+void *ft_memchr(const void *s, int c, size_t n)
 {
-    // Example test for *ft_memchr
-    return 0;
+    char    *s_copy;
+    int     i;
+    size_t  s_len;
+
+    i = 0;
+    s_copy = (char *)s;
+    s_len = (size_t) ft_strlen(s_copy);
+    if (n > s_len)
+        n = s_len;
+    while (i < (int)n)
+    {
+        if (s_copy[i] == c)
+            return &s_copy[i];
+        i++;
+    }
+    return (NULL);
 }
+
+// int main(void)
+// {
+//     char a[] = "Hello 43";
+//     char *b = ft_memchr(a, '5', 15000);
+//     if (b != NULL)
+//     {
+//         printf("%c", *b);
+//     } else {
+//         printf("NULL");
+//     }
+    
+//     return 0;
+// }
