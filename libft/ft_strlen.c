@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:46:13 by hmensah-          #+#    #+#             */
-/*   Updated: 2024/12/22 18:47:22 by hmensah-         ###   ########.fr       */
+/*   Updated: 2024/12/23 17:28:56 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,3 @@ size_t	ft_strlen(const char *s)
 	}
 	return (i);
 }
-
-// int main(void)
-// {
-//     // Example test for ft_strlen
-//     return 0;
-// }

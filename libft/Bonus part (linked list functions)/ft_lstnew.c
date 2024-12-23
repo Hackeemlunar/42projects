@@ -1,11 +1,31 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/23 17:35:25 by hmensah-          #+#    #+#             */
+/*   Updated: 2024/12/23 19:02:06 by hmensah-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-t_list *ft_lstnew(void *content);
+#include "libft.h"
 
-int main(void)
-{
-    // Example test for *ft_lstnew
-    return 0;
+t_list *ft_lstnew(void *content){
+    t_list  *linked_list;
+
+    linked_list = (t_list *) malloc(sizeof(t_list));
+    if (!linked_list)
+        return (NULL);
+    linked_list->content = content;
+    linked_list->next = NULL;
+    return (linked_list);
 }
+
+// int main(void)
+// {
+//     t_list *a = ft_lstnew("Hello");
+//     printf("Data is: %s\n", a->content);
+//     return 0;
+// }

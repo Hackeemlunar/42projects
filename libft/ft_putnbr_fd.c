@@ -1,11 +1,21 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/23 18:50:40 by hmensah-          #+#    #+#             */
+/*   Updated: 2024/12/23 18:51:20 by hmensah-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void ft_putnbr_fd(int n, int fd);
+#include "libft.h"
 
-int main(void)
+void	ft_putnbr_fd(int n, int fd);
+
+int	main(void)
 {
-    // Example test for ft_putnbr_fd
-    return 0;
+	// Example test for ft_putnbr_fd
+	return 0;
 }

@@ -1,11 +1,32 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/23 20:45:29 by hmensah-          #+#    #+#             */
+/*   Updated: 2024/12/23 20:51:21 by hmensah-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void ft_lstclear(t_list **lst, void (*del)(void *));
+#include "libft.h"
+
+void ft_lstclear(t_list **lst, void (*del)(void *))
+{
+    t_list  *node;
+
+    node = *lst;   
+    while (node != NULL)
+    {
+        del(node->content);
+        free(node);
+        node = node->next;
+    }
+    lst = NULL;
+}
 
 int main(void)
 {
-    // Example test for ft_lstclear
     return 0;
 }
