@@ -1,11 +1,24 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/22 21:58:19 by hmensah-          #+#    #+#             */
+/*   Updated: 2024/12/22 21:59:29 by hmensah-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-char *ft_strchr(const char *s, int c);
+#include "libft.h"
 
-int main(void)
+char	*ft_strchr(const char *s, int c)
 {
-    // Example test for *ft_strchr
-    return 0;
+	
+}
+
+int	main(void)
+{
+	// Example test for *ft_strchr
+	return 0;
 }

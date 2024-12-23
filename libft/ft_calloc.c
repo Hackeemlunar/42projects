@@ -6,31 +6,31 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 21:06:41 by hmensah-          #+#    #+#             */
-/*   Updated: 2024/12/20 21:07:17 by hmensah-         ###   ########.fr       */
+/*   Updated: 2024/12/22 21:56:43 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void *ft_calloc(size_t count, size_t size)
+void	*ft_calloc(size_t count, size_t size)
 {
-    void    *mem;
-    char    *memCpy;
-    size_t  i;
-    size_t  total_bytes;
+	void	*mem;
+	char	*mem_cpy;
+	size_t	i;
+	size_t	total_bytes;
 
-    i = 0;
-    total_bytes = size * count;
-    mem = malloc(total_bytes);
-    if (!mem)
-        return (NULL);
-    memCpy = (char *)mem;
-    while (i < total_bytes)
-    {
-        memCpy[i] = 0;
-        i++;
-    }
-    return (mem);
+	i = 0;
+	total_bytes = size * count;
+	mem = malloc(total_bytes);
+	if (!mem)
+		return (NULL);
+	mem_cpy = (char *)mem;
+	while (i < total_bytes)
+	{
+		mem_cpy[i] = 0;
+		i++;
+	}
+	return (mem);
 }
 
 // int main(void)

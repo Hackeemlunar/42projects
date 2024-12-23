@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 18:32:15 by hmensah-          #+#    #+#             */
-/*   Updated: 2024/12/20 20:51:26 by hmensah-         ###   ########.fr       */
+/*   Updated: 2024/12/22 19:09:31 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <strings.h>
 # include <ctype.h>
 # include <unistd.h>
+# include <limits.h>
 
 // ************** Part 1 - Libc functions ************** 
 int		ft_isalpha(int c);
