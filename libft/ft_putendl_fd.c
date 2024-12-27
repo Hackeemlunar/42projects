@@ -1,11 +1,12 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "libft.h"
 
-void ft_putendl_fd(char *s, int fd);
-
-int main(void)
+void ft_putendl_fd(char *s, int fd)
 {
-    // Example test for ft_putendl_fd
-    return 0;
+    write(fd, s, ft_strlen(s));
+    write(fd, "\n", 1);
 }
+
+// int main(void)
+// {
+//     return 0;
+// }

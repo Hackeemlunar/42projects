@@ -1,11 +1,16 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "libft.h"
 
-void ft_striteri(char *s, void (*f)(unsigned int, char *));
-
-int main(void)
+void ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
-    // Example test for ft_striteri
-    return 0;
+    unsigned int i = 0;
+    while (s[i]) {
+        f(i, &s[i]);
+        i++;
+    }
 }
+
+// int main(void)
+// {
+//     // Example test for ft_striteri
+//     return 0;
+// }

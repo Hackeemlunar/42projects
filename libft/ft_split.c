@@ -12,87 +12,71 @@
 
 #include "libft.h"
 
-int	in_charset(char c, char *charset)
+static size_t	count_words(char const *s, char c)
 {
-	while (*charset)
-	{
-		if (c == *charset)
-			return (1);
-		charset++;
-	}
-	return (0);
-}
+	size_t	count = 0;
+	int		in_substring = 0;
 
-int	count_words(char *str, char *charset)
-{
-	int	all_words;
-	int	i;
-	int	state;
-
-	i = 0;
-	all_words = 0;
-	state = 0;
-	while (str[i] != '\0')
+	while (*s)
 	{
-		if (!in_charset(str[i], charset) && !state)
+		if (*s != c && in_substring == 0)
 		{
-			all_words++;
-			state = 1;
+			in_substring = 1;
+			count++;
 		}
-		else if (in_charset(str[i], charset))
-			state = 0;
-		i++;
+		else if (*s == c)
+			in_substring = 0;
+		s++;
 	}
-	return (all_words);
+	return (count);
 }
 
-int	check_copy(char **arr, char *str, int len, int j)
+static char	*word_dup(const char *s, size_t start, size_t finish)
 {
-	char	*temp;
-	int		i;
+	char	*word;
+	size_t	i;
 
-	temp = (char *)malloc(len + 1);
-	if (temp == NULL)
-		return (0);
+	word = (char *)malloc((finish - start + 1) * sizeof(char));
+	if (!word)
+		return (NULL);
 	i = 0;
-	while (i < len)
-	{
-		temp[i] = str[i];
-		i++;
-	}
-	temp[i] = '\0';
-	arr[j] = temp;
-	return (1);
+	while (start < finish)
+		word[i++] = s[start++];
+	word[i] = '\0';
+	return (word);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**arr;
-	int		word_len;
-	int		i;
-	int		j;
+	char	**split;
+	size_t	i;
+	size_t	j;
+	int		index = -1;
+	
 
-	arr = (char **)malloc(sizeof(char *) * (count_words(str, charset) + 1));
-	i = -1;
-	word_len = 0;
+	if (!s)
+		return (NULL);
+	split = (char **)malloc((count_words(s, c) + 1) * sizeof(char *));
+	if (!split)
+		return (NULL);
+	i = 0;
 	j = 0;
-	while (str[++i])
+	while (i <= ft_strlen(s))
 	{
-		if (!in_charset(str[i], charset))
-			word_len++;
-		else if (word_len > 0)
+		if (s[i] != c && index < 0)
+			index = i;
+		else if ((s[i] == c || i == ft_strlen(s)) && index >= 0)
 		{
-			j += check_copy(arr, &str[i - word_len], word_len, j);
-			word_len = 0;
+			split[j++] = word_dup(s, index, i);
+			index = -1;
 		}
+		i++;
 	}
-	if (word_len > 0)
-		j += check_copy(arr, &str[i - word_len], word_len, j);
-	arr[j] = NULL;
-	return (arr);
+	split[j] = NULL;
+	return (split);
 }
 
-int	main(void)
-{
-	return (0);
-}
+// int	main(void)
+// {
+// 	return (0);
+// }
