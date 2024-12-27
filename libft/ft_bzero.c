@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 21:06:26 by hmensah-          #+#    #+#             */
-/*   Updated: 2024/12/22 19:09:18 by hmensah-         ###   ########.fr       */
+/*   Updated: 2024/12/27 22:25:52 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,7 @@
 
 void	ft_bzero(void *s, size_t n)
 {
-	char	*c;
-	size_t	i;
-	size_t	len;
-
-	i = 0;
-	c = (char *)s;
-	len = ft_strlen(c);
-	while (n > 0 && i < n && i < len)
-	{
-		c[i] = '\0';
-		i++;
-	}
+	ft_memset(s, '\0', n);
 }
 
 // int main(void)

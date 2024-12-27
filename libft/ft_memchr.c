@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:47:50 by hmensah-          #+#    #+#             */
-/*   Updated: 2024/12/22 18:48:50 by hmensah-         ###   ########.fr       */
+/*   Updated: 2024/12/27 22:53:09 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,15 @@
 
 void	*ft_memchr(const void *s, int c, size_t n)
 {
-	char	*s_copy;
-	int		i;
-	size_t	s_len;
+	unsigned char	*s_copy;
+	size_t			i;
 
 	i = 0;
-	s_copy = (char *)s;
-	s_len = (size_t) ft_strlen(s_copy);
-	if (n > s_len)
-		n = s_len;
-	while (i < (int)n)
+	s_copy = (unsigned char *)s;
+	while (i < n)
 	{
-		if (s_copy[i] == c)
-			return (&s_copy[i]);
+		if (s_copy[i] == (unsigned char) c)
+			return ((void *) &s_copy[i]);
 		i++;
 	}
 	return (NULL);

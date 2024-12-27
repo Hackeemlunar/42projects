@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:49:46 by hmensah-          #+#    #+#             */
-/*   Updated: 2024/12/22 19:08:09 by hmensah-         ###   ########.fr       */
+/*   Updated: 2024/12/27 17:58:00 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	*ft_memset(void *b, int c, size_t len)
 
 // int main(void)
 // {
-// 	char a[] = "Hello 43";
-// 	char b[] = "Hello 43";
+// 	// char a[] = "Hello 43";
+// 	// char b[] = "Hello 43";
 
-// 	printf("ft_memset: %s\n", ft_memset(a, '5', 0));
-// 	printf("   memset: %s\n", memset(b, '5', 0));
+// 	// printf("ft_memset: %s\n", ft_memset(NULL, '5', 3));
+// 	printf("   memset: %s\n", memset(NULL, '5', 3));
 // 	return (0);
 // }

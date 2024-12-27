@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 20:24:46 by hmensah-          #+#    #+#             */
-/*   Updated: 2024/12/23 20:27:18 by hmensah-         ###   ########.fr       */
+/*   Updated: 2024/12/27 18:17:27 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 static size_t	count_words(char const *s, char c)
 {
-	size_t	count = 0;
-	int		in_substring = 0;
+	size_t	count;
+	int		in_substring;
 
+	count = 0;
+	in_substring = 0;
 	while (*s)
 	{
 		if (*s != c && in_substring == 0)
@@ -51,17 +53,17 @@ char	**ft_split(char const *s, char c)
 	char	**split;
 	size_t	i;
 	size_t	j;
-	int		index = -1;
-	
+	int		index;
 
+	index = -1;
 	if (!s)
 		return (NULL);
 	split = (char **)malloc((count_words(s, c) + 1) * sizeof(char *));
 	if (!split)
 		return (NULL);
-	i = 0;
+	i = -1;
 	j = 0;
-	while (i <= ft_strlen(s))
+	while (++i <= ft_strlen(s))
 	{
 		if (s[i] != c && index < 0)
 			index = i;
@@ -70,13 +72,19 @@ char	**ft_split(char const *s, char c)
 			split[j++] = word_dup(s, index, i);
 			index = -1;
 		}
-		i++;
 	}
 	split[j] = NULL;
 	return (split);
 }
 
-// int	main(void)
+// int	main(int argc, char **argv)
 // {
+// 	argc += 0;
+// 	char **a = ft_split(argv[1], ' ');
+// 	while (*a)
+// 	{
+// 		printf("%s\n", *a);
+// 		a++;
+// 	}
 // 	return (0);
 // }

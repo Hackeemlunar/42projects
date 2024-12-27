@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 19:00:52 by hmensah-          #+#    #+#             */
-/*   Updated: 2024/12/23 16:44:05 by hmensah-         ###   ########.fr       */
+/*   Updated: 2024/12/27 17:36:13 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,37 +18,44 @@ static int	ft_isspace(char c)
 		|| c == '\v' || c == '\t');
 }
 
-int	ft_atoi(const char *str)
+static int	get_number(const char *str, int sign)
 {
 	long	res;
-	int		sign;
 	int		counter;
 
 	res = 0;
+	counter = 0;
+	while (str[counter] >= '0' && str[counter] <= '9')
+	{
+		if (res > (LONG_MAX - (str[counter] - '0')) / 10)
+		{
+			if (sign == 1)
+				return (-1);
+			else
+				return (0);
+		}
+		res = (res * 10) + (str[counter] - '0');
+		counter++;
+	}
+	return ((int)(sign * res));
+}
+
+int	ft_atoi(const char *str)
+{
+	int		sign;
+	int		counter;
+
 	sign = 1;
 	counter = 0;
 	while (ft_isspace(str[counter]))
 		counter++;
-
 	if (str[counter] == '-' || str[counter] == '+')
 	{
 		if (str[counter] == '-')
 			sign = -1;
 		counter++;
 	}
-	while (str[counter] >= '0' && str[counter] <= '9')
-	{
-		if (res > (LONG_MAX - (str[counter] - '0')) / 10)
-		{
-			if (sign == 1)
-				return -1;
-			else
-				return 0;
-		}
-		res = (res * 10) + (str[counter] - '0');
-		counter++;
-	}
-	return ((int)(sign * res));
+	return (get_number(&str[counter], sign));
 }
 
 // int main(int argc, char **argv)

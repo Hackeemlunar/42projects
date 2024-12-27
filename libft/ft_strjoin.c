@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 20:30:53 by hmensah-          #+#    #+#             */
-/*   Updated: 2024/12/23 20:53:52 by hmensah-         ###   ########.fr       */
+/*   Updated: 2024/12/27 17:09:22 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 {
 	size_t	len1;
 	size_t	len2;
-	char	*result;
 	size_t	i;
+	char	*result;
 
 	if (!s1 || !s2)
 		return (NULL);
@@ -35,7 +35,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	result[i + len1] = '\0';
 	return (result);
 }
-
 
 // int main(void)
 // {

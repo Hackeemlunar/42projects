@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 21:06:41 by hmensah-          #+#    #+#             */
-/*   Updated: 2024/12/22 21:56:43 by hmensah-         ###   ########.fr       */
+/*   Updated: 2024/12/27 22:42:45 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,17 @@ void	*ft_calloc(size_t count, size_t size)
 	size_t	i;
 	size_t	total_bytes;
 
-	i = 0;
 	total_bytes = size * count;
+	if (size != 0 && total_bytes / size != count)
+		return (NULL);
+	i = 0;
 	mem = malloc(total_bytes);
 	if (!mem)
 		return (NULL);
 	mem_cpy = (char *)mem;
 	while (i < total_bytes)
 	{
-		mem_cpy[i] = 0;
+		mem_cpy[i] = '\0';
 		i++;
 	}
 	return (mem);
