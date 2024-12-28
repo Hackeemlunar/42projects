@@ -1,11 +1,12 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "libft.h"
 
-void ft_lstiter(t_list *lst, void (*f)(void *));
-
-int main(void)
+void ft_lstiter(t_list *lst, void (*f)(void *))
 {
-    // Example test for ft_lstiter
-    return 0;
+    if (!lst || !f)
+        return ;
+    while (lst)
+    {
+        f(lst->content);
+        lst = lst->next;
+    }
 }

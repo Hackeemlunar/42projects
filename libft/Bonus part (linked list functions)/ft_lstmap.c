@@ -1,8 +1,36 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "libft.h"
 
-t_list *ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+t_list *ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+{
+    t_list *new_list;
+    t_list *new_node;
+    t_list *current;
+
+    if (!lst || !f)
+        return (NULL);
+    new_list = NULL;
+    current = lst;
+    while (current)
+    {
+        new_node = ft_lstnew(f(current->content));
+        if (!new_node)
+        {
+            ft_lstclear(&new_list, del);
+            return (NULL);
+        }
+        if (!new_list)
+            new_list = new_node;
+        else
+        {
+            t_list *tail = new_list;
+            while (tail->next)
+                tail = tail->next;
+            tail->next = new_node;
+        }
+        current = current->next;
+    }
+    return (new_list);
+}
 
 int main(void)
 {

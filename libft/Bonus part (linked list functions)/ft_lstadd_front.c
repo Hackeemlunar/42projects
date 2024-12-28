@@ -18,7 +18,7 @@ void ft_lstadd_front(t_list **lst, t_list *new)
 
     first = *lst;
     if (first == NULL)
-        first = new;
+        *lst = new;
     else
     {
         new->next = first;
