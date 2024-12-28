@@ -6,24 +6,24 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 20:08:52 by hmensah-          #+#    #+#             */
-/*   Updated: 2024/12/23 20:18:38 by hmensah-         ###   ########.fr       */
+/*   Updated: 2024/12/28 17:04:01 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list *ft_lstlast(t_list *lst)
+t_list	*ft_lstlast(t_list *lst)
 {
-    t_list  *last;
+	t_list	*last;
 
-    last = lst;
-    if (last == NULL)
+	last = lst;
+	if (last == NULL)
 		return (NULL);
-    while (last->next != NULL)
+	while (last->next != NULL)
 	{
 		last = last->next;
 	}
-	return (last);	
+	return (last);
 }
 
 // int main(void)

@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/23 18:27:11 by hmensah-          #+#    #+#             */
-/*   Updated: 2024/12/23 19:35:17 by hmensah-         ###   ########.fr       */
+/*   Created: 2024/12/23 19:17:22 by hmensah-          #+#    #+#             */
+/*   Updated: 2024/12/28 17:00:56 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void ft_lstadd_front(t_list **lst, t_list *new)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-    t_list  *first;
+	t_list	*last;
 
-    first = *lst;
-    if (first == NULL)
-        *lst = new;
-    else
-    {
-        new->next = first;
-    }
+	last = *lst;
+	if (last == NULL)
+	{
+		last = new;
+		return ;
+	}
+	while (last->next != NULL)
+	{
+		last = last->next;
+	}
+	last->next = new;
 }
 
 // int main(void)
@@ -32,16 +36,15 @@ void ft_lstadd_front(t_list **lst, t_list *new)
 //     t_list *b = ft_lstnew("By");
 //     t_list *c = ft_lstnew("World!");
 //     t_list *d = ft_lstnew("Hello");
-//     ft_lstadd_front(&e, a);
-//     ft_lstadd_front(&a, b);
-//     ft_lstadd_front(&b, c);
-//     ft_lstadd_front(&c, d);
-//     t_list *tmp = d;
+//     ft_lstadd_back(&e, a);
+//     ft_lstadd_back(&a, b);
+//     ft_lstadd_back(&a, c);
+//     ft_lstadd_back(&a, d);
+//     t_list *tmp = a;
 //     while (tmp != NULL)
 //     {
 //         printf("Data is: %s\n", tmp->content);
 //         tmp = tmp->next;
 //     }
-    
 //     return 0;
 // }

@@ -6,25 +6,25 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 19:58:59 by hmensah-          #+#    #+#             */
-/*   Updated: 2024/12/23 20:14:45 by hmensah-         ###   ########.fr       */
+/*   Updated: 2024/12/28 17:12:45 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_lstsize(t_list *lst)
+int	ft_lstsize(t_list *lst)
 {
-    t_list  *first;
-    int     size;
+	t_list	*first;
+	int		size;
 
-    first = lst;
-    size = 0;
-    while (first != NULL)
+	first = lst;
+	size = 0;
+	while (first != NULL)
 	{
-        size++;
+		size++;
 		first = first->next;
 	}
-    return (size);
+	return (size);
 }
 
 // int main(void)
@@ -47,6 +47,5 @@ int ft_lstsize(t_list *lst)
 //         tmp = tmp->next;
 //     }
 //     printf("Len is: %d\n", ft_lstsize(a));
-    
 //     return 0;
 // }
