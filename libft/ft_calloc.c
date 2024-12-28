@@ -15,24 +15,15 @@
 void	*ft_calloc(size_t count, size_t size)
 {
 	void	*mem;
-	char	*mem_cpy;
-	size_t	i;
 	size_t	total_bytes;
 
 	total_bytes = size * count;
 	if (size != 0 && total_bytes / size != count)
 		return (NULL);
-	i = 0;
 	mem = malloc(total_bytes);
 	if (!mem)
 		return (NULL);
-	mem_cpy = (char *)mem;
-	while (i < total_bytes)
-	{
-		mem_cpy[i] = '\0';
-		i++;
-	}
-	return (mem);
+	return (ft_memset(mem, 0, total_bytes));
 }
 
 // int main(void)
