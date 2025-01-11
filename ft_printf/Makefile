@@ -4,11 +4,12 @@ CFLAGS = -Wall -Wextra -Werror
 AR = ar rcs
 RM = rm -f
 
-SRCS = ft_printf.c init_data.c
+SRCS = ft_printf.c
 OBJS = $(SRCS:.c=.o)
 
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
+LIBFT_OBJS = $(LIBFT_DIR)/*.o
 
 all: $(NAME)
 
@@ -16,14 +17,16 @@ $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(LIBFT) $(OBJS)
-	$(AR) $(NAME) $(OBJS) $(LIBFT)
+	@cp $(LIBFT_DIR)/*.o .
+	$(AR) $(NAME) $(OBJS) *.o
+	@$(RM) *.o
 
 %.o: %.c
 	$(CC) $(CFLAGS) -I$(LIBFT_DIR) -c $< -o $@
 
 clean:
 	@$(MAKE) -C $(LIBFT_DIR) clean
-	$(RM) $(OBJS)
+	$(RM) $(OBJS) *.o
 
 fclean: clean
 	@$(MAKE) -C $(LIBFT_DIR) fclean
