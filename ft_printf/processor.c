@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   processor.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/11 21:25:41 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/12 22:43:16 by hmensah-         ###   ########.fr       */
+/*   Created: 2025/01/12 17:03:18 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/01/12 21:40:27 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdarg.h>
+#include "libft/libft.h"
 #include "ft_printf.h"
 
-// int mult(int count, ...) {
-//     va_list args;
-//     va_start(args, count);
-//     va_arg(args, int);
-//     va_end(args);
-// }
-
-int	main(int argc, char **argv)
+void	generate_data(void *arg, t_modinfo *info, t_fdata *data)
 {
-	argc += 0;
-	ft_printf("  Mine: % +020.20lld\n", 10);
-	printf("System: %+20.20ld kjlhoih\n", 1000000000000000);
-	return (0);
+	
+}
+
+t_fdata	*generate_string(void *arg, char c)
+{
+	
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   an.c                                               :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 22:33:50 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/11 23:24:28 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/12 20:47:55 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	parse_format(const char *format, t_modinfo *info)
 {
 	const char	*ptr;
 
-	ft_memset(info, 0, sizeof(t_modinfo));
 	info->width = -1;
 	info->precision = -1;
 	ptr = format;

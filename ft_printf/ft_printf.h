@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 20:14:43 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/11 23:06:06 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/12 21:16:12 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,14 @@ typedef struct s_modifiers_info
 
 int				ft_printf(const char *format, ...);
 
-char			*process_s(const char *first, void *arr, int *count);
+char			*process(const char *first, void *arr, int *count);
 
 void			print_string(const char *format, char *arr[]);
 
 void			free_fstrings(char *arr[]);
 
 void			parse_format(const char *format, t_modinfo *info);
+
+void			generate_data(void *arg, t_modinfo *info, t_fdata *data);
 
 #endif

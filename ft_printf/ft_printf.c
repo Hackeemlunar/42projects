@@ -6,46 +6,48 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 18:07:17 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/11 23:33:11 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/12 21:33:21 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "libft/libft.h"
 #include "ft_printf.h"
 
 int	ft_printf(const char *format, ...)
 {
 	va_list	args;
 	char	*fstring[256];
-	int		count;
+	int		cnt;
 	int		i;
 	int		j;
 
-	count = 0;
+	cnt = 0;
 	i = -1;
 	j = 0;
 	va_start(args, format);
 	while (format[++i] != '\0')
 	{
 		if (format[i] == '%')
-			fstring[j++] = process_s(&format[i], va_arg(args, void *), &count);
+			fstring[j++] = process(&format[i + 1], va_arg(args, void *), &cnt);
 	}
 	fstring[j] = NULL;
 	va_end(args);
 	print_string(format, fstring);
 	free_fstrings(fstring);
-	return (count);
+	return (cnt);
 }
 
-char	*process_s(const char *specs, void *arg, int *count)
+char	*process(const char *specs, void *arg, int *count)
 {
-	t_modinfo	*info;
-	t_fdata		*data;
+	t_modinfo	info;
+	t_fdata		data;
 
-	parse_format(specs, info);
-	generate_data(arg, info, data);
-	*count += data->count;
-	return (data->fstring);
+	ft_memset(&info, 0, sizeof(t_modinfo));
+	ft_memset(&data, 0, sizeof(t_fdata));
+	parse_format(specs, &info);
+	generate_data(arg, &info, &data);
+	*count += data.count;
+	return (data.fstring);
 }
 
 void	print_string(const char *format, char *arr[])
@@ -83,3 +85,12 @@ void	free_fstrings(char *arr[])
 		arr++;
 	}
 }
+
+// void	printstruct(t_modinfo *info)
+// {
+// 	printf("    Flags: %s\n", info->flags);
+// 	printf("    width: %d\n", info->width);
+// 	printf("   length: %s\n", info->length);
+// 	printf("   Specif: %c\n", info->specifier);
+// 	printf("precision: %d\n", info->precision);
+// }
