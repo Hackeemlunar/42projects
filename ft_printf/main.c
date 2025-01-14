@@ -6,12 +6,14 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 21:25:41 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/12 22:43:16 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/14 22:55:40 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <inttypes.h>
+#include "libft/libft.h"
 #include "ft_printf.h"
 
 // int mult(int count, ...) {
@@ -21,12 +23,71 @@
 //     va_end(args);
 // }
 
+char	*convert_b(uint64_t num, int base, char ofst, int *len)
+{
+	char	*str;
+	int		i;
+
+	str = ft_calloc(65, sizeof(char));
+	i = 0;
+	if (!str)
+		return (NULL);
+	if (num == 0)
+		str[i++] = '0';
+	while (num != 0)
+	{
+		if (num % base < 10)
+			str[i] = (num % base) + '0';
+		else
+			str[i] = ((num % base) - 10) + ofst;
+		i++;
+		num /= base;
+	}
+	*len = i;
+	str[i] = '\0';
+	return (ft_strrev(str), str);
+}
+
+static char	*convert_2_com(uint64_t num, int base, char ofst, int *len)
+{
+	char		*str;
+	int			i;
+	uint64_t	mask;
+
+	mask = (1ULL << ((sizeof(uint64_t) * 8) - 1)) - 1;
+	num = ~num + 1;
+	num &= mask;
+	str = convert_b(num, base, ofst, len);
+	return (str);
+}
+
+t_fdata	*convert_num(int64_t num, int base, char offset)
+{
+	int		is_neg;
+	t_fdata	*data;
+
+	data = ft_calloc(1, sizeof(t_fdata *));
+	if (!data)
+		return (NULL);
+	is_neg = 0;
+	if (num < 0)
+	{
+		is_neg = 1;
+		num = -num;
+	}
+	if (is_neg && base == 16)
+		data->fstring = convert_2_com(num, base, offset, &data->count);
+	else
+		data->fstring = convert_b(num, base, offset, &data->count);
+	return (data);
+}
+
 int	main(int argc, char **argv)
 {
-	argc += 0;
-	// ft_printf("  Mine: % +020.20hhd\n", 10);
-	printf("  Mine: % +020.20hhd\n", 'a');
-	printf("System: %+20.20ld kjlhoih\n", 1000000000000000);
+	t_fdata *data = convert_num(-20, 16, 'a');
+	// printf("Hex: %s\n", convert_num(1111111011010100, 16, 'A'));
+	printf("my : %s\n", data->fstring);
+	printf("Hex: %lx\n", -20L);
 	return (0);
 }
 
