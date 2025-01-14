@@ -21,6 +21,8 @@
 # include <ctype.h>
 # include <unistd.h>
 # include <limits.h>
+# include <stdbool.h>
+# include <inttypes.h>
 
 // ************** Part 1 - Libc functions ************** 
 int		ft_isalpha(int c);

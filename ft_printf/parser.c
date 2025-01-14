@@ -13,8 +13,6 @@
 #include "libft/libft.h"
 #include "ft_printf.h"
 
-static void	set_length_spec(const char *ptr, t_modinfo *info);
-
 void	parse_format(const char *format, t_modinfo *info)
 {
 	const char	*ptr;
@@ -38,17 +36,65 @@ void	parse_format(const char *format, t_modinfo *info)
 		while (ft_isdigit(*ptr))
 			ptr++;
 	}
-	set_length_spec(ptr, info);
+	if (ft_strchr("cspdiuxX%", *ptr))
+		info->specifier = *ptr++;
 }
 
-static void	set_length_spec(const char *ptr, t_modinfo *info)
+t_fdata	*generate_string(void *arg, char c)
 {
-	if (ft_strchr("hljztL", *ptr))
-	{
-		info->length[0] = *ptr++;
-		if ((*ptr == 'h' || *ptr == 'l') && info->length[0] == *ptr)
-			info->length[1] = *ptr++;
-	}
-	if (ft_strchr("diouxXfFeEgGaAcspn%", *ptr))
-		info->specifier = *ptr++;
+    t_fdata	*data;
+
+    data = ft_calloc(1, sizeof(t_fdata));
+    if (c == 'c')
+    {
+        data->fstring = ft_calloc(2, sizeof(char));
+        data->fstring[0] = *(char *)arg;
+        data->count = 1;
+    }
+    else if (c == 's')
+    {
+        data->fstring = ft_strdup((char *)arg);
+        data->count = ft_strlen(data->fstring);
+    }
+    else if (c == 'p')
+    {
+        data->fstring = convert_b((uint64_t)arg, 16, 'a', &data->count);
+        data->fstring = ft_strjoin("0x", data->fstring);
+        data->count += 2;
+    }
+    else if (c == '%')
+    {
+        data->fstring = ft_calloc(2, sizeof(char));
+        data->fstring[0] = '%';
+        data->count = 1;
+    }
+    return data;
+}
+
+static t_fdata	*generate_num_data(void *arg, t_modinfo *info)
+{
+	if (info->specifier == 'i')
+		return convert_num(*(int32_t *)arg, 10, 'a');
+	else if (info->specifier == 'd')
+		return convert_num(*(int64_t *)arg, 10, 'a');
+	else if (info->specifier == 'u')
+		return convert_num(*(uint64_t *)arg, 10, 'a');
+	else if (info->specifier == 'x')
+		return convert_num(*(int64_t *)arg, 16, 'a');
+	else if (info->specifier == 'X')
+		return convert_num(*(int64_t *)arg, 16, 'A');
+	return NULL;
+}
+
+void	generate_data(void *arg, t_modinfo *info, t_fdata *data)
+{
+	if (info->specifier == 'c' || info->specifier == 's' ||
+			 info->specifier == 'p' || info->specifier == '%')
+		data = generate_string(arg, info->specifier);
+	else if (info->specifier == 'i' || info->specifier == 'd' ||
+			 info->specifier == 'u' || info->specifier == 'x' ||
+			 info->specifier == 'X')
+		data = generate_num_data(arg, info);
+	else
+		data = NULL;
 }

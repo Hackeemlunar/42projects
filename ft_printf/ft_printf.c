@@ -59,7 +59,7 @@ void	print_string(const char *format, char *arr[])
 
 	i = 0;
 	print_status = 1;
-	temp = ft_strdup("diuoxXfeEgGaAcspn%");
+	temp = ft_strdup("cspdiuxX%");
 	specifiers = temp;
 	while (*format)
 	{
