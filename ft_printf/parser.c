@@ -86,7 +86,7 @@ static t_fdata	*generate_num_data(void *arg, t_modinfo *info)
 	return NULL;
 }
 
-void	generate_data(void *arg, t_modinfo *info, t_fdata *data)
+int	generate_data(void *arg, t_modinfo *info, t_fdata *data)
 {
 	if (info->specifier == 'c' || info->specifier == 's' ||
 			 info->specifier == 'p' || info->specifier == '%')
@@ -97,4 +97,7 @@ void	generate_data(void *arg, t_modinfo *info, t_fdata *data)
 		data = generate_num_data(arg, info);
 	else
 		data = NULL;
+	if (data)
+		return (data->count);
+	return (0);
 }

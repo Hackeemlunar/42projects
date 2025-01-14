@@ -43,7 +43,7 @@ void			free_fstrings(char *arr[]);
 
 void			parse_format(const char *format, t_modinfo *info);
 
-void			generate_data(void *arg, t_modinfo *info, t_fdata *data);
+int				generate_data(void *arg, t_modinfo *info, t_fdata *data);
 t_fdata			*convert_num(int64_t num, int base, char offset);
 char 			*convert_b(uint64_t num, int base, char ofst, int *len);
 
