@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 22:33:50 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/14 18:01:15 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/15 20:22:08 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,22 @@ t_fdata	*generate_string(void *arg, char c)
 
 static t_fdata	*generate_num_data(void *arg, t_modinfo *info)
 {
+	int	isneg;
+
+	if ((int64_t)arg < 0)
+		isneg = 1;
+	else
+		isneg = 1;
 	if (info->specifier == 'i')
-		return (convert_num(*(int32_t *)arg, 10, 'a'));
+		return (convert_num(*(int32_t *)arg, 10, 'a', isneg));
 	else if (info->specifier == 'd')
-		return (convert_num(*(int64_t *)arg, 10, 'a'));
+		return (convert_num(*(int64_t *)arg, 10, 'a', isneg));
 	else if (info->specifier == 'u')
-		return (convert_num(*(uint64_t *)arg, 10, 'a'));
+		return (convert_num(*(uint64_t *)arg, 10, 'a', 0));
 	else if (info->specifier == 'x')
-		return (convert_num(*(int64_t *)arg, 16, 'a'));
+		return (convert_num(*(uint64_t *)arg, 16, 'a', 0));
 	else if (info->specifier == 'X')
-		return (convert_num(*(int64_t *)arg, 16, 'A'));
+		return (convert_num(*(uint64_t *)arg, 16, 'A', 0));
 	return (NULL);
 }
 
@@ -85,7 +91,7 @@ static t_fdata	*generate_p_string(void *arg)
 	t_fdata	*data;
 
 	data = ft_calloc(1, sizeof(t_fdata));
-	data->fstring = convert_b((uint64_t)arg, 16, 'a', &data->count);
+	data->fstring = convert_num((uint64_t)arg, 16, 'a', 0);
 	data->fstring = ft_strjoin("0x", data->fstring);
 	data->count += 2;
 	return (data);

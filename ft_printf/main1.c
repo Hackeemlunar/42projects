@@ -1,125 +1,91 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <stdint.h>
-
-char* twos_complement_to_hex_str(int64_t num) {
-    const char* hex_digits = "0123456789ABCDEF";
-    uint64_t result = (uint64_t)num;
-    char* hex_str = (char*)malloc(17 * sizeof(char));
-    if (hex_str != NULL) {
-        int i = 15;
-        while (i >= 0) {
-            hex_str[i] = hex_digits[result & 0xF];
-            result >>= 4;
-            --i;
-        }
-        hex_str[16] = '\0';
-
-        // Remove leading zeros
-        i = 0;
-        while (hex_str[i] == '0' && i < 15) {
-            ++i;
-        }
-        return hex_str + i;
-    }
-    return hex_str;
-}
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   converters.c                                       :+:      :+:    :+:   */
+/*   main1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/14 18:02:42 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/14 21:51:56 by hmensah-         ###   ########.fr       */
+/*   Created: 2025/01/15 16:25:03 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/01/15 20:25:40 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
 #include "libft/libft.h"
-#include "ft_printf.h"
+// #include "ft_printf.h"
 
-char	*convert_b(uint64_t num, int base, char ofst, int *len)
+typedef struct s_formated_data
 {
-	char	*str;
-	int		i;
+	int		count;
+	char	*fstring;
+}				t_fdata;
 
-	str = ft_calloc(65, sizeof(char));
-	i = 0;
-	if (!str)
-		return (NULL);
-	if (num == 0)
-		str[i++] = '0';
-	while (num != 0)
+static void	convert_b(uint64_t n, int base, t_fdata *data, char ofs)
+{
+	char	*sym;
+
+	if (ofs == 'A')
+		sym = "0123456789ABCDEF";
+	else
+		sym = "0123456789abcdef";
+	if (n < base)
+		data->fstring[data->count++] = sym[n];
+	else
 	{
-		if (num % base < 10)
-			str[i] = (num % base) + '0';
-		else
-			str[i] = ((num % base) - 10) + ofst;
-		i++;
-		num /= base;
+		convert_b(n / base, base, data, ofs);
+		convert_b(n % base, base, data, ofs);
 	}
-	*len = i;
-	str[i] = '\0';
-	return (ft_strrev(str), str);
 }
 
-static char	*convert_2_com(uint64_t num, int base, char ofst, int *len)
+t_fdata	*convert_num(int64_t num, int base, char offset, int isneg)
 {
-    char		*str;
-    uint64_t	mask;
-    int         i;
-
-    // Directly assign the maximum value for a 64-bit unsigned integer
-    mask = UINT64_MAX;
-
-    // Calculate the two's complement
-    num = ~num + 1;
-    num &= mask;
-
-    // Convert the two's complement number to the desired base
-    str = convert_b(num, base, ofst, len);
-
-    // Remove leading zeros
-    i = 0;
-    while (str[i] == '0' && i < *len - 1)
-    {
-        ++i;
-    }
-    return str + i;
-}
-
-t_fdata	*convert_numm(int64_t num, int base, char offset)
-{
-	int		is_neg;
 	t_fdata	*data;
+	char	*str;
 
-	data = ft_calloc(1, sizeof(t_fdata *));
+	data = ft_calloc(1, sizeof(t_fdata));
 	if (!data)
 		return (NULL);
-	is_neg = 0;
-	if (num < 0)
+	str = ft_calloc(21, sizeof(char));
+	if (!str)
 	{
-		is_neg = 1;
-		num = -num;
+		free(data);
+		return (NULL);
 	}
-	if (is_neg && base == 16)
-		data->fstring = convert_2_com(num, base, offset, &data->count);
-	else
-		data->fstring = convert_b(num, base, offset, &data->count);
+	data->count = 0;
+	data->fstring = str;
+	if (num < 0 && base == 10)
+		num = -num;
+	convert_b(num, base, data, offset);
+	if (isneg && base == 10)
+	{
+		data->fstring = ft_strjoin("-", str);
+		data->count += 1;
+		free(str);
+	}
 	return (data);
 }
 
+static t_fdata	*generate_p_string(void *arg)
+{
+	t_fdata	*data;
+	char	*arg;
+
+	data = ft_calloc(1, sizeof(t_fdata));
+	data = convert_num((uint64_t)arg, 16, 'a', 0);
+	data->fstring = ft_strjoin("0x", data->fstring);
+	data->count += 2;
+	return (data);
+}
 
 int main() {
-    int64_t num = 9999999999999999;
-    t_fdata *hex_str = convert_numm(num, 16, 'A');
-    if (hex_str != NULL) {
-        printf("The two's complement of %ld in hexadecimal is: %s\n", num, hex_str->fstring);
-        printf("The two's complement of %ld in hexadecimal is: %X\n", num, num);
-        free(hex_str);
-    }
-    return 0;
+	int64_t num = INT64_MAX;
+	t_fdata *hex = generate_p_string(&num);
+	if (hex != NULL) {
+		printf("The 2's comp of %lld in hexadecimal is: %s len is %d\n", num, hex->fstring, hex->count);
+		printf("The 2's comp of %lld in hexadecimal is: %p\n", num, &num);
+		free(hex);
+	}
+	return (0);
 }

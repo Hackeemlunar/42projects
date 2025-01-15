@@ -6,67 +6,54 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:02:42 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/14 21:51:56 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/15 20:19:30 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "ft_printf.h"
 
-char	*convert_b(uint64_t num, int base, char ofst, int *len)
+static void	convert_b(uint64_t n, int base, t_fdata *data, char ofs)
 {
-	char	*str;
-	int		i;
+	char	*sym;
 
-	str = ft_calloc(65, sizeof(char));
-	i = 0;
-	if (!str)
-		return (NULL);
-	if (num == 0)
-		str[i++] = '0';
-	while (num != 0)
+	if (ofs == 'A')
+		sym = "0123456789ABCDEF";
+	else
+		sym = "0123456789abcdef";
+	if (n < base)
+		data->fstring[data->count++] = sym[n];
+	else
 	{
-		if (num % base < 10)
-			str[i] = (num % base) + '0';
-		else
-			str[i] = ((num % base) - 10) + ofst;
-		i++;
-		num /= base;
+		convert_b(n / base, base, data, ofs);
+		convert_b(n % base, base, data, ofs);
 	}
-	*len = i;
-	str[i] = '\0';
-	return (ft_strrev(str), str);
 }
 
-static char	*convert_2_com(uint64_t num, int base, char ofst, int *len)
+t_fdata	*convert_num(int64_t num, int base, char offset, int isneg)
 {
-	char		*str;
-	uint64_t	mask;
-
-	mask = (1ULL << (sizeof(uint64_t) * 8)) - 1;
-	num = ~num + 1;
-	num &= mask;
-	str = convert_b(num, base, ofst, len);
-	return (str);
-}
-
-t_fdata	*convert_num(int64_t num, int base, char offset)
-{
-	int		is_neg;
 	t_fdata	*data;
+	char	*str;
 
-	data = ft_calloc(1, sizeof(t_fdata *));
+	data = ft_calloc(1, sizeof(t_fdata));
 	if (!data)
 		return (NULL);
-	is_neg = 0;
-	if (num < 0)
+	str = ft_calloc(21, sizeof(char));
+	if (!str)
 	{
-		is_neg = 1;
-		num = -num;
+		free(data);
+		return (NULL);
 	}
-	if (is_neg && base == 16)
-		data->fstring = convert_2_com(num, base, offset, &data->count);
-	else
-		data->fstring = convert_b(num, base, offset, &data->count);
+	data->count = 0;
+	data->fstring = str;
+	if (num < 0 && base == 10)
+		num = -num;
+	convert_b(num, base, data, offset);
+	if (isneg && base == 10)
+	{
+		data->fstring = ft_strjoin("-", str);
+		data->count += 1;
+		free(str);
+	}
 	return (data);
 }
