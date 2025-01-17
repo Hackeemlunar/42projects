@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 22:33:50 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/15 20:22:08 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/17 18:19:30 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static t_fdata	*generate_string(void *arg, char c)
 	if (c == 'c')
 	{
 		data->fstring = ft_calloc(2, sizeof(char));
-		data->fstring[0] = *(char *)arg;
+		data->fstring[0] = (char)arg;
 		data->count = 1;
 	}
 	else if (c == 's')
@@ -78,6 +78,7 @@ static t_fdata	*generate_num_data(void *arg, t_modinfo *info)
 		isneg = 1;
 	else
 		isneg = 0;
+	data = NULL;
 	if (info->specifier == 'i')
 		data = convert_num(num, 10, 'a', isneg);
 	else if (info->specifier == 'd')
@@ -96,12 +97,12 @@ static t_fdata	*generate_p_string(void *arg)
 	t_fdata	*data;
 	char	*str;
 
-	data = ft_calloc(1, sizeof(t_fdata));
+	data = NULL;
 	data = convert_num((uint64_t)arg, 16, 'a', 0);
-    str = data->fstring;
+	str = data->fstring;
 	data->fstring = ft_strjoin("0x", str);
 	data->count += 2;
-    free(str);
+	free(str);
 	return (data);
 }
 
@@ -109,6 +110,7 @@ t_fdata	*generate_data(void *arg, t_modinfo *info)
 {
 	t_fdata	*data;
 
+	data = NULL;
 	if (info->specifier == 'c' || info->specifier == 's'
 		|| info->specifier == '%')
 		data = generate_string(arg, info->specifier);

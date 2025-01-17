@@ -13,6 +13,8 @@ LIBFT_OBJS = $(LIBFT_DIR)/*.o
 
 all: $(NAME)
 
+bonus: $(NAME)
+
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 

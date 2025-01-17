@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 18:07:17 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/12 21:33:21 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/17 18:55:13 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,23 @@
 int	ft_printf(const char *format, ...)
 {
 	va_list	args;
-	char	*fstring[256];
+	t_fdata	*fstring[256];
 	int		cnt;
 	int		i;
 	int		j;
 
 	cnt = 0;
-	i = -1;
+	i = 0;
 	j = 0;
 	va_start(args, format);
-	while (format[++i] != '\0')
+	while (format[i] != '\0')
 	{
 		if (format[i] == '%')
-			fstring[j++] = process(&format[i + 1], va_arg(args, void *), &cnt);
+		{
+			fstring[j++] = process(&format[i++], va_arg(args, void *));
+			continue ;
+		}
+		i++;
 	}
 	fstring[j] = NULL;
 	va_end(args);
@@ -37,7 +41,7 @@ int	ft_printf(const char *format, ...)
 	return (cnt);
 }
 
-char	*process(const char *specs, void *arg, int *count)
+t_fdata	*process(const char *specs, void *arg)
 {
 	t_modinfo	*info;
 	t_fdata		*data;
@@ -49,41 +53,40 @@ char	*process(const char *specs, void *arg, int *count)
 	data = generate_data(arg, info);
 	apply_precision(info, data);
 	apply_width_and_flags(info, data);
-	*count += data->count;
-	return (data->fstring);
+	printf("aa: %s\n", data->fstring);
+	return (data);
 }
 
-void	print_string(const char *format, char *arr[], int *count)
+void	print_string(const char *format, t_fdata *arr[], int *cnt)
 {
 	int			i;
 	int			print_status;
-	const char	*specifiers;
-	char		*temp;
+	char		*specifiers;
 
-	i = 0;
+	i = -1;
 	print_status = 1;
-	temp = ft_strdup("cspdiuxX%");
-	specifiers = temp;
+	specifiers = ft_strdup("cspdiuxX%");
 	while (*format)
 	{
-		if (*format == '%' && arr[i])
+		if (*format == '%' && arr[++i])
 		{
-			ft_putstr_fd(arr[i++], 1);
+			ft_putstr_fd(arr[i]->fstring, 1);
+			*cnt += arr[i]->count;
 			print_status = 0;
 		}
 		else if (print_status)
 		{
 			ft_putchar_fd(*format, 1);
-			*count += 1;
+			*cnt += 1;
 		}
 		else if (ft_strchr(specifiers, *format))
 			print_status = 1;
 		format++;
 	}
-	free(temp);
+	free(specifiers);
 }
 
-void	free_fstrings(char *arr[])
+void	free_fstrings(t_fdata *arr[])
 {
 	while (*arr)
 	{
