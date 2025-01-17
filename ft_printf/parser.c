@@ -40,11 +40,13 @@ void	parse_format(const char *format, t_modinfo *info)
 		info->specifier = *ptr++;
 }
 
-t_fdata	*generate_string(void *arg, char c)
+static t_fdata	*generate_string(void *arg, char c)
 {
 	t_fdata	*data;
 
-	data = ft_calloc(1, sizeof(t_fdata));
+	data = ft_calloc(1, sizeof(t_fdata *));
+	if (!data)
+		return (NULL);
 	if (c == 'c')
 	{
 		data->fstring = ft_calloc(2, sizeof(char));
@@ -67,38 +69,46 @@ t_fdata	*generate_string(void *arg, char c)
 
 static t_fdata	*generate_num_data(void *arg, t_modinfo *info)
 {
-	int	isneg;
+	int		isneg;
+	int		num;
+	t_fdata	*data;
 
-	if ((int64_t)arg < 0)
+	num = (int64_t)arg;
+	if ((int64_t)arg < 0 || num < 0)
 		isneg = 1;
 	else
-		isneg = 1;
+		isneg = 0;
 	if (info->specifier == 'i')
-		return (convert_num(*(int32_t *)arg, 10, 'a', isneg));
+		data = convert_num(num, 10, 'a', isneg);
 	else if (info->specifier == 'd')
-		return (convert_num(*(int64_t *)arg, 10, 'a', isneg));
+		data = convert_num((int64_t)arg, 10, 'a', isneg);
 	else if (info->specifier == 'u')
-		return (convert_num(*(uint64_t *)arg, 10, 'a', 0));
+		data = convert_num((uint64_t)arg, 10, 'a', 0);
 	else if (info->specifier == 'x')
-		return (convert_num(*(uint64_t *)arg, 16, 'a', 0));
+		data = convert_num((uint64_t)arg, 16, 'a', 0);
 	else if (info->specifier == 'X')
-		return (convert_num(*(uint64_t *)arg, 16, 'A', 0));
-	return (NULL);
+		data = convert_num((uint64_t)arg, 16, 'A', 0);
+	return (data);
 }
 
 static t_fdata	*generate_p_string(void *arg)
 {
 	t_fdata	*data;
+	char	*str;
 
 	data = ft_calloc(1, sizeof(t_fdata));
-	data->fstring = convert_num((uint64_t)arg, 16, 'a', 0);
-	data->fstring = ft_strjoin("0x", data->fstring);
+	data = convert_num((uint64_t)arg, 16, 'a', 0);
+    str = data->fstring;
+	data->fstring = ft_strjoin("0x", str);
 	data->count += 2;
+    free(str);
 	return (data);
 }
 
-int	generate_data(void *arg, t_modinfo *info, t_fdata *data)
+t_fdata	*generate_data(void *arg, t_modinfo *info)
 {
+	t_fdata	*data;
+
 	if (info->specifier == 'c' || info->specifier == 's'
 		|| info->specifier == '%')
 		data = generate_string(arg, info->specifier);
@@ -108,9 +118,5 @@ int	generate_data(void *arg, t_modinfo *info, t_fdata *data)
 		|| info->specifier == 'u' || info->specifier == 'x'
 		|| info->specifier == 'X')
 		data = generate_num_data(arg, info);
-	else
-		data = NULL;
-	if (data)
-		return (data->count);
-	return (0);
+	return (data);
 }

@@ -32,25 +32,28 @@ int	ft_printf(const char *format, ...)
 	}
 	fstring[j] = NULL;
 	va_end(args);
-	print_string(format, fstring);
+	print_string(format, fstring, &cnt);
 	free_fstrings(fstring);
 	return (cnt);
 }
 
 char	*process(const char *specs, void *arg, int *count)
 {
-	t_modinfo	info;
-	t_fdata		data;
+	t_modinfo	*info;
+	t_fdata		*data;
 
-	ft_memset(&info, 0, sizeof(t_modinfo));
-	ft_memset(&data, 0, sizeof(t_fdata));
-	parse_format(specs, &info);
-	generate_data(arg, &info, &data);
-	*count += data.count;
-	return (data.fstring);
+	info = ft_calloc(1, sizeof(t_modinfo *));
+	if (!info)
+		return (NULL);
+	parse_format(specs, info);
+	data = generate_data(arg, info);
+	apply_precision(info, data);
+	apply_width_and_flags(info, data);
+	*count += data->count;
+	return (data->fstring);
 }
 
-void	print_string(const char *format, char *arr[])
+void	print_string(const char *format, char *arr[], int *count)
 {
 	int			i;
 	int			print_status;
@@ -63,13 +66,16 @@ void	print_string(const char *format, char *arr[])
 	specifiers = temp;
 	while (*format)
 	{
-		if (*format == '%')
+		if (*format == '%' && arr[i])
 		{
 			ft_putstr_fd(arr[i++], 1);
 			print_status = 0;
 		}
 		else if (print_status)
+		{
 			ft_putchar_fd(*format, 1);
+			*count += 1;
+		}
 		else if (ft_strchr(specifiers, *format))
 			print_status = 1;
 		format++;
