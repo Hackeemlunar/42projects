@@ -36,20 +36,20 @@ void	parse_format(const char *format, t_modinfo *info)
 		while (ft_isdigit(*ptr))
 			ptr++;
 	}
-	if (ft_strchr("cspdiuxX%", *ptr))
-		info->specifier = *ptr++;
+	if (ft_strchr("cspdiuxX", *ptr))
+		info->specifier = *ptr;
 }
 
 static t_fdata	*generate_string(void *arg, char c)
 {
 	t_fdata	*data;
 
-	data = ft_calloc(1, sizeof(t_fdata *));
+	data = (t_fdata *)malloc(sizeof(t_fdata));
 	if (!data)
 		return (NULL);
 	if (c == 'c')
 	{
-		data->fstring = ft_calloc(2, sizeof(char));
+		data->fstring = (char *)malloc(2 * sizeof(char));
 		data->fstring[0] = (char)arg;
 		data->count = 1;
 	}
@@ -57,12 +57,6 @@ static t_fdata	*generate_string(void *arg, char c)
 	{
 		data->fstring = ft_strdup((char *)arg);
 		data->count = ft_strlen(data->fstring);
-	}
-	else if (c == '%')
-	{
-		data->fstring = ft_calloc(2, sizeof(char));
-		data->fstring[0] = '%';
-		data->count = 1;
 	}
 	return (data);
 }
@@ -111,8 +105,7 @@ t_fdata	*generate_data(void *arg, t_modinfo *info)
 	t_fdata	*data;
 
 	data = NULL;
-	if (info->specifier == 'c' || info->specifier == 's'
-		|| info->specifier == '%')
+	if (info->specifier == 'c' || info->specifier == 's')
 		data = generate_string(arg, info->specifier);
 	else if (info->specifier == 'p')
 		data = generate_p_string(arg);

@@ -35,7 +35,7 @@ t_fdata	*convert_num(int64_t num, int base, char offset, int isneg)
 	t_fdata	*data;
 	char	*str;
 
-	data = ft_calloc(1, sizeof(t_fdata *));
+	data = (t_fdata *)malloc(sizeof(t_fdata));
 	if (!data)
 		return (NULL);
 	str = ft_calloc(21, sizeof(char));

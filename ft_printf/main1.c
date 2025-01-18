@@ -18,10 +18,10 @@
 
 int	main(void)
 {
-	char	a[20] = "-423";
-	// int64_t a = 21474837867;
-	int b = ft_printf("klI : %%42%32c42k\nkk\n", (char)0);
-	int c = printf("klI : %%42%32c42k\nkk\n", (char)0);
+	// char	a[20] = "-423";
+	int64_t a = 21474837867;
+	int b = ft_printf("klI : %%42:%32c:%#20.2X:42k\n", (char)0, a);
+	int c = printf("klI : %%42:%32c:%#20.2lX:42k\n", (char)0, a);
 	printf("ft_printf: %d\n", b);
 	printf("printf: %d\n", c);
 }
