@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:02:42 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/17 13:48:53 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/18 20:58:49 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_fdata	*convert_num(int64_t num, int base, char offset, int isneg)
 	t_fdata	*data;
 	char	*str;
 
-	data = (t_fdata *)malloc(sizeof(t_fdata));
+	data = (t_fdata *)ft_calloc(1, sizeof(t_fdata));
 	if (!data)
 		return (NULL);
 	str = ft_calloc(21, sizeof(char));
@@ -47,7 +47,7 @@ t_fdata	*convert_num(int64_t num, int base, char offset, int isneg)
 	data->count = 0;
 	data->fstring = str;
 	if (num < 0 && base == 10)
-		num = -num;
+		num = -(uint64_t)num;
 	convert_b(num, base, data, offset);
 	if (isneg && base == 10)
 	{

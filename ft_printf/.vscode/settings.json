@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"complex": "c",
-		"sstream": "c"
+		"sstream": "c",
+		"stdint.h": "c"
 	}
 }

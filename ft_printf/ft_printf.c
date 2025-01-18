@@ -6,26 +6,25 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 18:07:17 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/17 18:55:13 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/18 18:16:54 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "ft_printf.h"
 
-void	printstruct(t_modinfo *info)
-{
-	printf("    Flags: %s\n", info->flags);
-	printf("    width: %d\n", info->width);
-	printf("   Specif: %c\n", info->specifier);
-	printf("precision: %d\n", info->precision);
-}
+// void	printstruct(t_modinfo *info)
+// {
+// 	printf("    Flags: %s\n", info->flags);
+// 	printf("    width: %d\n", info->width);
+// 	printf("   Specif: %c\n", info->specifier);
+// 	printf("precision: %d\n", info->precision);
+// }
 
 t_fdata	*process(const char *specs, void *arg)
 {
 	t_modinfo	*info;
 	t_fdata		*data;
-
 	info = (t_modinfo *)ft_calloc(1, sizeof(t_modinfo));
 	if (!info)
 		return (NULL);
@@ -83,32 +82,33 @@ void	free_fstrings(t_fdata *arr[])
 		free(arr[i]);
 		i++;
 	}
+	arr = NULL;
 }
 
-static int process_flag(const char **format, t_fdata **fstring, int *j)
+static int	process_flag(const char **format, t_fdata **fstring, int *j)
 {
 	t_fdata	*data;
 
-    if ((*format)[0] == '%' && (*format)[1] == '%')
-    {
+	if ((*format)[0] == '%' && (*format)[1] == '%')
+	{
 		data = (t_fdata *)ft_calloc(1, sizeof(t_fdata));
 		data->fstring = (char *)ft_calloc(2, sizeof(char));
 		data->fstring[0] = '%';
 		data->count = 1;
-        fstring[(*j)++] = data;
-        (*format) += 2;
-        return (1);
-    }
-    return (0);
+		fstring[(*j)++] = data;
+		(*format) += 2;
+		return (1);
+	}
+	return (0);
 }
 
 int	ft_printf(const char *format, ...)
 {
-	va_list	args;
-	t_fdata	*fstring[256];
+	va_list		args;
+	t_fdata		*fstring[256];
 	const char	*ptr;
-	int		cnt;
-	int		j;
+	int			cnt;
+	int			j;
 
 	cnt = 0;
 	j = 0;
@@ -119,9 +119,9 @@ int	ft_printf(const char *format, ...)
 		if (process_flag(&format, fstring, &j))
 			continue ;
 		else if (*format == '%')
-        	fstring[j++] = process(format + 1, va_arg(args, void *));
+			fstring[j++] = process(format + 1, va_arg(args, void *));
 		format++;
-    }
+	}
 	fstring[j] = NULL;
 	va_end(args);
 	print_string(ptr, fstring, &cnt);

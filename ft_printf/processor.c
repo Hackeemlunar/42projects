@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 17:03:18 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/17 13:50:50 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/18 19:48:07 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ static void	handle_int_precision(char *fstring, int precision, t_fdata *data)
 			ft_memmove(new_string + padding + 2, fstring + 1, data->count++);
 		}
 		else
-		{
 			ft_memmove(new_string + padding, fstring, data->count + 1);
-		}
 		free(fstring);
 		data->fstring = new_string;
 	}

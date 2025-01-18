@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 22:33:50 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/17 18:19:30 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/18 19:12:52 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,19 @@ static t_fdata	*generate_string(void *arg, char c)
 		return (NULL);
 	if (c == 'c')
 	{
-		data->fstring = (char *)malloc(2 * sizeof(char));
-		data->fstring[0] = (char)arg;
+		data->fstring = (char *)ft_calloc(2, sizeof(char));
+		if (arg == NULL)
+			data->fstring[0] = 0;
+		else
+			data->fstring[0] = (char)arg;
 		data->count = 1;
 	}
 	else if (c == 's')
 	{
-		data->fstring = ft_strdup((char *)arg);
+		if (arg == NULL)
+			data->fstring = ft_strdup("(null)");
+		else
+			data->fstring = ft_strdup((char *)arg);
 		data->count = ft_strlen(data->fstring);
 	}
 	return (data);
