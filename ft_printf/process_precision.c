@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "ft_printf.h"
 
 static void	handle_string_precision(char *fstring, int precision, t_fdata *data)
@@ -30,23 +29,27 @@ static void	handle_int_precision(char *fstring, int precision, t_fdata *data)
 	size_t	padding;
 	char	*new_string;
 
-	padding = precision - data->count;
 	if (precision > data->count)
 	{
-		new_string = malloc(precision + 1);
+		if (*fstring == '-')
+			precision++;
+		padding = precision - data->count;
+		new_string = (char *)malloc(precision + 1);
 		if (!new_string)
-			return ;
+			return;
 		ft_memset(new_string, '0', precision);
-		data->count = precision;
+		new_string[precision] = '\0';
+
 		if (*fstring == '-')
 		{
 			new_string[0] = '-';
-			ft_memmove(new_string + padding + 2, fstring + 1, data->count++);
+			ft_memmove(new_string + padding + 1, fstring + 1, data->count - 1);
 		}
 		else
-			ft_memmove(new_string + padding, fstring, data->count + 1);
+			ft_memmove(new_string + padding, fstring, data->count);
 		free(fstring);
 		data->fstring = new_string;
+		data->count = precision;
 	}
 }
 
@@ -68,3 +71,4 @@ void	apply_precision(t_modinfo *modinfo, t_fdata *fdata)
 	else if (specifier == 'd' || specifier == 'i')
 		handle_int_precision(fstring, precision, fdata);
 }
+

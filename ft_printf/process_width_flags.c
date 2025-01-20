@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "ft_printf.h"
 
 static void	apply_left_justify(char *fstring, int width, t_fdata *fdata)
@@ -46,21 +45,6 @@ static void	apply_r_justify(char *fstring, int width, char pad, t_fdata *fdata)
 	fdata->count = width;
 }
 
-static void	apply_prefix(char **fstring, const char *prefix, t_fdata *fdata)
-{
-	char	*new_string;
-
-	new_string = malloc(fdata->count + ft_strlen(prefix) + 1);
-	if (!new_string)
-		return ;
-	ft_strcpy(new_string, prefix);
-	ft_strcat(new_string, *fstring);
-	free(*fstring);
-	*fstring = new_string;
-	fdata->fstring = new_string;
-	fdata->count += ft_strlen(prefix);
-}
-
 static void	apply_flags(char *fstring, t_modinfo *modinfo, t_fdata *fdata)
 {
 	char	*new_string;
@@ -87,13 +71,6 @@ static void	apply_flags(char *fstring, t_modinfo *modinfo, t_fdata *fdata)
 		free(fstring);
 		fdata->fstring = new_string;
 		fdata->count++;
-	}
-	if (ft_strchr(modinfo->flags, '#'))
-	{
-		if (modinfo->specifier == 'x')
-			apply_prefix(&fstring, "0x", fdata);
-		else if (modinfo->specifier == 'X')
-			apply_prefix(&fstring, "0X", fdata);
 	}
 }
 

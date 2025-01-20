@@ -13,111 +13,72 @@
 #include "libft/libft.h"
 #include "ft_printf.h"
 
+static void	parse_flags(const char *format, t_modinfo *info, int *index)
+{
+	const char	*valid_flags;
+	int			i;
+
+	valid_flags = "-+ #0";
+	i = 0;
+	while (format[i] && ft_strchr(valid_flags, format[i]))
+	{
+		if (!ft_strchr(info->flags, format[i]))
+			info->flags[ft_strlen(info->flags)] = format[i];
+		i++;
+	}
+	*index += i;
+}
+
+
+static void	parse_width(const char *format, t_modinfo *info, int *index)
+{
+	int	i;
+
+	i = 0;
+	if (ft_isdigit(format[i]))
+		info->width = ft_atoi(&format[i]);
+	while (ft_isdigit(format[i]))
+		i++;
+	*index += i;
+}
+
+static void	parse_precision(const char *format, t_modinfo *info, int *index)
+{
+	int	i;
+
+	i = 0;
+	if (format[i] == '.')
+	{
+		i++;
+		if (ft_isdigit(format[i]))
+			info->precision = ft_atoi(&format[i]);
+		else
+			info->precision = 0;
+		while (ft_isdigit(format[i]))
+			i++;
+		*index += i;
+	}
+}
+
+static void	parse_specifier(const char *format, t_modinfo *info)
+{
+	int	i;
+
+	i = 0;
+	if (ft_strchr("cspdiuxX%", format[i]))
+		info->specifier = format[i];
+}
+
 void	parse_format(const char *format, t_modinfo *info)
 {
-	const char	*ptr;
+	int	index = 0;
 
 	info->width = -1;
 	info->precision = -1;
-	ptr = format;
-	while (*ptr && ft_strchr("-+ #0", *ptr))
-		info->flags[ft_strlen(info->flags)] = *ptr++;
-	if (ft_isdigit(*ptr))
-		info->width = ft_atoi(ptr);
-	while (ft_isdigit(*ptr))
-		ptr++;
-	if (*ptr == '.')
-	{
-		ptr++;
-		if (ft_isdigit(*ptr))
-			info->precision = ft_atoi(ptr);
-		else
-			info->precision = 0;
-		while (ft_isdigit(*ptr))
-			ptr++;
-	}
-	if (ft_strchr("cspdiuxX", *ptr))
-		info->specifier = *ptr;
+	parse_flags(format, info, &index);
+	parse_width(format + index, info, &index);
+	parse_precision(format + index, info, &index);
+	parse_specifier(format + index, info);
+	info->flags_count = index + 1;
 }
 
-static t_fdata	*generate_string(void *arg, char c)
-{
-	t_fdata	*data;
-
-	data = (t_fdata *)malloc(sizeof(t_fdata));
-	if (!data)
-		return (NULL);
-	if (c == 'c')
-	{
-		data->fstring = (char *)ft_calloc(2, sizeof(char));
-		if (arg == NULL)
-			data->fstring[0] = 0;
-		else
-			data->fstring[0] = (char)arg;
-		data->count = 1;
-	}
-	else if (c == 's')
-	{
-		if (arg == NULL)
-			data->fstring = ft_strdup("(null)");
-		else
-			data->fstring = ft_strdup((char *)arg);
-		data->count = ft_strlen(data->fstring);
-	}
-	return (data);
-}
-
-static t_fdata	*generate_num_data(void *arg, t_modinfo *info)
-{
-	int		isneg;
-	int		num;
-	t_fdata	*data;
-
-	num = (int64_t)arg;
-	if ((int64_t)arg < 0 || num < 0)
-		isneg = 1;
-	else
-		isneg = 0;
-	data = NULL;
-	if (info->specifier == 'i')
-		data = convert_num(num, 10, 'a', isneg);
-	else if (info->specifier == 'd')
-		data = convert_num((int64_t)arg, 10, 'a', isneg);
-	else if (info->specifier == 'u')
-		data = convert_num((uint64_t)arg, 10, 'a', 0);
-	else if (info->specifier == 'x')
-		data = convert_num((uint64_t)arg, 16, 'a', 0);
-	else if (info->specifier == 'X')
-		data = convert_num((uint64_t)arg, 16, 'A', 0);
-	return (data);
-}
-
-static t_fdata	*generate_p_string(void *arg)
-{
-	t_fdata	*data;
-	char	*str;
-
-	data = NULL;
-	data = convert_num((uint64_t)arg, 16, 'a', 0);
-	str = data->fstring;
-	data->fstring = ft_strjoin("0x", str);
-	data->count += 2;
-	free(str);
-	return (data);
-}
-
-t_fdata	*generate_data(void *arg, t_modinfo *info)
-{
-	t_fdata	*data;
-
-	data = NULL;
-	if (info->specifier == 'c' || info->specifier == 's')
-		data = generate_string(arg, info->specifier);
-	else if (info->specifier == 'p')
-		data = generate_p_string(arg);
-	else if (info->specifier == 'i' || info->specifier == 'd'
-		|| info->specifier == 'u' || info->specifier == 'x'
-		|| info->specifier == 'X')
-		data = generate_num_data(arg, info);
-	return (data);
-}

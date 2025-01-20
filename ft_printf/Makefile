@@ -1,11 +1,13 @@
 NAME = libftprintf.a
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
-# CFLAGS = -Wall
+# CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall
 AR = ar rcs
 RM = rm -f
 
-SRCS = ft_printf.c parser.c processor.c processor1.c converters.c
+SRCS = ft_printf.c parser.c utils.c handle_nums.c handle_strings.c \
+		handle_pointer.c process_precision.c process_width_flags.c \
+		process_specifier.c
 OBJS = $(SRCS:.c=.o)
 
 LIBFT_DIR = ./libft
