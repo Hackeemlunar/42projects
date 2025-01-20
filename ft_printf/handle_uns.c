@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   handle_uns.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/20 14:52:17 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/20 19:42:39 by hmensah-         ###   ########.fr       */
+/*   Created: 2025/01/20 15:02:10 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/01/20 15:05:45 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	main(void)
+t_fdata	*handle_uns(t_modinfo *modinfo, va_list args)
 {
-	// long k = 9223372;
-	int a = ft_printf("!%+2d!", 1423134772);
-	printf("\n");
-	int b = printf("!%+2d!", 1423134772);
-	printf("\n");
-	printf("ft_printf: %d\n", a);
-	printf("printf: %d\n", b);
-	return (0);
+	long	nbr;
+
+	nbr = va_arg(args, long);
+	return (create_number_data(modinfo, nbr, 10));
 }

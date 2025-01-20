@@ -1,4 +1,4 @@
-#include "ft_printf.h"
+#include "../ft_printf.h"
 
 void	printstruct(t_modinfo *info)
 {
@@ -18,7 +18,7 @@ int main()
 {
     t_modinfo modinfo;    
 
-    char *fmt = "Hello, \n%-+ 0##50.454s%-#323.3d%%\n!!!\n";
+    char *fmt = "%5.6%";
     while (*fmt != '\0')
     {
         if (*fmt == '%')

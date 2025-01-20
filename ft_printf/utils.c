@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/20 14:44:50 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/01/20 14:46:09 by hmensah-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 static char	*convert_number(unsigned long n, int base, int is_negative, int upc)
@@ -11,14 +23,16 @@ static char	*convert_number(unsigned long n, int base, int is_negative, int upc)
 	j = 0;
 	while (n > 0)
 	{
-        if (n % base < 10)
-            temp[i++] = n % base + '0';
-        else
-            if (upc)
-                temp[i++]  = n % base - 10 + 'A';
-            else
-                temp[i++]  = n % base - 10 + 'a';
-        n /= base;
+		if (n % base < 10)
+			temp[i++] = n % base + '0';
+		else
+		{
+			if (upc)
+				temp[i++] = n % base - 10 + 'A';
+			else
+				temp[i++] = n % base - 10 + 'a';
+		}
+		n /= base;
 	}
 	res = (char *)malloc(i + is_negative + 1);
 	if (!res)
@@ -33,42 +47,42 @@ static char	*convert_number(unsigned long n, int base, int is_negative, int upc)
 
 char	*ft_itoa_base(long nbr, int base, int uppercase)
 {
-    unsigned long    n;
-	int		is_negative;
+	unsigned long	n;
+	int				is_negative;
 
 	is_negative = 0;
-    if (nbr == 0)
-        return (ft_strdup("0"));
-    if (nbr < 0 && base == 10)
-    {
-        is_negative = 1;
-        n = -nbr;
-    }
-    else
-    {
+	if (nbr == 0)
+		return (ft_strdup("0"));
+	if (nbr < 0 && base == 10)
+	{
+		is_negative = 1;
+		n = -nbr;
+	}
+	else
+	{
 		n = nbr;
 	}
-	return (convert_number(n, base, is_negative, uppercase));   
+	return (convert_number(n, base, is_negative, uppercase));
 }
 
 void	ft_putstr_pf(t_fdata *data)
 {
-    int	i;
+	int	i;
 
-    i = 0;
-    while (i < data->count)
-    {
-        write(1, &data->fstring[i], 1);
-        i++;
-    }
+	i = 0;
+	while (i < data->count)
+	{
+		write(1, &data->fstring[i], 1);
+		i++;
+	}
 }
 
 void	apply_prefix(char **fstring, const char *prefix, t_fdata *fdata)
 {
 	char	*new_string;
-    size_t  len;
+	size_t	len;
 
-    len = ft_strlen(prefix);
+	len = ft_strlen(prefix);
 	new_string = malloc(fdata->count + len + 1);
 	if (!new_string)
 		return ;

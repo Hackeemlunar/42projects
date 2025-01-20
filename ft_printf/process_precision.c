@@ -1,45 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   processor.c                                        :+:      :+:    :+:   */
+/*   process_precision.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 17:03:18 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/18 19:48:07 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/20 19:20:44 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	handle_string_precision(char *fstring, int precision, t_fdata *data)
+void	handle_string_size(char *fstring, int size, t_fdata *data)
 {
 	int	len;
 
 	len = data->count;
-	if (len > precision)
+	if (len > size)
 	{
-		fstring[precision] = '\0';
-		data->count = precision;
+		fstring[size] = '\0';
+		data->count = size;
 	}
 }
 
-static void	handle_int_precision(char *fstring, int precision, t_fdata *data)
+void	handle_int_size(char *fstring, char pad, int size, t_fdata *data)
 {
 	size_t	padding;
 	char	*new_string;
 
-	if (precision > data->count)
+	if (size > data->count)
 	{
 		if (*fstring == '-')
-			precision++;
-		padding = precision - data->count;
-		new_string = (char *)malloc(precision + 1);
+			size++;
+		padding = size - data->count;
+		new_string = (char *)malloc(size + 1);
 		if (!new_string)
-			return;
-		ft_memset(new_string, '0', precision);
-		new_string[precision] = '\0';
-
+			return ;
+		ft_memset(new_string, pad, size);
+		new_string[size] = '\0';
 		if (*fstring == '-')
 		{
 			new_string[0] = '-';
@@ -49,8 +48,19 @@ static void	handle_int_precision(char *fstring, int precision, t_fdata *data)
 			ft_memmove(new_string + padding, fstring, data->count);
 		free(fstring);
 		data->fstring = new_string;
-		data->count = precision;
+		data->count = size;
 	}
+}
+
+void	handle_int_prec(char *str, int prec, t_fdata *data, t_modinfo *info)
+{
+	handle_int_size(str, '0', prec, data);
+	str = data->fstring;
+	if (ft_strchr(info->flags, ' ') && !ft_strchr(info->flags, '+')
+		&& *str != '-')
+		append_first(str, ' ', data);
+	else if (ft_strchr(info->flags, '+') && *str != '-')
+		append_first(str, '+', data);
 }
 
 void	apply_precision(t_modinfo *modinfo, t_fdata *fdata)
@@ -67,8 +77,7 @@ void	apply_precision(t_modinfo *modinfo, t_fdata *fdata)
 	if (precision < 0)
 		return ;
 	if (specifier == 's')
-		handle_string_precision(fstring, precision, fdata);
+		handle_string_size(fstring, precision, fdata);
 	else if (specifier == 'd' || specifier == 'i')
-		handle_int_precision(fstring, precision, fdata);
+		handle_int_prec(fstring, precision, fdata, modinfo);
 }
-

@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/01/20 14:43:21 by hmensah-          #+#    #+#              #
+#    Updated: 2025/01/20 19:39:40 by hmensah-         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = libftprintf.a
 CC = cc
 # CFLAGS = -Wall -Wextra -Werror
@@ -7,7 +19,7 @@ RM = rm -f
 
 SRCS = ft_printf.c parser.c utils.c handle_nums.c handle_strings.c \
 		handle_pointer.c process_precision.c process_width_flags.c \
-		process_specifier.c
+		process_specifier.c handle_uns.c width_flags_utils.c
 OBJS = $(SRCS:.c=.o)
 
 LIBFT_DIR = ./libft

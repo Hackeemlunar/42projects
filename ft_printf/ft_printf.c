@@ -6,15 +6,15 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 18:07:17 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/18 18:16:54 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/20 14:41:37 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "ft_printf.h"
 
-static void reset_modinfo(t_modinfo *modinfo) {
-    ft_memset(modinfo, 0, sizeof(t_modinfo)); 
+static void	reset_modinfo(t_modinfo *modinfo)
+{
+	ft_memset(modinfo, 0, sizeof(t_modinfo));
 }
 
 static void	print_n_free(t_fdata *data, int *cnt)
@@ -50,7 +50,7 @@ int	ft_printf(const char *format, ...)
 		{
 			ft_putchar_fd(format[i], 1);
 			cnt++;
-		}		
+		}
 	}
 	va_end(args);
 	return (cnt);

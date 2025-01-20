@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 20:14:43 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/17 16:42:16 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/20 19:20:59 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,17 @@ t_fdata	*handle_string(t_modinfo *modinfo, va_list args);
 t_fdata	*handle_pointer(t_modinfo *modinfo, va_list args);
 t_fdata	*handle_num_int(t_modinfo *modinfo, va_list args);
 t_fdata	*handle_num_long(t_modinfo *modinfo, va_list args);
+t_fdata	*handle_uns(t_modinfo *modinfo, va_list args);
 t_fdata	*handle_hex(t_modinfo *modinfo, va_list args);
-t_fdata	*handle_percent();
+t_fdata	*handle_percent(t_modinfo *info);
+t_fdata	*create_number_data(t_modinfo *modinfo, long nbr, int base);
 char	*ft_itoa_base(long nbr, int base, int uppercase);
-// char	*ft_itoa_base(int nbr, int base, int uppercase);
+void	apply_left_justify(char *fstring, int width, t_fdata *fdata);
+void	apply_r_justify(char *fstring, int width, char pad, t_fdata *fdata);
+void	apply_r_justify(char *fstring, int width, char pad, t_fdata *fdata);
+void	handle_string_size(char *fstring, int size, t_fdata *data);
+void	handle_int_size(char *fstring, char pad, int size, t_fdata *data);
+void	handle_int_prec(char *str, int prec, t_fdata *data, t_modinfo *info);
+void	append_first(char *fstring, char first, t_fdata *fdata);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 22:33:50 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/18 19:12:52 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/20 14:30:00 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static void	parse_flags(const char *format, t_modinfo *info, int *index)
 	}
 	*index += i;
 }
-
 
 static void	parse_width(const char *format, t_modinfo *info, int *index)
 {
@@ -71,8 +70,9 @@ static void	parse_specifier(const char *format, t_modinfo *info)
 
 void	parse_format(const char *format, t_modinfo *info)
 {
-	int	index = 0;
+	int	index;
 
+	index = 0;
 	info->width = -1;
 	info->precision = -1;
 	parse_flags(format, info, &index);
@@ -81,4 +81,3 @@ void	parse_format(const char *format, t_modinfo *info)
 	parse_specifier(format + index, info);
 	info->flags_count = index + 1;
 }
-
