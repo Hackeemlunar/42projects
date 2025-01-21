@@ -69,12 +69,14 @@ void apply_plus_space_flag(t_modinfo *info, t_fdata *data)
 	{
 		data->count++;
 		new_string = ft_strjoin("+", data->fstring);
+		free(data->fstring);
+		data->fstring = new_string;
 	}
 	else if (ft_strchr(info->flags, ' ') && data->fstring[0] != '-')
 	{
 		data->count++;
 		new_string = ft_strjoin(" ", data->fstring);
+		free(data->fstring);
+		data->fstring = new_string;
 	}
-	free(data->fstring);
-	data->fstring = new_string;
 }

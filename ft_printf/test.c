@@ -15,9 +15,10 @@
 int	main(void)
 {
 	int k = 9223372;
-	int a = ft_printf("!%+-020.15d!", k);
+	char *str = "!%15d!";
+	int a = ft_printf(str, k);
 	printf("\n");
-	int b = printf("!%+-020.15d!", k);
+	int b = printf(str, k);
 	printf("\n");
 	printf("ft_printf: %d\n", a);
 	printf("printf: %d\n", b);
