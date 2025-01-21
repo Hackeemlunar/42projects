@@ -14,10 +14,10 @@
 
 int	main(void)
 {
-	// long k = 9223372;
-	int a = ft_printf("!%+2d!", 1423134772);
+	int k = 9223372;
+	int a = ft_printf("!%+-020.15d!", k);
 	printf("\n");
-	int b = printf("!%+2d!", 1423134772);
+	int b = printf("!%+-020.15d!", k);
 	printf("\n");
 	printf("ft_printf: %d\n", a);
 	printf("printf: %d\n", b);

@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-t_fdata	*handle_pointer(t_modinfo *modinfo, va_list args)
+t_fdata	*handle_pointer(t_modinfo *info, va_list args)
 {
 	t_fdata	*data;
 	long	ptr;
@@ -22,7 +22,7 @@ t_fdata	*handle_pointer(t_modinfo *modinfo, va_list args)
 	ptr_str = ft_itoa_base(ptr, 16, 0);
 	if (!ptr_str)
 		return (NULL);
-	if (modinfo->precision == 0 && ptr == 0)
+	if (info->precision == 0 && ptr == 0)
 		ptr_str[0] = '\0';
 	data = (t_fdata *)malloc(sizeof(t_fdata));
 	if (!data)
@@ -32,7 +32,7 @@ t_fdata	*handle_pointer(t_modinfo *modinfo, va_list args)
 	}
 	data->fstring = ptr_str;
 	data->count = ft_strlen(ptr_str);
-	apply_prefix(&ptr_str, "0x", data);
-	apply_width_and_flags(modinfo, data);
+	apply_precision(info, data);
+	apply_prefix("0x", info, data);
 	return (data);
 }

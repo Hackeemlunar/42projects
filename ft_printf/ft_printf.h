@@ -37,9 +37,9 @@ typedef struct s_modifiers_info
 int		ft_printf(const char *format, ...);
 void	parse_format(const char *fmt, t_modinfo *modinfo);
 void	apply_precision(t_modinfo *modinfo, t_fdata *fdata);
-void	apply_width_and_flags(t_modinfo *modinfo, t_fdata *fdata);
-void	apply_prefix(char **fstring, const char *prefix, t_fdata *fdata);
+void	apply_prefix(const char *str, t_modinfo *info, t_fdata *fdata);
 void	ft_putstr_pf(t_fdata *data);
+void	apply_minus_flag(t_modinfo *info, t_fdata *data);
 t_fdata	*process_specifier(t_modinfo *modinfo, va_list args);
 t_fdata	*handle_char(t_modinfo *modinfo, va_list args);
 t_fdata	*handle_string(t_modinfo *modinfo, va_list args);
@@ -56,7 +56,6 @@ void	apply_r_justify(char *fstring, int width, char pad, t_fdata *fdata);
 void	apply_r_justify(char *fstring, int width, char pad, t_fdata *fdata);
 void	handle_string_size(char *fstring, int size, t_fdata *data);
 void	handle_int_size(char *fstring, char pad, int size, t_fdata *data);
-void	handle_int_prec(char *str, int prec, t_fdata *data, t_modinfo *info);
-void	append_first(char *fstring, char first, t_fdata *fdata);
+void	apply_plus_space_flag(t_modinfo *info, t_fdata *data);
 
 #endif

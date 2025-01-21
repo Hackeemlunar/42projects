@@ -21,7 +21,7 @@ t_fdata	*handle_percent(t_modinfo *info)
 		return (NULL);
 	data->count = 1;
 	data->fstring = ft_strdup("%");
-	apply_width_and_flags(info, data);
+	apply_minus_flag(info, data);
 	return (data);
 }
 
@@ -37,8 +37,7 @@ t_fdata	*handle_char(t_modinfo *modinfo, va_list args)
 	data->count = 1;
 	data->fstring = ft_calloc(2, sizeof(char));
 	data->fstring[0] = c;
-	apply_precision(modinfo, data);
-	apply_width_and_flags(modinfo, data);
+	apply_minus_flag(modinfo, data);
 	return (data);
 }
 
@@ -56,6 +55,6 @@ t_fdata	*handle_string(t_modinfo *modinfo, va_list args)
 	data->count = ft_strlen(str);
 	data->fstring = ft_strdup(str);
 	apply_precision(modinfo, data);
-	apply_width_and_flags(modinfo, data);
+	apply_minus_flag(modinfo, data);
 	return (data);
 }

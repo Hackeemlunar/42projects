@@ -44,3 +44,37 @@ void	apply_r_justify(char *fstring, int width, char pad, t_fdata *fdata)
 	fdata->fstring = new_string;
 	fdata->count = width;
 }
+
+void apply_minus_flag(t_modinfo *info, t_fdata *data)
+{
+	if (info->width > data->count)
+	{
+		if (ft_strchr(info->flags, '-'))
+			apply_left_justify(data->fstring, info->width, data);
+		// else if (ft_strchr(info->flags, '0') && (info->specifier != 'x'
+		// 	|| info->specifier != 'X' || info->specifier != 'd'
+		// 	|| info->specifier != 'i'))
+			// apply_r_justify(data->fstring, info->width, '0', data);
+		else
+			apply_r_justify(data->fstring, info->width, ' ', data);
+	}
+}
+
+void apply_plus_space_flag(t_modinfo *info, t_fdata *data)
+{
+	char	*new_string;
+
+	new_string = data->fstring;
+	if (ft_strchr(info->flags, '+') && data->fstring[0] != '-')
+	{
+		data->count++;
+		new_string = ft_strjoin("+", data->fstring);
+	}
+	else if (ft_strchr(info->flags, ' ') && data->fstring[0] != '-')
+	{
+		data->count++;
+		new_string = ft_strjoin(" ", data->fstring);
+	}
+	free(data->fstring);
+	data->fstring = new_string;
+}

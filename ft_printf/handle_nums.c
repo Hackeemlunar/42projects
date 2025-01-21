@@ -30,42 +30,49 @@ t_fdata	*create_number_data(t_modinfo *info, long nbr, int base)
 	}
 	data->fstring = nbr_str;
 	data->count = ft_strlen(nbr_str);
-	apply_precision(info, data);
-	apply_width_and_flags(info, data);
-	if (info->precision <= 0 && info->width <= 0)
-		handle_int_prec(nbr_str, info->precision, data, info);
 	return (data);
 }
 
-t_fdata	*handle_num_int(t_modinfo *modinfo, va_list args)
+t_fdata	*handle_num_int(t_modinfo *info, va_list args)
 {
-	int	nbr;
+	int		nbr;
+	t_fdata	*data;
 
 	nbr = va_arg(args, int);
-	return (create_number_data(modinfo, nbr, 10));
+	data = create_number_data(info, nbr, 10);
+	apply_precision(info, data);
+	apply_plus_space_flag(info, data);
+	apply_minus_flag(info, data);
+	return (data);
 }
 
-t_fdata	*handle_num_long(t_modinfo *modinfo, va_list args)
+t_fdata	*handle_num_long(t_modinfo *info, va_list args)
 {
 	long	nbr;
+	t_fdata	*data;
 
 	nbr = va_arg(args, int);
-	return (create_number_data(modinfo, nbr, 10));
+	data = create_number_data(info, nbr, 10);
+	apply_precision(info, data);
+	apply_plus_space_flag(info, data);
+	apply_minus_flag(info, data);
+	return (data);
 }
 
 static void	apply_hex(t_fdata *data, t_modinfo *info, int upc, char *str)
 {
 	data->fstring = str;
 	data->count = ft_strlen(str);
+	apply_precision(info, data);
 	if (ft_strchr(info->flags, '#'))
 	{
 		if (upc)
-			apply_prefix(&str, "0X", data);
+			apply_prefix("0X", info, data);
 		else
-			apply_prefix(&str, "0x", data);
+			apply_prefix("0x", info, data);
 	}
-	apply_precision(info, data);
-	apply_width_and_flags(info, data);
+	else
+		apply_minus_flag(info, data);
 }
 
 t_fdata	*handle_hex(t_modinfo *modinfo, va_list args)

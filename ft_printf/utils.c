@@ -12,12 +12,12 @@
 
 #include "ft_printf.h"
 
-static char	*convert_number(unsigned long n, int base, int is_negative, int upc)
+static char *convert_number(unsigned long n, int base, int is_negative, int upc)
 {
-	char	temp[21];
-	char	*res;
-	int		i;
-	int		j;
+	char temp[21];
+	char *res;
+	int i;
+	int j;
 
 	i = 0;
 	j = 0;
@@ -45,10 +45,10 @@ static char	*convert_number(unsigned long n, int base, int is_negative, int upc)
 	return (res);
 }
 
-char	*ft_itoa_base(long nbr, int base, int uppercase)
+char *ft_itoa_base(long nbr, int base, int uppercase)
 {
-	unsigned long	n;
-	int				is_negative;
+	unsigned long n;
+	int is_negative;
 
 	is_negative = 0;
 	if (nbr == 0)
@@ -65,9 +65,9 @@ char	*ft_itoa_base(long nbr, int base, int uppercase)
 	return (convert_number(n, base, is_negative, uppercase));
 }
 
-void	ft_putstr_pf(t_fdata *data)
+void ft_putstr_pf(t_fdata *data)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (i < data->count)
@@ -77,19 +77,32 @@ void	ft_putstr_pf(t_fdata *data)
 	}
 }
 
-void	apply_prefix(char **fstring, const char *prefix, t_fdata *fdata)
+void apply_prefix(const char *prefix, t_modinfo *info, t_fdata *fdata)
 {
-	char	*new_string;
-	size_t	len;
+	char *new_string;
+	int total_width;
 
-	len = ft_strlen(prefix);
-	new_string = malloc(fdata->count + len + 1);
+	if (info->width > fdata->count + 2)
+		total_width = info->width;
+	else
+		total_width = fdata->count + 2;
+	new_string = malloc(total_width + 1);
 	if (!new_string)
-		return ;
-	ft_strcpy(new_string, prefix);
-	ft_strcat(new_string, *fstring);
-	free(*fstring);
-	*fstring = new_string;
+		return;
+	if (ft_strchr(info->flags, '-'))
+	{
+		ft_strcpy(new_string, prefix);
+		ft_strlcpy(new_string + 2, fdata->fstring, fdata->count + 1);
+		ft_memset(new_string + 2 + fdata->count, ' ', total_width - fdata->count - 2);
+	}
+	else
+	{
+		ft_memset(new_string, ' ', total_width - fdata->count - 2);
+		ft_strcpy(new_string + (total_width - fdata->count - 2), prefix);
+		ft_strcpy(new_string + total_width - fdata->count, fdata->fstring);
+	}
+	new_string[total_width] = '\0';
+	free(fdata->fstring);
 	fdata->fstring = new_string;
-	fdata->count += len;
+	fdata->count = total_width;
 }

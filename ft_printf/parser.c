@@ -18,8 +18,8 @@ static void	parse_flags(const char *format, t_modinfo *info, int *index)
 	const char	*valid_flags;
 	int			i;
 
-	valid_flags = "-+ #0";
 	i = 0;
+	valid_flags = "-+ #0";
 	while (format[i] && ft_strchr(valid_flags, format[i]))
 	{
 		if (!ft_strchr(info->flags, format[i]))
@@ -75,6 +75,7 @@ void	parse_format(const char *format, t_modinfo *info)
 	index = 0;
 	info->width = -1;
 	info->precision = -1;
+	ft_bzero(info->flags, 5);
 	parse_flags(format, info, &index);
 	parse_width(format + index, info, &index);
 	parse_precision(format + index, info, &index);

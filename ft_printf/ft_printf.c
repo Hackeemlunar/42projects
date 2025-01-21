@@ -29,21 +29,22 @@ int	ft_printf(const char *format, ...)
 {
 	va_list		args;
 	t_fdata		*data;
-	t_modinfo	info;
+	t_modinfo	*info;
 	int			cnt;
 	int			i;
 
 	cnt = 0;
 	i = -1;
+	info = (t_modinfo *)malloc(sizeof(t_modinfo));
 	va_start(args, format);
 	while (format[++i] != '\0')
 	{
 		if (format[i] == '%')
 		{
-			parse_format(format + i + 1, &info);
-			data = process_specifier(&info, args);
-			i += info.flags_count;
-			reset_modinfo(&info);
+			parse_format(format + i + 1, info);
+			data = process_specifier(info, args);
+			i += info->flags_count;
+			reset_modinfo(info);
 			print_n_free(data, &cnt);
 		}
 		else
@@ -52,6 +53,7 @@ int	ft_printf(const char *format, ...)
 			cnt++;
 		}
 	}
+	free(info);
 	va_end(args);
 	return (cnt);
 }
