@@ -6,11 +6,20 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:44:50 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/22 15:44:54 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/22 19:34:37 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+static char	get_digit(int value, int upc)
+{
+	if (value < 10)
+		return (value + '0');
+	if (upc)
+		return (value - 10 + 'A');
+	return (value - 10 + 'a');
+}
 
 static char	*convert_number(unsigned long n, int base, int is_negative, int upc)
 {
@@ -23,15 +32,8 @@ static char	*convert_number(unsigned long n, int base, int is_negative, int upc)
 	j = 0;
 	while (n > 0)
 	{
-		if (n % base < 10)
-			temp[i++] = n % base + '0';
-		else
-		{
-			if (upc)
-				temp[i++] = n % base - 10 + 'A';
-			else
-				temp[i++] = n % base - 10 + 'a';
-		}
+		temp[i] = get_digit(n % base, upc);
+		i++;
 		n /= base;
 	}
 	res = (char *)malloc(i + is_negative + 1);

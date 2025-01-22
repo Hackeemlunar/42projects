@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:48:58 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/22 17:06:51 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/22 19:06:02 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	apply_r_jfy_0(int width, char pad, t_fdata *fdata)
 	if (!str)
 		return ;
 	str[0] = fdata->fstring[0];
-	ft_memset(str + 1, '0', width - fdata->count);
+	ft_memset(str + 1, pad, width - fdata->count);
 	ft_strcpy(str + 1 + (width - fdata->count), fdata->fstring + 1);
 	str[width] = '\0';
 	free(fdata->fstring);

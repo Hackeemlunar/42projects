@@ -6,14 +6,13 @@
 #    By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/20 14:43:21 by hmensah-          #+#    #+#              #
-#    Updated: 2025/01/20 19:39:40 by hmensah-         ###   ########.fr        #
+#    Updated: 2025/01/22 19:05:10 by hmensah-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
 CC = cc
-# CFLAGS = -Wall -Wextra -Werror
-CFLAGS = -Wall
+CFLAGS = -Wall -Wextra -Werror
 AR = ar rcs
 RM = rm -f
 
