@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 17:03:18 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/20 19:20:44 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/22 16:53:31 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	handle_int_size(char *fstring, char pad, int size, t_fdata *data)
 	size_t	padding;
 	char	*new_string;
 
-	if (size > data->count)
+	if (size >= data->count)
 	{
 		if (*fstring == '-')
 			size++;

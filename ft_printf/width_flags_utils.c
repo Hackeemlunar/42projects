@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:48:58 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/20 15:52:02 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/22 17:06:51 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,42 @@ void	apply_r_justify(char *fstring, int width, char pad, t_fdata *fdata)
 	fdata->count = width;
 }
 
-void apply_minus_flag(t_modinfo *info, t_fdata *data)
+static void	apply_r_jfy_0(int width, char pad, t_fdata *fdata)
+{
+	char	*str;
+
+	str = malloc(width + 1);
+	if (!str)
+		return ;
+	str[0] = fdata->fstring[0];
+	ft_memset(str + 1, '0', width - fdata->count);
+	ft_strcpy(str + 1 + (width - fdata->count), fdata->fstring + 1);
+	str[width] = '\0';
+	free(fdata->fstring);
+	fdata->fstring = str;
+	fdata->count = width;
+}
+
+void	apply_minus_flag(t_modinfo *info, t_fdata *data)
 {
 	if (info->width > data->count)
 	{
 		if (ft_strchr(info->flags, '-'))
 			apply_left_justify(data->fstring, info->width, data);
-		// else if (ft_strchr(info->flags, '0') && (info->specifier != 'x'
-		// 	|| info->specifier != 'X' || info->specifier != 'd'
-		// 	|| info->specifier != 'i'))
-			// apply_r_justify(data->fstring, info->width, '0', data);
+		else if (ft_strchr(info->flags, '0') && info->precision <= 0)
+		{
+			if ((data->fstring[0] == '+' || data->fstring[0] == '-'
+					|| data->fstring[0] == ' '))
+				apply_r_jfy_0(info->width, '0', data);
+			else
+				apply_r_justify(data->fstring, info->width, '0', data);
+		}
 		else
 			apply_r_justify(data->fstring, info->width, ' ', data);
 	}
 }
 
-void apply_plus_space_flag(t_modinfo *info, t_fdata *data)
+void	apply_plus_space_flag(t_modinfo *info, t_fdata *data)
 {
 	char	*new_string;
 

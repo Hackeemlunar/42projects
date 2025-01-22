@@ -6,16 +6,21 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:02:10 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/20 15:05:45 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/22 17:22:22 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-t_fdata	*handle_uns(t_modinfo *modinfo, va_list args)
+t_fdata	*handle_uns(t_modinfo *info, va_list args)
 {
 	long	nbr;
+	t_fdata	*data;
 
 	nbr = va_arg(args, long);
-	return (create_number_data(modinfo, nbr, 10));
+	data = create_number_data(info, nbr, 10);
+	apply_precision(info, data);
+	apply_plus_space_flag(info, data);
+	apply_minus_flag(info, data);
+	return (data);
 }
