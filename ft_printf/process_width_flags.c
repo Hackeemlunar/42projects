@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:51:36 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/22 18:46:07 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/22 23:15:57 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,47 +26,61 @@ static int	all_are_zeroes(const char *str)
 	return (1);
 }
 
-void	apply_prefix(const char *prefix, t_modinfo *info, t_fdata *fdata)
+void	add_prefix(const char *pref, t_fdata *data)
 {
 	char	*str;
-	int		total_w;
-	int		all_zeroes;
+	int		wid;
 
-	all_zeroes = all_are_zeroes(fdata->fstring);
-	if (info->width > fdata->count + 2)
-		total_w = info->width;
-	else
-		total_w = fdata->count + 2;
-	str = ft_calloc(total_w + 1, sizeof(char));
-	if (!str)
-		return ;
+	wid = data->count + 2;
+	str = malloc(wid + 1);
+	ft_strcpy(str, pref);
+	ft_strcpy(str + 2, data->fstring);
+	str[wid] = '\0';
+	free(data->fstring);
+	data->fstring = str;
+	data->count = wid;
+}
+
+void	pad(t_modinfo *info, t_fdata *data, int width)
+{
+	char	*str;
+
+	str = malloc(width + 1);
 	if (ft_strchr(info->flags, '-'))
 	{
-		ft_strcpy(str, prefix);
-		ft_strlcpy(str + 2, fdata->fstring, fdata->count + 1);
-		ft_memset(str + 2 + fdata->count, ' ', total_w - fdata->count - 2);
+		ft_strcpy(str, data->fstring);
+		ft_memset(str + data->count, ' ', width - data->count);
 	}
-	else if (ft_strchr(info->flags, '0') && (!all_zeroes))
+	else if (ft_strchr(info->flags, '0') && info->precision < 0)
 	{
-		ft_strcpy(str, prefix);
-		ft_memset(str + 2, '0', total_w - fdata->count - 2);
-		ft_strcpy(str + 2 + (total_w - fdata->count - 2), fdata->fstring);
+		str[0] = data->fstring[0];
+		str[1] = data->fstring[1];
+		ft_memset(str + 2, '0', width - data->count);
+		ft_strcpy(str + 2 + (width - data->count), data->fstring + 2);
 	}
 	else
 	{
-		if (all_zeroes)
-		{
-			ft_strcpy(str + total_w - fdata->count - 2, fdata->fstring);
-			total_w -= 2;
-		}
-		else
-		{
-			ft_memset(str, ' ', total_w - fdata->count - 2);
-			ft_strcpy(str + (total_w - fdata->count - 2), prefix);
-			ft_strcpy(str + total_w - fdata->count, fdata->fstring);
-		}
+		ft_memset(str, ' ', width - data->count);
+		ft_strcpy(str + (width - data->count), data->fstring);
 	}
-	free(fdata->fstring);
-	fdata->fstring = str;
-	fdata->count = total_w;
+	str[width] = '\0';
+	free(data->fstring);
+	data->fstring = str;
+	data->count = width;
+}
+
+void	apply_prefix(const char *pref, t_modinfo *info, t_fdata *data)
+{
+	int		all_zeroes;
+	int		pref_added;
+
+	pref_added = 0;
+	all_zeroes = all_are_zeroes(data->fstring);
+	if (!all_zeroes)
+	{
+		add_prefix(pref, data);
+		pref_added = 1;
+	}
+	if (info->width > data->count)
+		pad(info, data, info->width);
 }
