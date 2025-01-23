@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:30:23 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/22 21:46:18 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/23 22:45:08 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,13 @@ static void	apply_hex(t_fdata *data, t_modinfo *info, int upc, char *str)
 
 t_fdata	*handle_hex(t_modinfo *modinfo, va_list args)
 {
-	t_fdata	*data;
-	long	nbr;
-	char	*nbr_str;
-	int		uppercase;
+	t_fdata			*data;
+	unsigned int	nbr;
+	char			*nbr_str;
+	int				uppercase;
 
 	uppercase = modinfo->specifier == 'X';
-	nbr = va_arg(args, long);
+	nbr = va_arg(args, int);
 	nbr_str = ft_itoa_base(nbr, 16, uppercase);
 	if (!nbr_str)
 		return (NULL);

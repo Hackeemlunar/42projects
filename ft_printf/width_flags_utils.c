@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:48:58 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/22 19:06:02 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/23 20:21:47 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,10 @@ void	apply_minus_flag(t_modinfo *info, t_fdata *data)
 		else if (ft_strchr(info->flags, '0') && info->precision <= 0)
 		{
 			if ((data->fstring[0] == '+' || data->fstring[0] == '-'
-					|| data->fstring[0] == ' '))
+					|| data->fstring[0] == ' ') && info->precision == -1)
 				apply_r_jfy_0(info->width, '0', data);
+			else if (info->precision == 0)
+				apply_r_justify(data->fstring, info->width, ' ', data);
 			else
 				apply_r_justify(data->fstring, info->width, '0', data);
 		}

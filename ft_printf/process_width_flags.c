@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:51:36 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/22 23:15:57 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:09:25 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ void	pad(t_modinfo *info, t_fdata *data, int width)
 	}
 	else if (ft_strchr(info->flags, '0') && info->precision < 0)
 	{
-		str[0] = data->fstring[0];
-		str[1] = data->fstring[1];
+		ft_strlcpy(str, data->fstring, 3);
 		ft_memset(str + 2, '0', width - data->count);
 		ft_strcpy(str + 2 + (width - data->count), data->fstring + 2);
 	}
@@ -67,6 +66,18 @@ void	pad(t_modinfo *info, t_fdata *data, int width)
 	free(data->fstring);
 	data->fstring = str;
 	data->count = width;
+}
+
+static void	fill_with_zeroes(t_modinfo *info, t_fdata *data)
+{
+	char	*str;
+
+	str = malloc(info->width + 1);
+	ft_memset(str, '0', info->width);
+	str[info->width] = '\0';
+	free(data->fstring);
+	data->fstring = str;
+	data->count = info->width;
 }
 
 void	apply_prefix(const char *pref, t_modinfo *info, t_fdata *data)
@@ -82,5 +93,10 @@ void	apply_prefix(const char *pref, t_modinfo *info, t_fdata *data)
 		pref_added = 1;
 	}
 	if (info->width > data->count)
-		pad(info, data, info->width);
+	{
+		if (all_zeroes && (info->precision < 0) && ft_strchr(info->flags, '0'))
+			fill_with_zeroes(info, data);
+		else
+			pad(info, data, info->width);
+	}
 }
