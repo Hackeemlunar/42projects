@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 18:11:28 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/24 21:33:13 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/24 21:36:36 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ char	*extract_line(t_ldata *line_data)
 			free(temp_line->temp);
 			temp_line = temp_line->next;
 		}
-		line[i] = *(temp_line->temp);
+		if (temp_line->temp)
+			line[i] = *(temp_line->temp);
 		temp_line->temp++;
 		i++;
 	}
