@@ -11,19 +11,3 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-void *ft_strncpy(char *dst, const char *src, size_t n)
-{
-    char *d = dst;
-    const char *s = src;
-
-    while (n > 0 && *s) {
-        *d++ = *s++;
-        n--;
-    }
-    while (n > 0) {
-        *d++ = '\0';
-        n--;
-    }
-    return dst;
-}

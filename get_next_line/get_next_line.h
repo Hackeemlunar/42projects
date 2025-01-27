@@ -25,18 +25,16 @@
 #  define BUFFER_SIZE 10
 # endif
 
-typedef struct s_context {
-    size_t  buf_cap;
-    size_t  buf_pos;
-    size_t  buf_pos_prv;
-    size_t  nl_pos;
-    size_t  stash_len;
-    int     stash_st;
-    char    *stash;
-    char    *buffer;
-}            t_context;
+typedef struct s_context
+{
+    int             fd;
+    char            *buffer;
+    size_t          buf_size;
+    size_t          buf_pos;
+    size_t          buf_end;
+    struct s_context *next;
+} t_context;
 
-void        *ft_strncpy(char *dst, const char *src, size_t n);
 char        *get_next_line(int fd);
 
 #endif
