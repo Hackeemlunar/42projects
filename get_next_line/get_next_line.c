@@ -12,103 +12,172 @@
 
 #include "get_next_line.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+void free_context(t_context *ctx)
 {
-	char	*s_copy;
-	int		i;
-
-	i = 0;
-	s_copy = (char *)b;
-	while (i < (int)len)
-	{
-		s_copy[i] = c;
-		i++;
-	}
-	return (b);
+    if (!ctx)
+        return;
+    if (ctx->stash)
+        free(ctx->stash);
+    if (ctx->buffer)
+        free(ctx->buffer);
+    free(ctx);
 }
 
-int	check_bytes(t_line *line)
+static t_context *create_context(void)
 {
-	static t_line	new_line;
-	int				i;
+    t_context *ctx = malloc(sizeof(t_context));
+    if (!ctx)
+        return NULL;
 
-	i = 0;
-	while (line->temp[i] != '\n' && line->temp[i])
-		i++;
-	if (i < line->temp_len)
-	{
-		line->temp_len = i;
-		line->next = NULL;
-		return (0);
-	}
-	ft_memset(&new_line, 0, sizeof(t_line));
-	new_line.temp = malloc(BUFFER_SIZE + 1);
-	if (!new_line.temp)
-		return (-1);
-	line->next = &new_line;
-	return (1);
+    ctx->buf_cap = BUFFER_SIZE;
+    ctx->buf_pos = 0;
+    ctx->buf_pos_prv = 0;
+    ctx->nl_pos = 0;
+    ctx->stash_len = 0;
+    ctx->stash_st = 0;
+    ctx->stash = malloc(ctx->buf_cap + 1);
+    if (!ctx->stash) {
+        free(ctx);
+        return NULL;
+    }
+    ctx->stash[0] = '\0';
+    ctx->buffer = malloc(ctx->buf_cap);
+    if (!ctx->buffer) {
+        free(ctx->stash);
+        free(ctx);
+        return NULL;
+    }
+    return ctx;
 }
 
-char	*extract_line(t_ldata *line_data)
-{
-	t_line	*temp_line;
-	char	*line;
-	char	*temp_ptr;
-	int		i;
+char *handle_eof(t_context *ctx) {
+    char *line;
 
-	temp_line = line_data->templn;
-	line = malloc(line_data->total_len + 2);
-	if (!line)
-		return (NULL);
-	i = 0;
-	while (i < line_data->total_len && temp_line)
-	{
-		temp_ptr = temp_line->temp;
-		if (temp_ptr && !(*temp_ptr))
-		{
-			free(temp_line->temp);
-			temp_line = temp_line->next;
-			continue ;
-		}
-		if (temp_ptr)
-		{
-			line[i++] = *temp_ptr;
-			temp_line->temp++;
-		}
-		else
-			temp_line = temp_line->next;
-	}
-	line[line_data->total_len] = '\n';
-	line[line_data->total_len + 1] = '\0';
-	return (line);
+    if (!ctx || (!ctx->stash_len && !ctx->buf_pos))
+        return NULL;
+    line = malloc(ctx->stash_len + ctx->buf_pos + 1);
+    if (!line)
+    {
+        free_context(ctx);
+        return NULL;
+    }
+    if (ctx->stash_len)
+        ft_strncpy(line, ctx->stash, ctx->stash_len);
+    if (ctx->buf_pos)
+        ft_strncpy(line + ctx->stash_len, ctx->buffer, ctx->buf_pos);
+    line[ctx->stash_len + ctx->buf_pos] = '\0';
+    free_context(ctx);
+    return line;
 }
 
-char	*get_next_line(int fd)
+int expand_buf(t_context *ctx)
 {
-	static t_ldata	ldata;
-	t_line			line;
-	int				bytes_result;
+    char *new_buffer;
 
-	if (BUFFER_SIZE < 0 || fd < 0)
-		return (NULL);
-	ft_memset(&line, 0, sizeof(t_line));
-	line.temp = malloc(BUFFER_SIZE + 1);
-	if (!line.temp)
-		return (NULL);
-	line.temp_len = read(fd, line.temp, BUFFER_SIZE);
-	ldata.total_len = 0;
-	ldata.templn = &line;
-	while (line.temp_len > 0)
-	{
-		line.temp[line.temp_len] = '\0';
-		bytes_result = check_bytes(&line);
-		ldata.total_len += line.temp_len;
-		if (bytes_result == 0)
-			break ;
-		else if (bytes_result == -1)
-			return (NULL);
-		line = *line.next;
-		line.temp_len = read(fd, line.temp, BUFFER_SIZE);
-	}
-	return (extract_line(&ldata));
+    ctx->buf_cap *= 2;
+    new_buffer = malloc(ctx->buf_cap);
+    if (!new_buffer)
+        return 0;
+    ft_strncpy(new_buffer, ctx->buffer, ctx->buf_pos);
+    free(ctx->buffer);
+    ctx->buffer = new_buffer;
+    return 1;
+}
+
+size_t check_stash(t_context *ctx) {
+    if (!ctx || !ctx->stash)
+        return 0;
+    while (ctx->nl_pos < ctx->stash_len) {
+        if (ctx->stash[ctx->nl_pos] == '\n')
+            return 1;
+        ctx->nl_pos++;
+    }
+    ctx->stash_st = 1;
+    return 0;
+}
+
+void copy_into_stash(t_context *ctx) {
+    if (ctx->buf_pos_prv < ctx->buf_pos) {
+        ft_strncpy(ctx->stash, ctx->buffer + ctx->buf_pos_prv,
+                ctx->buf_pos - ctx->buf_pos_prv);
+        ctx->stash_len = ctx->buf_pos - ctx->buf_pos_prv;
+        ctx->stash[ctx->stash_len] = '\0';
+    }
+    ctx->buf_pos_prv = 0;
+    ctx->buf_pos = 0;
+    ctx->nl_pos = 0;
+    ctx->stash_st = 0;
+}
+
+size_t find_nl(t_context *ctx, ssize_t bytes_read, char **line) {
+    ctx->buf_pos += bytes_read;
+    if (!ctx->stash_st && check_stash(ctx)) {
+        *line = malloc(ctx->nl_pos + 2);
+        if (!*line)
+            return 0;
+
+        ft_strncpy(*line, ctx->stash, ctx->nl_pos + 1);
+        (*line)[ctx->nl_pos + 1] = '\0';
+
+        ft_strncpy(ctx->stash, ctx->stash + ctx->nl_pos + 1, ctx->stash_len - ctx->nl_pos - 1);
+        ctx->stash_len -= ctx->nl_pos + 1;
+        ctx->nl_pos = 0;
+
+        return 1;
+    } else {
+        while (ctx->buf_pos_prv < ctx->buf_pos) {
+            if (ctx->buffer[ctx->buf_pos_prv] == '\n') {
+                *line = malloc(ctx->stash_len + ctx->buf_pos_prv + 2);
+                if (!*line)
+                    return 0;
+
+                ft_strncpy(*line, ctx->stash, ctx->stash_len);
+                ft_strncpy(*line + ctx->stash_len, ctx->buffer, ctx->buf_pos_prv + 1);
+                (*line)[ctx->stash_len + ctx->buf_pos_prv + 1] = '\0';
+                ctx->buf_pos_prv++;
+                copy_into_stash(ctx);
+                return 1;
+            }
+            ctx->buf_pos_prv++;
+        }
+    }
+    if (ctx->buf_pos == ctx->buf_cap)
+    {
+        if (!expand_buf(ctx))
+            return 0;
+    }
+    return 0;
+}
+
+char *get_next_line(int fd)
+{
+    static t_context *ctx;
+    ssize_t bytes_read;
+    char *line = NULL;
+
+    if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE > LONG_MAX)
+        return NULL;
+    if (!ctx)
+        ctx = create_context();
+    if (!ctx)
+        return NULL;
+    while (1)
+    {
+        bytes_read = read(fd, ctx->buffer + ctx->buf_pos, BUFFER_SIZE);
+        if (bytes_read < 0)
+        {
+            free_context(ctx);
+            ctx = NULL;
+            return NULL;
+        }
+        if (bytes_read == 0)
+        {
+            line = handle_eof(ctx);
+            ctx = NULL;
+            return line;
+        }
+        if (find_nl(ctx, bytes_read, &line))
+            break;
+    }
+    return line;
 }

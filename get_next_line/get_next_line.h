@@ -14,27 +14,29 @@
 # define GET_NEXT_LINE_H
 
 # include <unistd.h>
+# include <fcntl.h>
+# include <string.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <stdint.h>
+# include <limits.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1024
+#  define BUFFER_SIZE 20
 # endif
 
-typedef struct s_line
-{
-	char			*temp;
-	struct s_line	*next;
-	int				temp_len;
-}				t_line;
+typedef struct s_context {
+    size_t  buf_cap;
+    size_t  buf_pos;
+    size_t  buf_pos_prv;
+    size_t  nl_pos;
+    size_t  stash_len;
+    int     stash_st;
+    char    *stash;
+    char    *buffer;
+}            t_context;
 
-typedef struct s_line_data
-{
-	char	*final_string;
-	t_line	*templn;
-	int		total_len;
-}				t_ldata;
-
-char	*get_next_line(int fd);
+void        *ft_strncpy(char *dst, const char *src, size_t n);
+char        *get_next_line(int fd);
 
 #endif
