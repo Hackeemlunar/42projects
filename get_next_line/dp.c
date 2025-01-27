@@ -96,7 +96,9 @@ static char *allocate_and_extract_line(t_context *ctx, size_t line_len)
 static char *extract_line(t_context *ctx)
 {
     char *newline;
-    size_t line_len = calculate_line_length(ctx, &newline);
+    size_t line_len;
+
+    line_len = calculate_line_length(ctx, &newline);
     return allocate_and_extract_line(ctx, line_len);
 }
 
@@ -144,12 +146,16 @@ static int expand_buffer_if_needed(t_context *ctx)
 static char *read_and_handle_line(int fd, t_context *ctx)
 {
     ssize_t bytes_read;
-    char *current_buf = ctx->buffer + ctx->buf_end;
+    char    *current_buf;
+    char    *line;
+
+    current_buf = ctx->buffer + ctx->buf_end;
     bytes_read = read(fd, current_buf, BUFFER_SIZE);
     if (bytes_read < 0)
         return NULL;
-    if (bytes_read == 0) {
-        char *line = extract_line(ctx);
+    if (bytes_read == 0)
+    {
+        line = extract_line(ctx);
         if (!line && ctx->buf_pos < ctx->buf_end)
             line = extract_line(ctx);
         return line;
@@ -161,13 +167,17 @@ static char *read_and_handle_line(int fd, t_context *ctx)
 static char *read_until_line(int fd, t_context *ctx, t_context **contexts)
 {
     char *line;
-    while (1) {
-        if (!expand_buffer_if_needed(ctx)) {
+
+    while (1)
+    {
+        if (!expand_buffer_if_needed(ctx))
+        {
             remove_context(fd, contexts);
             return NULL;
         }
         line = read_and_handle_line(fd, ctx);
-        if (line || (ctx->buf_pos == 0 && ctx->buf_end == 0)) {
+        if (line || (ctx->buf_pos == 0 && ctx->buf_end == 0))
+        {
             if (!line)
                 remove_context(fd, contexts);
             return line;
@@ -179,6 +189,7 @@ char *get_next_line(int fd)
 {
     static t_context *contexts = NULL;
     t_context *ctx;
+
     if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE > INT_MAX)
         return NULL;
     ctx = get_context(fd, &contexts);
