@@ -12,6 +12,22 @@
 
 #include "get_next_line.h"
 
+void *ft_strncpy(char *dst, const char *src, size_t n)
+{
+    char *d = dst;
+    const char *s = src;
+
+    while (n > 0 && *s) {
+        *d++ = *s++;
+        n--;
+    }
+    while (n > 0) {
+        *d++ = '\0';
+        n--;
+    }
+    return dst;
+}
+
 void free_context(t_context *ctx)
 {
     if (!ctx)
@@ -21,30 +37,6 @@ void free_context(t_context *ctx)
     if (ctx->buffer)
         free(ctx->buffer);
     free(ctx);
-}
-
-char *allocate_stash(t_context *ctx)
-{
-    ctx->stash = malloc(ctx->buf_cap + 1);
-    if (!ctx->stash)
-    {
-        free(ctx);
-        return NULL;
-    }
-    ctx->stash[0] = '\0';
-    return ctx->stash;
-}
-
-char *allocate_buffer(t_context *ctx)
-{
-    ctx->buffer = malloc(ctx->buf_cap);
-    if (!ctx->buffer)
-    {
-        free(ctx->stash);
-        free(ctx);
-        return NULL;
-    }
-    return ctx->buffer;
 }
 
 t_context *create_context(void)
@@ -60,8 +52,20 @@ t_context *create_context(void)
     ctx->nl_pos = 0;
     ctx->stash_len = 0;
     ctx->stash_st = 0;
-    if (!allocate_stash(ctx) || !allocate_buffer(ctx))
+    ctx->stash = malloc(ctx->buf_cap + 1);
+    if (!ctx->stash)
+    {
+        free(ctx);
         return NULL;
+    }
+    ctx->stash[0] = '\0';
+    ctx->buffer = malloc(ctx->buf_cap);
+    if (!ctx->buffer)
+    {
+        free(ctx->stash);
+        free(ctx);
+        return NULL;
+    }
     return ctx;
 }
 
@@ -73,10 +77,7 @@ char *handle_eof(t_context *ctx)
         return NULL;
     line = malloc(ctx->stash_len + ctx->buf_pos + 1);
     if (!line)
-    {
-        free_context(ctx);
         return NULL;
-    }
     if (ctx->stash_len)
         ft_strncpy(line, ctx->stash, ctx->stash_len);
     if (ctx->buf_pos)
@@ -203,6 +204,7 @@ char *get_next_line(int fd)
     }
     return line;
 }
+
 
 int main(void) {
     int fd;
