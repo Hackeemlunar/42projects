@@ -22,7 +22,7 @@
 # include <limits.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1024
+#  define BUFFER_SIZE 100000
 # endif
 
 typedef struct s_context

@@ -147,7 +147,7 @@ static int expand_buffer_if_needed(t_context *ctx)
         new_size = ctx->buf_size;
         while (new_size < required_size)
             new_size *= 2;
-        new_buf = ft_realloc(ctx->buffer, ctx->buf_size, new_size);
+        new_buf = ft_realloc(ctx->buffer, ctx->buf_end, new_size);
         if (!new_buf)
             return 0;
         ctx->buffer = new_buf;
