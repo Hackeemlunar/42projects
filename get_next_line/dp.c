@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 16:18:56 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/28 23:15:18 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/28 23:24:41 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,30 @@ void	create_context(t_context *ctx)
 		return ;
 	buffer[0] = '\0';
 	ctx->buffer = buffer;
+}
+char	*handle_eof_err(t_context *ctx, ssize_t byt_read)
+{
+    char *line;
+
+	if (byt_read < 0)
+    {
+        if (ctx->buffer)
+			free(ctx->buffer);
+        ctx = NULL;
+        return NULL;
+    }
+    line = malloc(ctx->stash_len + ctx->buf_pos + 1);
+    if (!line)
+        return NULL;
+    if (ctx->stash_len)
+        ft_strncpy(line, ctx->stash, ctx->stash_len);
+    if (ctx->buf_pos)
+        ft_strncpy(line + ctx->stash_len, ctx->buffer, ctx->buf_pos);
+    line[ctx->stash_len + ctx->buf_pos] = '\0';
+    if (ctx->buffer)
+		free(ctx->buffer);
+	ctx = NULL;
+    return line;
 }
 
 char	*get_next_line(int fd)
