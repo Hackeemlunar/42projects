@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 16:18:56 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/28 16:21:11 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/28 23:15:18 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,71 @@
 # define BUFFER_SIZE 10
 #endif
 
-typedef struct s_read
-{
-	char            *buffer;
-	size_t          buf_size;
-	size_t          buf_pos;
-	size_t          buf_end;
-	struct s_read *next;
-}           t_read;
-
 typedef struct s_context
 {
-	int             fd;
-	char            *stash;
-	size_t          total_len;
-	struct s_context *next;
-}              t_context;
+    size_t buf_cap;
+    size_t buf_pos;
+    size_t buf_pos_prv;
+    size_t nl_err;
+    size_t stash_len;
+    size_t stash_st;
+    char stash[BUFFER_SIZE];
+    char *buffer;
+} t_context;
+
+void *ft_strncpy(char *dst, const char *src, size_t n)
+{
+    char		*d;
+    const char	*s;
+
+	d = dst;
+	s = src;
+    while (n > 0 && *s) {
+        *d++ = *s++;
+        n--;
+    }
+    while (n > 0) {
+        *d++ = '\0';
+        n--;
+    }
+    return dst;
+}
+
+void	create_context(t_context *ctx)
+{
+	char	*buffer;
+
+	if (!ctx->buf_cap)
+		ctx->buf_cap = BUFFER_SIZE;
+	buffer =  malloc(ctx->buf_cap + 1);
+	if (!buffer)
+		return ;
+	buffer[0] = '\0';
+	ctx->buffer = buffer;
+}
+
+char	*get_next_line(int fd)
+{
+	static t_context	ctx;
+	ssize_t				byt_read;
+	char				*line;
+
+	line = NULL;
+	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE > LONG_MAX)
+        return NULL;
+	create_context(&ctx);
+	while (1)
+    {
+        byt_read = read(fd, ctx.buffer + ctx.buf_pos, BUFFER_SIZE);
+        if (byt_read <= 0)
+			return (handle_eof_err(&ctx, byt_read));
+        else if (ctx.nl_err)
+			return (line);
+		handle_line(&ctx, byt_read, &line);
+    }
+	return (line);
+}
+
 
 int main(void) {
 	int fd;

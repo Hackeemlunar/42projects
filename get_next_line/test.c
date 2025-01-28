@@ -142,8 +142,6 @@ char *get_next_line(int fd) {
 
     if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE > LONG_MAX)
         return NULL;
-
-    // Initialize context if buffer or stash is NULL
     if (!ctx.buffer || !ctx.stash) {
         ctx.buf_cap = BUFFER_SIZE;
         ctx.buffer = malloc(ctx.buf_cap);

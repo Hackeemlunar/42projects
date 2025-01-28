@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   old_impl.c                                         :+:      :+:    :+:   */
+/*   old.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 18:54:23 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/28 17:24:55 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:27:28 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,6 @@ t_context *create_context(void)
     if (!ctx)
         return NULL;
     ctx->buf_cap = BUFFER_SIZE;
-    ctx->buf_pos = 0;
-    ctx->buf_pos_prv = 0;
-    ctx->nl_pos = 0;
-    ctx->stash_len = 0;
-    ctx->stash_st = 0;
     ctx->stash = malloc(ctx->buf_cap + 1);
     if (!ctx->stash)
     {
