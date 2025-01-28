@@ -13,15 +13,20 @@
 #  define BUFFER_SIZE 10
 # endif
 
+typedef struct s_read
+{
+    char            *buffer;
+    size_t          buf_size;
+    size_t          buf_pos;
+    size_t          buf_end;
+    struct s_read *next;
+}           t_read;
 
 typedef struct s_context
 {
     int             fd;
     char            *stash;
-    char            *buffer;
-    size_t          buf_size;
-    size_t          buf_pos;
-    size_t          buf_end;
+    size_t          total_len;
     struct s_context *next;
 }              t_context;
 
