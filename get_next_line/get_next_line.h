@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 18:11:07 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/29 17:52:21 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/29 17:59:10 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,20 @@
 
 typedef struct s_context
 {
-    size_t buf_cap;
-    size_t buf_pos;
-    size_t buf_pos_prv;
-    size_t nl_err;
-    size_t stash_len;
-    size_t stash_st;
-    char stash[BUFFER_SIZE];
-    char *buffer;
+	size_t buf_cap;
+	size_t buf_pos;
+	size_t buf_pos_prv;
+	size_t nl_err;
+	size_t stash_len;
+	size_t stash_st;
+	char stash[BUFFER_SIZE];
+	char *buffer;
 } t_context;
 
 char		*get_next_line(int fd);
+void		*ft_strncpy(char *dst, const char *src, size_t n);
+char		*handle_eof_err(t_context *ctx, ssize_t byt_read);
+void		expland_buffer(t_context *ctx);
+void		handle_stash(t_context *ctx, char **line);
 
 #endif
