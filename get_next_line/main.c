@@ -6,23 +6,23 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 18:54:23 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/24 21:18:43 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:02:16 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int main(void) {
-    int fd;
-    char *line;
+int	main(void)
+{
+	int		fd;
+	char	*line;
 
-    fd = open("test.txt", O_RDONLY);
-   
-    line = get_next_line(fd);
-    printf("%s", line);
-    free(line);
-    close(fd);
-    return (0);
+	fd = open("test.txt", O_RDONLY);
+	line = get_next_line(fd);
+	printf("%s", line);
+	free(line);
+	close(fd);
+	return (0);
 }
 
 // int main(void) {

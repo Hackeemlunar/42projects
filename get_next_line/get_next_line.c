@@ -6,76 +6,70 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 18:11:28 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/29 17:56:38 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/29 18:37:10 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-
-
-void create_context(t_context *ctx)
+void	create_context(t_context *ctx)
 {
-    if (!ctx->buffer)
-    {
-        ctx->buf_cap = BUFFER_SIZE;
-        ctx->buffer = malloc(ctx->buf_cap + 1);
-        if (!ctx->buffer)
-            return ;
-        ctx->buffer[0] = '\0';
-    }
+	if (!ctx->buffer)
+	{
+		ctx->buf_cap = BUFFER_SIZE;
+		ctx->buffer = malloc(ctx->buf_cap + 1);
+		if (!ctx->buffer)
+			return ;
+		ctx->buffer[0] = '\0';
+	}
 }
-
-
 
 void	fill_line(t_context *ctx, char *line)
 {
-    size_t remainder;
-    char *buffer;
+	size_t	remainder;
+	char	*buffer;
 
-    remainder = ctx->buf_pos - ctx->buf_pos_prv;
-    if (ctx->stash_len)
-        ft_strncpy(line, ctx->stash, ctx->stash_len);
-    ft_strncpy(line + ctx->stash_len, ctx->buffer, ctx->buf_pos_prv);
-    line[ctx->stash_len + ctx->buf_pos_prv] = '\0';
-    if (remainder)
-    {
-        ft_strncpy(ctx->stash, ctx->buffer + ctx->buf_pos_prv, remainder);
-        ctx->stash_len = remainder;
-    }
-    else
-        ctx->stash_len = 0;
-    ctx->buf_pos_prv = 0;
-    ctx->buf_pos = 0;
-    buffer = malloc(ctx->buf_cap + 1);
-    if (!buffer)
-        return ;
-    free(ctx->buffer);
-    ctx->buffer = buffer;
+	remainder = ctx->buf_pos - ctx->buf_pos_prv;
+	if (ctx->stash_len)
+		ft_strncpy(line, ctx->stash, ctx->stash_len);
+	ft_strncpy(line + ctx->stash_len, ctx->buffer, ctx->buf_pos_prv);
+	line[ctx->stash_len + ctx->buf_pos_prv] = '\0';
+	if (remainder)
+	{
+		ft_strncpy(ctx->stash, ctx->buffer + ctx->buf_pos_prv, remainder);
+		ctx->stash_len = remainder;
+	}
+	else
+		ctx->stash_len = 0;
+	ctx->buf_pos_prv = 0;
+	ctx->buf_pos = 0;
+	buffer = malloc(ctx->buf_cap + 1);
+	if (!buffer)
+		return ;
+	free(ctx->buffer);
+	ctx->buffer = buffer;
 }
 
 void	handle_line(t_context *ctx, ssize_t byt_read, char **line)
 {
-    ctx->buf_pos += byt_read;
-    while (ctx->buf_pos_prv < ctx->buf_pos)
-    {
-        if (ctx->buffer[ctx->buf_pos_prv] == '\n')
-        {
-            ctx->buf_pos_prv++;
-            ctx->nl_err = 1;
-            *line = malloc(ctx->stash_len + ctx->buf_pos_prv + 1);
-            if (!*line)
-                return ;
-            fill_line(ctx, *line);
-            return ;
-        }
-        ctx->buf_pos_prv++;
-    }
-    if (ctx->buf_pos == ctx->buf_cap)
-        expland_buffer(ctx);
+	ctx->buf_pos += byt_read;
+	while (ctx->buf_pos_prv < ctx->buf_pos)
+	{
+		if (ctx->buffer[ctx->buf_pos_prv] == '\n')
+		{
+			ctx->buf_pos_prv++;
+			ctx->nl_err = 1;
+			*line = malloc(ctx->stash_len + ctx->buf_pos_prv + 1);
+			if (!*line)
+				return ;
+			fill_line(ctx, *line);
+			return ;
+		}
+		ctx->buf_pos_prv++;
+	}
+	if (ctx->buf_pos == ctx->buf_cap)
+		expland_buffer(ctx);
 }
-
-
 
 char	*get_next_line(int fd)
 {
@@ -85,23 +79,23 @@ char	*get_next_line(int fd)
 
 	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE > LONG_MAX)
-        return NULL;
+		return (NULL);
 	create_context(&ctx);
-    ctx.nl_err = 0;
+	ctx.nl_err = 0;
 	while (1)
-    {
-        if (ctx.stash_len)
-        {
-            handle_stash(&ctx, &line);
-            if (line)
-                return line;
-        }
-        byt_read = read(fd, ctx.buffer + ctx.buf_pos, BUFFER_SIZE);
-        if (byt_read <= 0)
+	{
+		if (ctx.stash_len)
+		{
+			handle_stash(&ctx, &line);
+			if (line)
+				return (line);
+		}
+		byt_read = read(fd, ctx.buffer + ctx.buf_pos, BUFFER_SIZE);
+		if (byt_read <= 0)
 			return (handle_eof_err(&ctx, byt_read));
 		handle_line(&ctx, byt_read, &line);
-        if (ctx.nl_err)
+		if (ctx.nl_err)
 			return (line);
-    }
+	}
 	return (line);
 }

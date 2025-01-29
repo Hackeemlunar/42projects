@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/24 18:13:50 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/24 18:24:46 by hmensah-         ###   ########.fr       */
+/*   Created: 2025/01/29 19:03:33 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/01/29 19:07:21 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,35 @@
 # define GET_NEXT_LINE_BONUS_H
 
 # include <unistd.h>
+# include <fcntl.h>
+# include <string.h>
 # include <stdlib.h>
+# include <stdio.h>
+# include <stdint.h>
+# include <limits.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1024
+#  define BUFFER_SIZE 10
 # endif
 
-char	*get_next_line(int fd);
+typedef struct s_context
+{
+	int					fd;
+	size_t				buf_cap;
+	size_t				buf_pos;
+	size_t				buf_pos_prv;
+	size_t				nl_err;
+	size_t				stash_len;
+	size_t				stash_st;
+	char				stash[BUFFER_SIZE];
+	char				*buffer;
+	struct s_context	*next;
+}			t_context;
+
+char		*get_next_line(int fd);
+void		*ft_strncpy(char *dst, const char *src, size_t n);
+char		*handle_eof_err(t_context *ctx, ssize_t byt_read);
+void		expland_buffer(t_context *ctx);
+void		handle_stash(t_context *ctx, char **line);
 
 #endif
