@@ -32,23 +32,20 @@ void create_context(t_context *ctx)
 
 void fill_line(t_context *ctx, char *line)
 {
-	size_t remainder = ctx->buf_pos - ctx->buf_pos_prv;
+	size_t	remainder;
 
+	remainder = ctx->buf_pos - ctx->buf_pos_prv;
 	if (ctx->stash_len > 0)
 		ft_memcpy(line, ctx->stash, ctx->stash_len);
 	ft_memcpy(line + ctx->stash_len, ctx->buffer, ctx->buf_pos_prv);
 	line[ctx->stash_len + ctx->buf_pos_prv] = '\0';
-
 	if (remainder)
 	{
 		ft_memcpy(ctx->stash, ctx->buffer + ctx->buf_pos_prv, remainder);
 		ctx->stash_len = remainder;
 	}
 	else
-	{
 		ctx->stash_len = 0;
-	}
-
 	ctx->buf_pos_prv = 0;
 	ctx->buf_pos = 0;
 }
@@ -71,12 +68,8 @@ void handle_line(t_context *ctx, ssize_t byt_read, char **line)
 		}
 		ctx->buf_pos_prv++;
 	}
-
 	if (ctx->buf_pos == ctx->buf_cap)
 		expand_buffer(ctx);
-
-	if (ctx->buf_pos_prv == ctx->buf_pos)
-		ctx->buf_pos_prv = 0;
 }
 
 char *get_next_line(int fd)

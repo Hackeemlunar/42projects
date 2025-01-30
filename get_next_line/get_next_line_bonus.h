@@ -22,7 +22,7 @@
 # include <limits.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 100
 # endif
 
 typedef struct s_context
@@ -40,11 +40,11 @@ typedef struct s_context
     struct s_context *next;
 } t_context;
 
-char		*get_next_line(int fd);
-void *ft_memcpy(char *dst, const char *src, size_t n);
-char *handle_eof_err(t_context **head_ref, t_context *ctx, ssize_t byt_read);
-void expand_buffer(t_context *ctx);
-void handle_stash(t_context *ctx, char **line);
-void cleanup_context(t_context **head, int fd);
+char    *get_next_line(int fd);
+void    *ft_memcpy(char *dst, const char *src, size_t n);
+char    *handle_eof_err(t_context **head, t_context *ctx, ssize_t read);
+void    expand_buffer(t_context *ctx);
+void    handle_stash(t_context *ctx, char **line);
+void    cleanup_context(t_context **head, int fd);
 
 #endif

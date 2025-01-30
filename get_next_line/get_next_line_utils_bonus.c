@@ -14,106 +14,109 @@
 
 void *ft_memcpy(char *dst, const char *src, size_t n)
 {
-    char *d = dst;
-    const char *s = src;
-    while (n--)
-        *d++ = *s++;
-	if (n > 0)
-		*d = '\0';
-    return dst;
+	char *d = dst;
+	const char *s = src;
+
+	d = dst;
+	s = src;
+	if (n == 0)
+        return (dst);
+	while (n--)
+		*d++ = *s++;
+	return (dst);
 }
 
 void cleanup_context(t_context **head, int fd)
 {
-    t_context *prev = NULL;
-    t_context *curr = *head;
+	t_context	*prev;
+	t_context	*curr;
 
-    while (curr && curr->fd != fd)
+	prev = NULL;
+	curr = *head;
+	while (curr && curr->fd != fd)
 	{
-        prev = curr;
-        curr = curr->next;
-    }
-    if (!curr)
-		return;
-    if (prev)
-        prev->next = curr->next;
-    else
-        *head = curr->next;
-    if (curr->buffer) free(curr->buffer);
-    free(curr);
+		prev = curr;
+		curr = curr->next;
+	}
+	if (!curr)
+		return ;
+	if (prev)
+		prev->next = curr->next;
+	else
+		*head = curr->next;
+	if (curr->buffer)
+		free(curr->buffer);
+	free(curr);
 }
 
 char *handle_eof_err(t_context **head_ref, t_context *ctx, ssize_t byt_read)
 {
-    char *line;
+	char	*line;
 
-    if (byt_read < 0 || (ctx->stash_len + ctx->buf_pos == 0))
+	if (byt_read < 0 || (ctx->stash_len + ctx->buf_pos == 0))
 	{
-        cleanup_context(head_ref, ctx->fd);
-        return (NULL);
-    }
-    line = malloc(ctx->stash_len + ctx->buf_pos + 1);
-    if (!line)
+		cleanup_context(head_ref, ctx->fd);
+		return (NULL);
+	}
+	line = malloc(ctx->stash_len + ctx->buf_pos + 1);
+	if (!line)
 	{
-        cleanup_context(head_ref, ctx->fd);
-        return (NULL);
-    }
-    if (ctx->stash_len)
-        ft_memcpy(line, ctx->stash, ctx->stash_len);
-    if (ctx->buf_pos)
-        ft_memcpy(line + ctx->stash_len, ctx->buffer, ctx->buf_pos);
-    line[ctx->stash_len + ctx->buf_pos] = '\0';
-    if (byt_read < 0)
-        cleanup_context(head_ref, ctx->fd);
-    else
+		cleanup_context(head_ref, ctx->fd);
+		return (NULL);
+	}
+	ft_memcpy(line, ctx->stash, ctx->stash_len);
+	ft_memcpy(line + ctx->stash_len, ctx->buffer, ctx->buf_pos);
+	line[ctx->stash_len + ctx->buf_pos] = '\0';
+	if (byt_read < 0)
+		cleanup_context(head_ref, ctx->fd);
+	else
 	{
-        ctx->stash_len = 0;
-        ctx->buf_pos = 0;
-        ctx->buf_pos_prv = 0;
-        ctx->nl = 0;
-    }
-    return (line);
+		ctx->stash_len = 0;
+		ctx->buf_pos = 0;
+		ctx->buf_pos_prv = 0;
+		ctx->nl = 0;
+	}
+	return (line);
 }
 
 void expand_buffer(t_context *ctx)
 {
-    char *new_buffer;
+	char	*new_buffer;
 
-    ctx->buf_cap *= 2;
-    new_buffer = malloc(ctx->buf_cap + 1);
-    if (!new_buffer)
+	ctx->buf_cap *= 2;
+	new_buffer = malloc(ctx->buf_cap + 1);
+	if (!new_buffer)
 	{
-        ctx->err = 1;
-        return;
-    }
-
-    ft_memcpy(new_buffer, ctx->buffer, ctx->buf_pos);
-    new_buffer[ctx->buf_pos] = '\0';
-
-    if (ctx->buffer)
-        free(ctx->buffer);
-    ctx->buffer = new_buffer;
+		ctx->err = 1;
+		return;
+	}
+	ft_memcpy(new_buffer, ctx->buffer, ctx->buf_pos);
+	new_buffer[ctx->buf_pos] = '\0';
+	if (ctx->buffer)
+		free(ctx->buffer);
+	ctx->buffer = new_buffer;
 }
 
 void handle_stash(t_context *ctx, char **line)
 {
-    size_t i = 0;
+	size_t	i;
 
-    while (i < ctx->stash_len)
+	i = 0;
+	while (i < ctx->stash_len)
 	{
-        if (ctx->stash[i] == '\n')
+		if (ctx->stash[i] == '\n')
 		{
-            i++;
-            ctx->nl = 1;
-            *line = malloc(i + 1);
-            if (!*line)
-                return;
-            ft_memcpy(*line, ctx->stash, i);
-            (*line)[i] = '\0';
-            ft_memcpy(ctx->stash, ctx->stash + i, ctx->stash_len - i);
-            ctx->stash_len -= i;
-            return;
-        }
-        i++;
-    }
+			i++;
+			ctx->nl = 1;
+			*line = malloc(i + 1);
+			if (!*line)
+				return;
+			ft_memcpy(*line, ctx->stash, i);
+			(*line)[i] = '\0';
+			ft_memcpy(ctx->stash, ctx->stash + i, ctx->stash_len - i);
+			ctx->stash_len -= i;
+			return;
+		}
+		i++;
+	}
 }
