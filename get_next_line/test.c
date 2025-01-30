@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 18:54:23 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/01/29 19:02:16 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:30:33 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <stdio.h>
 #include <limits.h>
 
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 10
 
 typedef struct s_context {
     int fd;
@@ -34,14 +34,17 @@ typedef struct s_context {
     struct s_context *next;
 } t_context;
 
-void *ft_memcpy(char *dst, const char *src, size_t n) {
+void *ft_memcpy(char *dst, const char *src, size_t n)
+{
     char *d = dst;
     const char *s = src;
-    while (n--) *d++ = *s++;
+    while (n--)
+        *d++ = *s++;
     return dst;
 }
 
-void cleanup_context(t_context **head, int fd) {
+void cleanup_context(t_context **head, int fd)
+{
     t_context *prev = NULL;
     t_context *curr = *head;
 
@@ -247,7 +250,7 @@ int main(void) {
     int fd;
     char *line;
 
-    fd = open("test.txt", O_RDONLY);
+    fd = open("test1.txt", O_RDONLY);
     if (fd < 0) {
         perror("open");
         return (1);
