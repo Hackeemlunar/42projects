@@ -32,14 +32,18 @@ void	*ft_strncpy(char *dst, const char *src, size_t n)
 	return (dst);
 }
 
-static void	cleanup_buffer(t_context *ctx)
+void	cleanup_context(t_context *ctx)
 {
-	free(ctx->buffer);
+	if (ctx->buffer)
+		free(ctx->buffer);
 	ctx->buffer = NULL;
 	ctx->buf_cap = 0;
-	ctx->stash_len = 0;
 	ctx->buf_pos = 0;
 	ctx->buf_pos_prv = 0;
+	ctx->stash_len = 0;
+	ctx->stash_st = 0;
+	ctx->nl = 0;
+	ctx->err = 0;
 }
 
 char	*handle_eof_err(t_context *ctx, ssize_t byt_read)
@@ -48,7 +52,7 @@ char	*handle_eof_err(t_context *ctx, ssize_t byt_read)
 
 	if (byt_read < 0 || (ctx->stash_len + ctx->buf_pos == 0))
 	{
-		cleanup_buffer(ctx);
+		cleanup_context(ctx);
 		return (NULL);
 	}
 	line = malloc(ctx->stash_len + ctx->buf_pos + 1);
@@ -59,7 +63,7 @@ char	*handle_eof_err(t_context *ctx, ssize_t byt_read)
 	if (ctx->buf_pos)
 		ft_strncpy(line + ctx->stash_len, ctx->buffer, ctx->buf_pos);
 	line[ctx->stash_len + ctx->buf_pos] = '\0';
-	cleanup_buffer(ctx);
+	cleanup_context(ctx);
 	return (line);
 }
 
@@ -71,7 +75,7 @@ void	expland_buffer(t_context *ctx)
 	new_buffer = malloc(ctx->buf_cap + 1);
 	if (!new_buffer)
 	{
-		ctx->nl_err = 1;
+		ctx->err = 1;
 		return ;
 	}
 	ft_strncpy(new_buffer, ctx->buffer, ctx->buf_pos);
@@ -90,6 +94,7 @@ void	handle_stash(t_context *ctx, char **line)
 		if (ctx->stash[i] == '\n')
 		{
 			i++;
+			ctx->nl = 1;
 			*line = malloc(i + 1);
 			if (!*line)
 				return ;

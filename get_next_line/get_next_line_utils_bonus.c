@@ -32,14 +32,24 @@ void	*ft_strncpy(char *dst, const char *src, size_t n)
 	return (dst);
 }
 
-static void	cleanup_buffer(t_context *ctx)
-{
-	free(ctx->buffer);
-	ctx->buffer = NULL;
-	ctx->buf_cap = 0;
-	ctx->stash_len = 0;
-	ctx->buf_pos = 0;
-	ctx->buf_pos_prv = 0;
+void cleanup_context(t_context **head, int fd) {
+    t_context *prev = NULL;
+    t_context *curr = *head;
+
+    // Find the context with the matching FD
+    while (curr && curr->fd != fd) {
+        prev = curr;
+        curr = curr->next;
+    }
+    if (!curr) return; // Context not found
+
+    // Remove from the linked list
+    if (prev) prev->next = curr->next;
+    else *head = curr->next;
+
+    // Free resources
+    if (curr->buffer) free(curr->buffer);
+    free(curr);
 }
 
 char	*handle_eof_err(t_context *ctx, ssize_t byt_read)
@@ -48,7 +58,7 @@ char	*handle_eof_err(t_context *ctx, ssize_t byt_read)
 
 	if (byt_read < 0 || (ctx->stash_len + ctx->buf_pos == 0))
 	{
-		cleanup_buffer(ctx);
+		cleanup_context(&ctx, ctx->fd);
 		return (NULL);
 	}
 	line = malloc(ctx->stash_len + ctx->buf_pos + 1);
@@ -59,7 +69,7 @@ char	*handle_eof_err(t_context *ctx, ssize_t byt_read)
 	if (ctx->buf_pos)
 		ft_strncpy(line + ctx->stash_len, ctx->buffer, ctx->buf_pos);
 	line[ctx->stash_len + ctx->buf_pos] = '\0';
-	cleanup_buffer(ctx);
+	cleanup_context(&ctx, ctx->fd);
 	return (line);
 }
 
@@ -71,7 +81,7 @@ void	expland_buffer(t_context *ctx)
 	new_buffer = malloc(ctx->buf_cap + 1);
 	if (!new_buffer)
 	{
-		ctx->nl_err = 1;
+		ctx->err = 1;
 		return ;
 	}
 	ft_strncpy(new_buffer, ctx->buffer, ctx->buf_pos);
@@ -90,6 +100,7 @@ void	handle_stash(t_context *ctx, char **line)
 		if (ctx->stash[i] == '\n')
 		{
 			i++;
+			ctx->nl = 1;
 			*line = malloc(i + 1);
 			if (!*line)
 				return ;

@@ -27,10 +27,11 @@
 
 typedef struct s_context
 {
+	int		err;
+	int		nl;
 	size_t	buf_cap;
 	size_t	buf_pos;
 	size_t	buf_pos_prv;
-	size_t	nl_err;
 	size_t	stash_len;
 	size_t	stash_st;
 	char	stash[BUFFER_SIZE];
@@ -38,6 +39,7 @@ typedef struct s_context
 }			t_context;
 
 char		*get_next_line(int fd);
+void		cleanup_context(t_context *ctx);
 void		*ft_strncpy(char *dst, const char *src, size_t n);
 char		*handle_eof_err(t_context *ctx, ssize_t byt_read);
 void		expland_buffer(t_context *ctx);

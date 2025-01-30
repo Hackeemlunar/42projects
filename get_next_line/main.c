@@ -12,34 +12,34 @@
 
 #include "get_next_line.h"
 
-int	main(void)
-{
-	int		fd;
-	char	*line;
+// int	main(void)
+// {
+// 	int		fd;
+// 	char	*line;
 
-	fd = open("test.txt", O_RDONLY);
-	line = get_next_line(fd);
-	printf("%s", line);
-	free(line);
-	close(fd);
-	return (0);
-}
-
-// int main(void) {
-//     int fd;
-//     int i;
-//     char *line;
-
-//     i = 1;
-//     fd = open("test.txt", O_RDONLY);
-//     if (fd < 0) {
-//         perror("open");
-//         return (i);
-//     }
-//     while ((line = get_next_line(fd)) != NULL) {
-//         printf("%s", line);
-//         free(line);
-//     }
-//     close(fd);
-//     return (0);
+// 	fd = open("test.txt", O_RDONLY);
+// 	line = get_next_line(fd);
+// 	printf("%s", line);
+// 	free(line);
+// 	close(fd);
+// 	return (0);
 // }
+
+int main(void) {
+    int fd;
+    int i;
+    char *line;
+
+    i = 1;
+    fd = open("test.txt", O_RDONLY);
+    if (fd < 0) {
+        perror("open");
+        return (i);
+    }
+    while ((line = get_next_line(fd)) != NULL) {
+        printf("%s", line);
+        free(line);
+    }
+    close(fd);
+    return (0);
+}

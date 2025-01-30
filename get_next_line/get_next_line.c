@@ -14,12 +14,17 @@
 
 void	create_context(t_context *ctx)
 {
+	ctx->err = 0;
+	ctx->nl = 0;
 	if (!ctx->buffer)
 	{
 		ctx->buf_cap = BUFFER_SIZE;
 		ctx->buffer = malloc(ctx->buf_cap + 1);
 		if (!ctx->buffer)
+		{
+			ctx->err = 1;
 			return ;
+		}
 		ctx->buffer[0] = '\0';
 	}
 }
@@ -27,7 +32,6 @@ void	create_context(t_context *ctx)
 void	fill_line(t_context *ctx, char *line)
 {
 	size_t	remainder;
-	char	*buffer;
 
 	remainder = ctx->buf_pos - ctx->buf_pos_prv;
 	if (ctx->stash_len)
@@ -43,11 +47,6 @@ void	fill_line(t_context *ctx, char *line)
 		ctx->stash_len = 0;
 	ctx->buf_pos_prv = 0;
 	ctx->buf_pos = 0;
-	buffer = malloc(ctx->buf_cap + 1);
-	if (!buffer)
-		return ;
-	free(ctx->buffer);
-	ctx->buffer = buffer;
 }
 
 void	handle_line(t_context *ctx, ssize_t byt_read, char **line)
@@ -58,7 +57,7 @@ void	handle_line(t_context *ctx, ssize_t byt_read, char **line)
 		if (ctx->buffer[ctx->buf_pos_prv] == '\n')
 		{
 			ctx->buf_pos_prv++;
-			ctx->nl_err = 1;
+			ctx->nl = 1;
 			*line = malloc(ctx->stash_len + ctx->buf_pos_prv + 1);
 			if (!*line)
 				return ;
@@ -81,8 +80,7 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE > LONG_MAX)
 		return (NULL);
 	create_context(&ctx);
-	ctx.nl_err = 0;
-	while (1)
+	while (!ctx.err && !ctx.nl)
 	{
 		if (ctx.stash_len)
 		{
@@ -94,8 +92,8 @@ char	*get_next_line(int fd)
 		if (byt_read <= 0)
 			return (handle_eof_err(&ctx, byt_read));
 		handle_line(&ctx, byt_read, &line);
-		if (ctx.nl_err)
-			return (line);
 	}
+	if (ctx.err)
+		cleanup_context(&ctx);
 	return (line);
 }
