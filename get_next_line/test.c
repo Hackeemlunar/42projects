@@ -59,7 +59,8 @@ void cleanup_context(t_context **head, int fd)
     else
         *head = curr->next;
 
-    if (curr->buffer) free(curr->buffer);
+    if (curr->buffer)
+        free(curr->buffer);
     free(curr);
 }
 
@@ -186,9 +187,6 @@ void handle_line(t_context *ctx, ssize_t byt_read, char **line) {
 
     if (ctx->buf_pos == ctx->buf_cap)
         expand_buffer(ctx);
-
-    if (ctx->buf_pos_prv == ctx->buf_pos)
-        ctx->buf_pos_prv = 0;
 }
 
 char *get_next_line(int fd) {
@@ -250,7 +248,7 @@ int main(void) {
     int fd;
     char *line;
 
-    fd = open("test1.txt", O_RDONLY);
+    fd = open("test.txt", O_RDONLY);
     if (fd < 0) {
         perror("open");
         return (1);

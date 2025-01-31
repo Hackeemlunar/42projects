@@ -31,7 +31,7 @@ int main(void) {
     char *line;
 
     i = 1;
-    fd = open("test.txt", O_RDONLY);
+    fd = open("test1.txt", O_RDONLY);
     if (fd < 0) {
         perror("open");
         return (i);

@@ -70,7 +70,7 @@ void create_context(t_context *ctx)
 		ctx->buffer[0] = '\0';
 }
 
-t_context *get_or_create_context(t_context **head, int fd)
+static t_context *get_or_create_context(t_context **head, int fd)
 {
 	t_context *ctx = *head;
 	while (ctx && ctx->fd != fd)
@@ -95,11 +95,12 @@ t_context *get_or_create_context(t_context **head, int fd)
 
 char *get_next_line(int fd)
 {
-	static t_context *head = NULL;
-	t_context *ctx;
-	ssize_t byt_read;
-	char *line = NULL;
+	static t_context	*head = NULL;
+	t_context			*ctx;
+	ssize_t				byt_read;
+	char				*line;
 
+	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE > INT_MAX)
 		return NULL;
 	ctx = get_or_create_context(&head, fd);
@@ -111,10 +112,7 @@ char *get_next_line(int fd)
 		{
 			handle_stash(ctx, &line);
 			if (line)
-			{
-				ctx->nl = 0;
-				return line;
-			}
+				return (ctx->nl = 0, line);
 		}
 		byt_read = read(fd, ctx->buffer + ctx->buf_pos, BUFFER_SIZE);
 		if (byt_read <= 0)
@@ -124,16 +122,10 @@ char *get_next_line(int fd)
 		}
 		handle_line(ctx, byt_read, &line);
 		if (line)
-		{
-			ctx->nl = 0;
-			return line;
-		}
+			return (ctx->nl = 0, line);
 	}
 	if (ctx->err)
-	{
-		cleanup_context(&head, fd);
-		return NULL;
-	}
+		return (cleanup_context(&head, fd), NULL);
 	return line;
 }
 
