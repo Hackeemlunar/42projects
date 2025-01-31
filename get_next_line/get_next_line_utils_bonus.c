@@ -54,16 +54,10 @@ char *handle_eof_err(t_context **head_ref, t_context *ctx, ssize_t byt_read)
 	char	*line;
 
 	if (byt_read < 0 || (ctx->stash_len + ctx->buf_pos == 0))
-	{
-		cleanup_context(head_ref, ctx->fd);
-		return (NULL);
-	}
+		return (cleanup_context(head_ref, ctx->fd), NULL);
 	line = malloc(ctx->stash_len + ctx->buf_pos + 1);
 	if (!line)
-	{
-		cleanup_context(head_ref, ctx->fd);
-		return (NULL);
-	}
+		return (cleanup_context(head_ref, ctx->fd), NULL);
 	ft_memcpy(line, ctx->stash, ctx->stash_len);
 	ft_memcpy(line + ctx->stash_len, ctx->buffer, ctx->buf_pos);
 	line[ctx->stash_len + ctx->buf_pos] = '\0';
@@ -110,12 +104,12 @@ void handle_stash(t_context *ctx, char **line)
 			ctx->nl = 1;
 			*line = malloc(i + 1);
 			if (!*line)
-				return;
+				return ;
 			ft_memcpy(*line, ctx->stash, i);
 			(*line)[i] = '\0';
 			ft_memcpy(ctx->stash, ctx->stash + i, ctx->stash_len - i);
 			ctx->stash_len -= i;
-			return;
+			return ;
 		}
 		i++;
 	}
