@@ -12,21 +12,21 @@
 
 #include "get_next_line_bonus.h"
 
-void *ft_memcpy(char *dst, const char *src, size_t n)
+void	*ft_memcpy(char *dst, const char *src, size_t n)
 {
-	char *d = dst;
-	const char *s = src;
+	char		*d;
+	const char	*s;
 
 	d = dst;
 	s = src;
 	if (n == 0)
-        return (dst);
+		return (dst);
 	while (n--)
 		*d++ = *s++;
 	return (dst);
 }
 
-void cleanup_context(t_context **head, int fd)
+void	cleanup_context(t_context **head, int fd)
 {
 	t_context	*prev;
 	t_context	*curr;
@@ -49,7 +49,7 @@ void cleanup_context(t_context **head, int fd)
 	free(curr);
 }
 
-char *handle_eof_err(t_context **head_ref, t_context *ctx, ssize_t byt_read)
+char	*handle_eof_err(t_context **head_ref, t_context *ctx, ssize_t byt_read)
 {
 	char	*line;
 
@@ -73,7 +73,7 @@ char *handle_eof_err(t_context **head_ref, t_context *ctx, ssize_t byt_read)
 	return (line);
 }
 
-void expand_buffer(t_context *ctx)
+void	expand_buffer(t_context *ctx)
 {
 	char	*new_buffer;
 
@@ -82,7 +82,7 @@ void expand_buffer(t_context *ctx)
 	if (!new_buffer)
 	{
 		ctx->err = 1;
-		return;
+		return ;
 	}
 	ft_memcpy(new_buffer, ctx->buffer, ctx->buf_pos);
 	new_buffer[ctx->buf_pos] = '\0';
@@ -91,7 +91,7 @@ void expand_buffer(t_context *ctx)
 	ctx->buffer = new_buffer;
 }
 
-void handle_stash(t_context *ctx, char **line)
+int	handle_stash(t_context *ctx, char **line)
 {
 	size_t	i;
 
@@ -104,13 +104,14 @@ void handle_stash(t_context *ctx, char **line)
 			ctx->nl = 1;
 			*line = malloc(i + 1);
 			if (!*line)
-				return ;
+				return (0);
 			ft_memcpy(*line, ctx->stash, i);
 			(*line)[i] = '\0';
 			ft_memcpy(ctx->stash, ctx->stash + i, ctx->stash_len - i);
 			ctx->stash_len -= i;
-			return ;
+			return (1);
 		}
 		i++;
 	}
+	return (0);
 }

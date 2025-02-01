@@ -27,24 +27,24 @@
 
 typedef struct s_context
 {
-    int fd;
-    int err;
-    int nl;
-    size_t buf_cap;
-    size_t buf_pos;
-    size_t buf_pos_prv;
-    size_t stash_len;
-    size_t stash_st;
-    char stash[BUFFER_SIZE];
-    char *buffer;
-    struct s_context *next;
-} t_context;
+	int					fd;
+	int					err;
+	int					nl;
+	size_t				buf_cap;
+	size_t				buf_pos;
+	size_t				buf_pos_prv;
+	size_t				stash_len;
+	size_t				stash_st;
+	char				stash[BUFFER_SIZE];
+	char				*buffer;
+	struct s_context	*next;
+}				t_context;
 
-char    *get_next_line(int fd);
-void    *ft_memcpy(char *dst, const char *src, size_t n);
-char    *handle_eof_err(t_context **head, t_context *ctx, ssize_t read);
-void    expand_buffer(t_context *ctx);
-void    handle_stash(t_context *ctx, char **line);
-void    cleanup_context(t_context **head, int fd);
+char	*get_next_line(int fd);
+void	*ft_memcpy(char *dst, const char *src, size_t n);
+char	*handle_eof_err(t_context **head, t_context *ctx, ssize_t read);
+void	expand_buffer(t_context *ctx);
+int		handle_stash(t_context *ctx, char **line);
+void	cleanup_context(t_context **head, int fd);
 
 #endif
