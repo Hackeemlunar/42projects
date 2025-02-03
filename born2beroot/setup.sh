@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Exit script on any error
 set -e
 
@@ -11,55 +10,75 @@ WORDPRESS_DB="born2beroot_db"
 WORDPRESS_USER="hmensah"
 
 echo "=== Updating System and Installing Required Packages ==="
-apt update && apt upgrade -y
-
+# Update package lists and upgrade installed packages
+apt-get update && apt-get upgrade -y
 # Install necessary tools and security utilities
-apt install -y sudo ufw openssh-server lvm2 apparmor auditd fail2ban \
-               lighttpd mariadb-server php php-mysql wget net-tools
+apt-get install -y sudo ufw openssh-server lvm2 apparmor auditd fail2ban \
+               lighttpd mariadb-server php php-mysql wget net-tools libpam-pwquality
 
 echo "=== Configuring Encrypted LVM Partitions ==="
-lvscan  # Verify that LVM is active
+# Verify that LVM is active (Assumes partitioning is done manually before running the script)
+lvscan
 
 echo "=== Configuring SSH (Port 4242, No Root Login) ==="
+# Change SSH port to 4242
 sed -i 's/#Port 22/Port 4242/' /etc/ssh/sshd_config
+# Disable root login via SSH
 sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
+# Restart SSH service to apply changes
 systemctl restart ssh
 
 echo "=== Configuring Firewall (UFW) ==="
+# Set default policies for UFW
 ufw default deny incoming
 ufw default allow outgoing
-ufw allow 4242/tcp  # Allow SSH on port 4242
-ufw allow 80/tcp    # Allow HTTP
-ufw allow 443/tcp   # Allow HTTPS
+# Allow SSH on port 4242
+ufw allow 4242/tcp
+# Allow HTTP and HTTPS for WordPress (Bonus part requires these ports)
+ufw allow 80/tcp    # HTTP
+ufw allow 443/tcp   # HTTPS
+# Enable UFW firewall
 ufw enable
 
-echo "=== Creating User and Configuring Sudo ==="
-useradd -m -s /bin/bash -G sudo,user42 $USERNAME
-echo "$USERNAME:$USER_PASSWORD" | chpasswd
+echo "=== Setting Hostname ==="
+# Set hostname to match the username ending with "42"
+hostnamectl set-hostname $USERNAME
 
+echo "=== Creating User and Configuring Sudo ==="
+# Create a new user with the specified username
+useradd -m -s /bin/bash -G sudo,user42 $USERNAME
+# Set the user's password
+echo "$USERNAME:$USER_PASSWORD" | chpasswd
 # Configure sudo restrictions
 echo "$USERNAME ALL=(ALL) ALL" >> /etc/sudoers
 echo "Defaults passwd_tries=3" >> /etc/sudoers
+echo "Defaults badpass_message=\"Incorrect password, please try again.\"" >> /etc/sudoers
 echo "Defaults logfile=\"/var/log/sudo/sudo.log\"" >> /etc/sudoers
+echo "Defaults requiretty" >> /etc/sudoers
+echo "Defaults secure_path=\"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin\"" >> /etc/sudoers
+# Create the sudo log directory and set permissions
 mkdir -p /var/log/sudo && chmod 700 /var/log/sudo
 
 echo "=== Setting Up Strong Password Policy ==="
-apt install -y libpam-pwquality
+# Enforce password expiration policies
+chage -M 30 -m 2 -W 7 $USERNAME
+chage -M 30 -m 2 -W 7 root
+# Configure strong password rules using libpam-pwquality
 sed -i '/pam_pwquality.so/ s/^#//g' /etc/pam.d/common-password
 echo "password required pam_pwquality.so retry=3 minlen=10 ucredit=-1 lcredit=-1 dcredit=-1 maxrepeat=3 difok=7" >> /etc/security/pwquality.conf
 
-echo "=== Installing and Configuring WordPress ==="
-# Secure MariaDB
-mysql_secure_installation <<EOF
-y
-$DB_PASSWORD
-$DB_PASSWORD
-y
-y
-y
-y
+echo "=== Securing MariaDB ==="
+# Secure MariaDB without mysql_secure_installation
+mysql -u root <<EOF
+DELETE FROM mysql.user WHERE User='';
+DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+DROP DATABASE IF EXISTS test;
+DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
+FLUSH PRIVILEGES;
+ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_PASSWORD';
 EOF
 
+echo "=== Installing and Configuring WordPress ==="
 # Create WordPress database and user
 mysql -u root -p"$DB_PASSWORD" -e "CREATE DATABASE $WORDPRESS_DB;"
 mysql -u root -p"$DB_PASSWORD" -e "CREATE USER '$WORDPRESS_USER'@'localhost' IDENTIFIED BY '$DB_PASSWORD';"
@@ -72,11 +91,26 @@ tar -xzf latest.tar.gz && rm latest.tar.gz
 chown -R www-data:www-data wordpress
 chmod -R 755 wordpress
 
-# Test PHP installation
-echo "<?php phpinfo(); ?>" > /var/www/html/info.php
+# Configure wp-config.php
+cp /var/www/html/wordpress/wp-config-sample.php /var/www/html/wordpress/wp-config.php
+sed -i "s/database_name_here/$WORDPRESS_DB/" /var/www/html/wordpress/wp-config.php
+sed -i "s/username_here/$WORDPRESS_USER/" /var/www/html/wordpress/wp-config.php
+sed -i "s/password_here/$DB_PASSWORD/" /var/www/html/wordpress/wp-config.php
+
+# Configure lighttpd to serve WordPress
+cat <<EOF > /etc/lighttpd/lighttpd.conf
+server.document-root = "/var/www/html/wordpress"
+server.port = 80
+index-file.names = ("index.php")
+EOF
 systemctl restart lighttpd
 
+# Test PHP installation (Remove after testing)
+echo "<?php phpinfo(); ?>" > /var/www/html/info.php
+echo "Please remove the PHP info file (/var/www/html/info.php) after testing."
+
 echo "=== Configuring Fail2Ban for Security ==="
+# Configure Fail2Ban to protect SSH
 cat <<EOF > /etc/fail2ban/jail.local
 [sshd]
 enabled = true
@@ -87,6 +121,7 @@ EOF
 systemctl restart fail2ban
 
 echo "=== Setting Up Monitoring Script ==="
+# Create a monitoring script to display system information
 cat <<EOF > /usr/local/bin/monitoring.sh
 #!/bin/bash
 echo "Architecture: \$(uname -a)"
@@ -100,14 +135,17 @@ echo "User log: \$(who | wc -l)"
 echo "Network: \$(ip -4 addr show | grep 'inet ' | awk '{print \$2}')"
 echo "Sudo : \$(cat /var/log/sudo/sudo.log | wc -l) cmd"
 EOF
-
+# Make the monitoring script executable
 chmod +x /usr/local/bin/monitoring.sh
 
 echo "=== Setting Up Cron Job to Run Monitoring Script Every 10 Minutes ==="
+# Schedule the monitoring script to run every 10 minutes and broadcast output using wall
 (crontab -l ; echo "*/10 * * * * /usr/local/bin/monitoring.sh | wall") | crontab -
 
 echo "=== Enabling Services on Boot ==="
+# Ensure services start on boot
 systemctl enable lighttpd mariadb fail2ban
 
-echo "=== Setup Complete! Rebooting System ==="
-reboot
+echo "=== Setup Complete! ==="
+echo "Please remove the PHP info file (/var/www/html/info.php) after testing."
+echo "You can reboot the system now if needed."
