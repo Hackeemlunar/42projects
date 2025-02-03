@@ -3,8 +3,8 @@
 set -e
 
 # Variables
-USERNAME="hmensah-42"
-USER_PASSWORD="born2beroot"
+USERNAME="hmensah-"
+USER_PASSWORD="Everyday42partydey"
 DB_PASSWORD="born2beroot"
 WORDPRESS_DB="born2beroot_db"
 WORDPRESS_USER="hmensah"
@@ -41,8 +41,6 @@ ufw allow 443/tcp   # HTTPS
 ufw enable
 
 echo "=== Setting Hostname ==="
-# Set hostname to match the username ending with "42"
-hostnamectl set-hostname $USERNAME
 
 echo "=== Creating User and Configuring Sudo ==="
 # Create a new user with the specified username
