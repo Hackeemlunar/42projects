@@ -9,13 +9,6 @@ typedef struct s_stack
 	int size;
 } Stack;
 
-typedef struct s_move_cost {
-    int cost_a;    // Cost to rotate A (positive for ra, negative for rra)
-    int cost_b;    // Cost to rotate B (positive for rb, negative for rrb)
-    int total;     // Total cost (taking into account possible combined rotations)
-    int index_b;   // The index of the candidate element in stack B.
-} t_move_cost;
-
 /* --- Operation functions --- */
 void swap(Stack *s)
 {
@@ -226,17 +219,28 @@ int	is_sorted(Stack *a)
 }
 
 /* --- Sorting Algorithm --- */
+void sort_small_stack(Stack *a, Stack *b)
+{
+	while (a->size > 1)
+	{
+		if (a->arr[0] > a->arr[1])
+			sa(a);
+		if (is_sorted(a) && b->size == 0)
+			return ;
+		pb(b, a);
+	}
+	while (b->size > 0)
+		pa(a, b);
+}
 
-void radix_sort(Stack *a, Stack *b)
+void radix_sort(Stack *a, Stack *b, int n)
 {
 	int max_bits;
 	int i_bit;
 	int count;
 	int i;
-	int n;
 
 	max_bits = 0;
-	n = a->size;
 	while (((n - 1) >> max_bits) != 0)
 		max_bits++;
 	i_bit = 0;
@@ -256,50 +260,6 @@ void radix_sort(Stack *a, Stack *b)
 			pa(a, b);
 		i_bit++;
 	}
-}
-
-void radix_sort1(Stack *a, Stack *b, int n) {
-    int max_bits = 0;
-    // Calculate number of bits needed to represent the largest number
-    while (((n - 1) >> max_bits) != 0) max_bits++;
-
-    for (int i_bit = 0; i_bit < max_bits; i_bit++) {
-        Stack *current = (i_bit % 2 == 0) ? a : b; // Alternate stacks
-        Stack *other = (i_bit % 2 == 0) ? b : a;
-        int count = current->size;
-
-        // Process each element in the current stack
-        for (int i = 0; i < count; i++) {
-            int value = current->arr[0];
-            if (((value >> i_bit) & 1) == 1) {
-                // Rotate current stack (ra/rb or rra/rrb)
-                if (current->size > 1 && current->size / 2 < i)
-                    (i_bit % 2 == 0) ? rra(a) : rrb(b);
-                else
-                    (i_bit % 2 == 0) ? ra(a) : rb(b);
-            } else {
-                // Push to the other stack (pb/pa)
-                (i_bit % 2 == 0) ? pb(b, a) : pa(a, b);
-            }
-        }
-
-        // Use combined rotations (rr/rrr) if both stacks need rotation
-        if (a->size > 1 && b->size > 1) {
-            if (i_bit % 2 == 0) rr(a, b);
-            else rrr(a, b);
-        }
-    }
-
-    // Move remaining elements from b to a (if last bit was odd)
-    while (b->size > 0) pa(a, b);
-}
-
-void any_sort(Stack *a, Stack *b)
-{
-	int n;
-
-	n = a->size;
-	radix_sort(a, b);
 }
 
 /* --- Error checking functions --- */
@@ -347,7 +307,10 @@ void initialize_stacks(Stack *a, Stack *b, int n)
 void sort_and_cleanup(Stack *a, Stack *b, int n)
 {
 	index_stack(a->arr, n);
-	any_sort(a, b);
+	if (n <= 5)
+		sort_small_stack(a, b);
+	else
+		radix_sort(a, b, n);
 	free(a->arr);
 	free(b->arr);
 }

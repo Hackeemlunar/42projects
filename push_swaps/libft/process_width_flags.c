@@ -83,14 +83,11 @@ static void	fill_with_zeroes(t_modinfo *info, t_fdata *data)
 void	apply_prefix(const char *pref, t_modinfo *info, t_fdata *data)
 {
 	int		all_zeroes;
-	int		pref_added;
 
-	pref_added = 0;
 	all_zeroes = all_are_zeroes(data->fstring);
 	if (!all_zeroes)
 	{
 		add_prefix(pref, data);
-		pref_added = 1;
 	}
 	if (info->width > data->count)
 	{

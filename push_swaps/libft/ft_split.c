@@ -15,19 +15,19 @@
 static size_t	count_words(char const *s, char c)
 {
 	size_t	count;
-	int		in_substring;
+	int		in_word;
 
 	count = 0;
-	in_substring = 0;
+	in_word = 0;
 	while (*s)
 	{
-		if (*s != c && in_substring == 0)
+		if (*s != c && in_word == 0)
 		{
-			in_substring = 1;
+			in_word = 1;
 			count++;
 		}
 		else if (*s == c)
-			in_substring = 0;
+			in_word = 0;
 		s++;
 	}
 	return (count);
