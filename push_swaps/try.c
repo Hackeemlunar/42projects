@@ -1,20 +1,4 @@
-﻿#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "libft/libft.h"
-
-typedef struct s_stack
-{
-	int *arr;
-	int size;
-} Stack;
-
-typedef struct s_move_cost {
-    int cost_a;    // Cost to rotate A (positive for ra, negative for rra)
-    int cost_b;    // Cost to rotate B (positive for rb, negative for rrb)
-    int total;     // Total cost (taking into account possible combined rotations)
-    int index_b;   // The index of the candidate element in stack B.
-} t_move_cost;
+﻿#include "push_swap.h"
 
 /* --- Operation functions --- */
 void swap(Stack *s)
@@ -171,7 +155,7 @@ void index_stack(int *arr, int n)
 	int j;
 
 	copy = malloc(n * sizeof(int));
-	ft_memcpy(copy, arr, n * sizeof(int));
+	ft_memcpy(copy, arr, (n+1) * sizeof(int));
 	qsort(copy, n, sizeof(int), cmp_int);
 	i = 0;
 	while (i < n)
@@ -211,7 +195,7 @@ int has_duplicates(int *arr, int n)
 	return (0);
 }
 
-int	is_sorted(Stack *a)
+int	is_sorted_asc(Stack *a)
 {
 	int i;
 
@@ -225,81 +209,30 @@ int	is_sorted(Stack *a)
 	return (1);
 }
 
+int	is_sorted_desc(Stack *b)
+{
+	int i;
+
+	i = 0;
+	while (i < b->size - 1)
+	{
+		if (b->arr[i] < b->arr[i + 1])
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 /* --- Sorting Algorithm --- */
 
-void radix_sort(Stack *a, Stack *b)
-{
-	int max_bits;
-	int i_bit;
-	int count;
-	int i;
-	int n;
 
-	max_bits = 0;
-	n = a->size;
-	while (((n - 1) >> max_bits) != 0)
-		max_bits++;
-	i_bit = 0;
-	while (i_bit < max_bits)
-	{
-		count = a->size;
-		i = 0;
-		while (i < count)
-		{
-			if (((a->arr[0] >> i_bit) & 1) == 1)
-				ra(a);
-			else
-				pb(b, a);
-			i++;
-		}
-		while (b->size > 0)
-			pa(a, b);
-		i_bit++;
-	}
-}
-
-void radix_sort1(Stack *a, Stack *b, int n) {
-    int max_bits = 0;
-    // Calculate number of bits needed to represent the largest number
-    while (((n - 1) >> max_bits) != 0) max_bits++;
-
-    for (int i_bit = 0; i_bit < max_bits; i_bit++) {
-        Stack *current = (i_bit % 2 == 0) ? a : b; // Alternate stacks
-        Stack *other = (i_bit % 2 == 0) ? b : a;
-        int count = current->size;
-
-        // Process each element in the current stack
-        for (int i = 0; i < count; i++) {
-            int value = current->arr[0];
-            if (((value >> i_bit) & 1) == 1) {
-                // Rotate current stack (ra/rb or rra/rrb)
-                if (current->size > 1 && current->size / 2 < i)
-                    (i_bit % 2 == 0) ? rra(a) : rrb(b);
-                else
-                    (i_bit % 2 == 0) ? ra(a) : rb(b);
-            } else {
-                // Push to the other stack (pb/pa)
-                (i_bit % 2 == 0) ? pb(b, a) : pa(a, b);
-            }
-        }
-
-        // Use combined rotations (rr/rrr) if both stacks need rotation
-        if (a->size > 1 && b->size > 1) {
-            if (i_bit % 2 == 0) rr(a, b);
-            else rrr(a, b);
-        }
-    }
-
-    // Move remaining elements from b to a (if last bit was odd)
-    while (b->size > 0) pa(a, b);
-}
 
 void any_sort(Stack *a, Stack *b)
 {
 	int n;
 
 	n = a->size;
-	radix_sort(a, b);
+	insertion_sort(a, b);
 }
 
 /* --- Error checking functions --- */
@@ -346,7 +279,7 @@ void initialize_stacks(Stack *a, Stack *b, int n)
 
 void sort_and_cleanup(Stack *a, Stack *b, int n)
 {
-	index_stack(a->arr, n);
+	// index_stack(a->arr, n);
 	any_sort(a, b);
 	free(a->arr);
 	free(b->arr);
