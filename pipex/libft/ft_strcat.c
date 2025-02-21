@@ -1,21 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/23 18:27:11 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/02/15 18:45:01 by hmensah-         ###   ########.fr       */
+/*   Created: 2025/01/18 15:38:05 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/01/18 15:38:33 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstadd_front(t_list **lst, t_list *new)
+char	*ft_strcat(char *dst, const char *src)
 {
-	if (lst == NULL || new == NULL)
-		return ;
-	new->next = *lst;
-	*lst = new;
+	int	i;
+	int	j;
+
+	i = 0;
+	while (dst[i] != '\0')
+		i++;
+	j = 0;
+	while (src[j] != '\0')
+	{
+		dst[i] = src[j];
+		i++;
+		j++;
+	}
+	dst[i] = '\0';
+	return (dst);
 }

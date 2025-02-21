@@ -1,21 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/23 18:27:11 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/02/15 18:45:01 by hmensah-         ###   ########.fr       */
+/*   Created: 2024/12/23 16:05:52 by hmensah-          #+#    #+#             */
+/*   Updated: 2024/12/27 21:36:32 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstadd_front(t_list **lst, t_list *new)
+char	*ft_strrchr(const char *s, int c)
 {
-	if (lst == NULL || new == NULL)
-		return ;
-	new->next = *lst;
-	*lst = new;
+	int		i;
+	char	*last_occurrence;
+
+	i = 0;
+	last_occurrence = NULL;
+	while (s[i] != '\0')
+	{
+		if (s[i] == (char)c)
+		{
+			last_occurrence = (char *)&s[i];
+		}
+		i++;
+	}
+	if (c == '\0')
+	{
+		return ((char *)&s[i]);
+	}
+	return (last_occurrence);
 }
