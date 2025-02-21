@@ -1,32 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/23 20:24:46 by hmensah-          #+#    #+#             */
-/*   Updated: 2024/12/27 21:35:52 by hmensah-         ###   ########.fr       */
+/*   Created: 2025/02/21 18:05:45 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/02/21 19:48:30 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex.h"
 
-static size_t	count_words(char const *s, char c)
+size_t	ft_strlen(const char *s);
+int	seen_opn(int i, char c)
+{
+	if (c == '\'' || c == '\"')
+	{
+		return (!i);
+	}
+	return (i);
+}
+
+static size_t	count_words(char const *s)
 {
 	size_t	count;
 	int		in_word;
+	int		seen_open;
 
 	count = 0;
 	in_word = 0;
+	seen_open = 0;
 	while (*s)
 	{
-		if (*s != c && in_word == 0)
+		seen_open = seen_opn(seen_open, *s);
+		if (*s != ' ' && in_word == 0 && !seen_open)
 		{
 			in_word = 1;
 			count++;
 		}
-		else if (*s == c)
+		else if (*s == ' ' && !seen_open)
 			in_word = 0;
 		s++;
 	}
@@ -48,31 +61,40 @@ static char	*word_dup(const char *s, size_t start, size_t finish)
 	return (word);
 }
 
-char	**ft_split(char const *s, char c)
+static char	**extract(char const *s, char **split)
 {
-	char	**split;
 	size_t	i;
 	size_t	j;
 	int		index;
+	int		seen_open;
 
 	index = -1;
-	if (!s)
-		return (NULL);
-	split = (char **)malloc((count_words(s, c) + 1) * sizeof(char *));
-	if (!split)
-		return (NULL);
 	i = -1;
 	j = 0;
+	seen_open = 0;
 	while (++i <= ft_strlen(s))
 	{
-		if (s[i] != c && index < 0)
+		seen_open = seen_opn(seen_open, s[i]);
+		if ((s[i] != ' ' || seen_open) && index < 0)
 			index = i;
-		else if ((s[i] == c || i == ft_strlen(s)) && index >= 0)
+		else if (((s[i] == ' ' && !seen_open) || i == ft_strlen(s)) && index >= 0)
 		{
 			split[j++] = word_dup(s, index, i);
 			index = -1;
 		}
 	}
-	split[j] = NULL;
+	return (split[j] = NULL, split);
+}
+
+char	**parse_cmd(char const *s)
+{
+	char	**split;
+	
+	if (!s)
+		return (NULL);
+	split = (char **)malloc((count_words(s) + 1) * sizeof(char *));
+	if (!split)
+		return (NULL);
+	extract(s, split);
 	return (split);
 }
