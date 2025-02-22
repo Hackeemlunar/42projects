@@ -12,8 +12,7 @@
 
 #include "pipex.h"
 
-size_t	ft_strlen(const char *s);
-int	seen_opn(int i, char c)
+static int	seen_opn(int i, char c)
 {
 	if (c == '\'' || c == '\"')
 	{
@@ -65,6 +64,7 @@ static char	**extract(char const *s, char **split)
 {
 	size_t	i;
 	size_t	j;
+	size_t	len;
 	int		index;
 	int		seen_open;
 
@@ -72,12 +72,13 @@ static char	**extract(char const *s, char **split)
 	i = -1;
 	j = 0;
 	seen_open = 0;
-	while (++i <= ft_strlen(s))
+	len = ft_strlen(s);
+	while (++i <= len)
 	{
 		seen_open = seen_opn(seen_open, s[i]);
 		if ((s[i] != ' ' || seen_open) && index < 0)
 			index = i;
-		else if (((s[i] == ' ' && !seen_open) || i == ft_strlen(s)) && index >= 0)
+		else if (((s[i] == ' ' && !seen_open) || i == len) && index >= 0)
 		{
 			split[j++] = word_dup(s, index, i);
 			index = -1;
@@ -89,7 +90,7 @@ static char	**extract(char const *s, char **split)
 char	**parse_cmd(char const *s)
 {
 	char	**split;
-	
+
 	if (!s)
 		return (NULL);
 	split = (char **)malloc((count_words(s) + 1) * sizeof(char *));

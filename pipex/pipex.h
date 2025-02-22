@@ -17,7 +17,6 @@
 # include <sys/types.h>
 # include "libft/libft.h"
 
-
 typedef struct s_cmdline
 {
 	char	*cmd;
@@ -27,5 +26,8 @@ typedef struct s_cmdline
 }	t_cmdline;
 
 char	**parse_cmd(char const *s);
-
+void	extract_path(t_cmdline *cmd, char **env);
+void	run_command(t_cmdline *cmd, int in_fd, int out_fd, char **env);
+void	safe_dup2(int old_fd, int new_fd);
+void	setup_cmd(t_cmdline *cmd, int fd, char *full_cmd, int is_input);
 #endif
