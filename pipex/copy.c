@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 18:06:42 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/02/21 22:25:35 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/02/23 14:20:15 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,25 @@ static void	setup_fds(int *pipe_fd, int *in_out_fd, char **argv)
 
 static void	cleanup_cmd(t_cmdline *cmds, int count)
 {
-    int		i;
-    char	**full_cmds;
+	int		i;
+	char	**full_cmds;
 
-    i = 0;
-    while (i < count)
-    {
-        if (cmds[i].cmd_args)
-        {
-            full_cmds = cmds[i].cmd_args;
-            while (*full_cmds)
-            {
-                free(*full_cmds);
-                full_cmds++;
-            }
-            free(cmds[i].cmd_args); // Free the array of pointers
-            cmds[i].cmd_args = NULL;
-        }
-        i++;
-    }
+	i = 0;
+	while (i < count)
+	{
+		if (cmds[i].cmd_args)
+		{
+			full_cmds = cmds[i].cmd_args;
+			while (*full_cmds)
+			{
+				free(*full_cmds);
+				full_cmds++;
+			}
+			free(cmds[i].cmd_args);
+			cmds[i].cmd_args = NULL;
+		}
+		i++;
+	}
 }
 
 int	main(int argc, char **argv, char **env)

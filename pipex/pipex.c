@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 18:06:42 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/02/21 22:25:35 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/02/23 14:20:15 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,32 @@ static void	setup_fds(int *pipe_fd, int *in_out_fd, char **argv)
 	}
 }
 
+static void	cleanup_cmd(t_cmdline *cmds, int count)
+{
+	int		i;
+	char	**full_cmds;
+
+	i = 0;
+	while (i < count)
+	{
+		if (cmds[i].cmd_args)
+		{
+			full_cmds = cmds[i].cmd_args;
+			while (*full_cmds)
+			{
+				free(*full_cmds);
+				full_cmds++;
+			}
+			free(cmds[i].cmd_args);
+			cmds[i].cmd_args = NULL;
+		}
+		i++;
+	}
+}
+
 int	main(int argc, char **argv, char **env)
 {
-	t_cmdline	cmd1;
-	t_cmdline	cmd2;
+	t_cmdline	cmd[2];
 	int			pipe_fd[2];
 	int			in_out_fd[2];
 
@@ -46,15 +68,16 @@ int	main(int argc, char **argv, char **env)
 		return (1);
 	}
 	setup_fds(pipe_fd, in_out_fd, argv);
-	setup_cmd(&cmd1, in_out_fd[0], argv[2], 1);
-	extract_path(&cmd1, env);
-	run_command(&cmd1, cmd1.in_fd, pipe_fd[1], env);
+	setup_cmd(&cmd[0], in_out_fd[0], argv[2], 1);
+	extract_path(&cmd[0], env);
+	run_command(&cmd[0], cmd[0].in_fd, pipe_fd[1], env);
 	close(pipe_fd[1]);
-	setup_cmd(&cmd2, in_out_fd[1], argv[3], 0);
-	extract_path(&cmd2, env);
-	run_command(&cmd2, pipe_fd[0], cmd2.out_fd, env);
+	setup_cmd(&cmd[1], in_out_fd[1], argv[3], 0);
+	extract_path(&cmd[1], env);
+	run_command(&cmd[1], pipe_fd[0], cmd[1].out_fd, env);
 	close(pipe_fd[0]);
 	close(in_out_fd[0]);
 	close(in_out_fd[1]);
+	cleanup_cmd(cmd, 2);
 	return (0);
 }
