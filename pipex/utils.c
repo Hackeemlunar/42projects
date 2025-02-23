@@ -16,6 +16,7 @@ static void	extract_path_dir(t_cmdline *cmd, char **dirs)
 		{
 			free(cmd->cmd);
 			cmd->cmd = cmd_with_path;
+			cmd->cmd_args[0] = cmd_with_path;
 		}
 		else
 		{
@@ -42,6 +43,7 @@ void	extract_path(t_cmdline *cmd, char **env)
 	}
 	dirs = ft_split(path, ':');
 	extract_path_dir(cmd, dirs);
+	free(dirs);
 	dirs = NULL;
 }
 

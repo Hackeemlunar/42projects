@@ -35,17 +35,25 @@ static void	setup_fds(int *pipe_fd, int *in_out_fd, char **argv)
 
 static void	cleanup_cmd(t_cmdline *cmds, int count)
 {
-	int	i;
+    int		i;
+    char	**full_cmds;
 
-	i = 0;
-	while (i < count)
-	{
-		if (cmds[i].cmd)
-			free(cmds[i].cmd);
-		if (cmds[i].cmd_args)
-			free(cmds[i].cmd_args);
-		i++;
-	}
+    i = 0;
+    while (i < count)
+    {
+        if (cmds[i].cmd_args)
+        {
+            full_cmds = cmds[i].cmd_args;
+            while (*full_cmds)
+            {
+                free(*full_cmds);
+                full_cmds++;
+            }
+            free(cmds[i].cmd_args); // Free the array of pointers
+            cmds[i].cmd_args = NULL;
+        }
+        i++;
+    }
 }
 
 int	main(int argc, char **argv, char **env)
