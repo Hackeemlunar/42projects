@@ -1,16 +1,113 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   copy.c                                             :+:      :+:    :+:   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/21 18:06:42 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/02/23 14:20:15 by hmensah-         ###   ########.fr       */
+/*   Created: 2025/02/23 17:06:18 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/02/23 17:23:46 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+static void	extract_path_dir(t_cmdline *cmd, char **dirs)
+{
+	int		i;
+	char	*cmd_with_path;
+	char	*temp;
+
+	i = -1;
+	while (dirs[++i] != NULL)
+	{
+		temp = ft_strjoin(dirs[i], "/");
+		cmd_with_path = ft_strjoin(temp, cmd->cmd);
+		free(temp);
+		if (access(cmd_with_path, F_OK) == 0)
+		{
+			free(cmd->cmd);
+			cmd->cmd = cmd_with_path;
+			cmd->cmd_args[0] = cmd_with_path;
+		}
+		else
+		{
+			free(cmd_with_path);
+		}
+		free(dirs[i]);
+	}
+}
+
+void	extract_path(t_cmdline *cmd, char **env)
+{
+	char	*path;
+	char	**dirs;
+	int		i;
+
+	i = -1;
+	while (env[++i] != NULL)
+	{
+		if (ft_strncmp(env[i], "PATH=", 5) == 0)
+		{
+			path = env[i] + 5;
+			break ;
+		}
+	}
+	dirs = ft_split(path, ':');
+	extract_path_dir(cmd, dirs);
+	free(dirs);
+	dirs = NULL;
+}
+
+void	setup_cmd(t_cmdline *cmd, int fd, char *full_cmd, int is_input)
+{
+	ft_memset(cmd, 0, sizeof(t_cmdline));
+	cmd->cmd_args = parse_cmd(full_cmd);
+	if (!cmd->cmd_args)
+	{
+		ft_putstr_fd("Command parsing failed\n", 2);
+		exit(EXIT_FAILURE);
+	}
+	cmd->cmd = cmd->cmd_args[0];
+	if (is_input)
+		cmd->in_fd = fd;
+	else
+		cmd->out_fd = fd;
+}
+
+void	safe_dup2(int old_fd, int new_fd)
+{
+	if (dup2(old_fd, new_fd) < 0)
+	{
+		perror("dup2");
+		exit(EXIT_FAILURE);
+	}
+}
+
+void	run_command(t_cmdline *cmd, int in_fd, int out_fd, char **env)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid < 0)
+	{
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+	if (pid == 0)
+	{
+		safe_dup2(in_fd, STDIN_FILENO);
+		safe_dup2(out_fd, STDOUT_FILENO);
+		execve(cmd->cmd, cmd->cmd_args, env);
+		perror("execve");
+		exit(EXIT_FAILURE);
+	}
+	if (waitpid(pid, NULL, 0) < 0)
+	{
+		perror("waitpid");
+		exit(EXIT_FAILURE);
+	}
+}
 
 static void	setup_fds(int *pipe_fd, int *in_out_fd, char **argv)
 {
@@ -54,30 +151,87 @@ static void	cleanup_cmd(t_cmdline *cmds, int count)
 		}
 		i++;
 	}
+	free(cmds);
 }
 
-int	main(int argc, char **argv, char **env)
+int check_heredoc(char **argv)
 {
-	t_cmdline	cmd[2];
-	int			pipe_fd[2];
-	int			in_out_fd[2];
+	int heredoc_len;
 
-	if (argc != 5)
+	heredoc_len = 8;
+	if (ft_strncmp("here_doc", argv[1], heredoc_len) == 0)
+		return (1);
+	return (0);
+}
+
+void	pipe_cmd(t_cmdline *cmds, char **argv, char **env, int num_cmds)
+{
+	int		*pipes[2];
+	int		in_out_fd[2];
+	int		i;
+
+    pipes[0] = malloc(sizeof(int) * 2);
+	setup_fds(pipes[0], in_out_fd, argv);
+    setup_cmd(&cmds[0], in_out_fd[0], argv[2], 1);
+    extract_path(&cmds[0], env);
+    run_command(&cmds[0], in_out_fd[0], pipes[0][1], env);
+    close(pipes[0][1]);
+	i = 1;
+    while (i < num_cmds - 1)
+    {
+        pipes[1] = malloc(sizeof(int) * 2);
+        pipe(pipes[1]);
+        setup_cmd(&cmds[i], pipes[0][0], argv[i + 2], 1);
+        extract_path(&cmds[i], env);
+        run_command(&cmds[i], pipes[0][0], pipes[1][1], env);
+        close(pipes[0][0]);
+        close(pipes[1][1]);
+        free(pipes[0]);
+        pipes[0] = pipes[1];
+        i++;
+    }
+    setup_cmd(&cmds[num_cmds - 1], in_out_fd[1], argv[num_cmds + 1], 0);
+    extract_path(&cmds[num_cmds - 1], env);
+	run_command(&cmds[num_cmds - 1], pipes[0][0], in_out_fd[1], env);
+
+	close(pipes[0][0]);
+	close(in_out_fd[0]);
+	free(pipes[0]);
+	close(in_out_fd[1]);
+}
+
+void pipe_here_doc(t_cmdline *cmd, char **argv, char **env, int n)
+{
+	int		pipe_fd[2];
+	int		in_out_fd[2];
+	int		i;
+
+
+}
+
+int main(int argc, char **argv, char **env)
+{
+	t_cmdline	*cmd;
+	int			n;
+
+	if (argc > 5 && check_heredoc(argv))
 	{
-		ft_putstr_fd("Usage: ./pipex <inputf> <cmd1> <cmd2> <outputf>\n", 2);
+		n = argc - 4;
+		cmd = malloc(sizeof(t_cmdline) * n);
+		pipe_here_doc(cmd, argv, env, n);
+	}
+	else if(argc > 4)
+	{
+		n = argc - 3;
+		cmd = malloc(sizeof(t_cmdline) * n);
+		pipe_cmd(cmd, argv, env, n);
+	}
+	else
+	{
+		ft_putendl_fd("Usg: ./pipex infile cmd1 .. cmdn outfile", 2);
+		ft_putstr_fd("Usg: ./pipex here_doc LIMITER cmdn .. cmd2 outfile", 2);
 		return (1);
 	}
-	setup_fds(pipe_fd, in_out_fd, argv);
-	setup_cmd(&cmd[0], in_out_fd[0], argv[2], 1);
-	extract_path(&cmd[0], env);
-	run_command(&cmd[0], cmd[0].in_fd, pipe_fd[1], env);
-	close(pipe_fd[1]);
-	setup_cmd(&cmd[1], in_out_fd[1], argv[3], 0);
-	extract_path(&cmd[1], env);
-	run_command(&cmd[1], pipe_fd[0], cmd[1].out_fd, env);
-	close(pipe_fd[0]);
-	close(in_out_fd[0]);
-	close(in_out_fd[1]);
-	cleanup_cmd(cmd, 2);
+	cleanup_cmd(cmd, n);
 	return (0);
 }

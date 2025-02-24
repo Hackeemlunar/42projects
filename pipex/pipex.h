@@ -25,6 +25,13 @@ typedef struct s_cmdline
 	int		out_fd;
 }	t_cmdline;
 
+typedef struct s_hdocs
+{
+	char			*line;
+	struct s_docs	*next;
+}		t_hdocs;
+
+
 char	**parse_cmd(char const *s);
 void	extract_path(t_cmdline *cmd, char **env);
 void	run_command(t_cmdline *cmd, int in_fd, int out_fd, char **env);
