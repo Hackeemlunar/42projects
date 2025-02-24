@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_bonus.c                                      :+:      :+:    :+:   */
+/*   copy.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:06:18 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/02/23 17:23:46 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/02/24 20:06:21 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,20 +109,33 @@ void	run_command(t_cmdline *cmd, int in_fd, int out_fd, char **env)
 	}
 }
 
-static void	setup_fds(int *pipe_fd, int *in_out_fd, char **argv)
+static void	setup_out_fd(int *out_fd, char **argv)
 {
-	in_out_fd[0] = open(argv[1], O_RDONLY);
-	if (in_out_fd[0] < 0)
-	{
-		perror("open input file");
-		exit(EXIT_FAILURE);
-	}
-	in_out_fd[1] = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (in_out_fd[1] < 0)
+	int	lst_idx;
+
+	lst_idx = 0;
+	while (argv[lst_idx] != NULL)
+		lst_idx++;
+	*out_fd = open(argv[lst_idx - 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (*out_fd < 0)
 	{
 		perror("open output file");
 		exit(EXIT_FAILURE);
 	}
+}
+
+static void	setup_in_fd(int *in_fd, char **argv)
+{
+	*in_fd = open(argv[1], O_RDONLY);
+	if (*in_fd < 0)
+	{
+		perror("open input file");
+		exit(EXIT_FAILURE);
+	}
+}
+
+void	safe_pipe(int *pipe_fd)
+{
 	if (pipe(pipe_fd) < 0)
 	{
 		perror("pipe");
@@ -154,12 +167,12 @@ static void	cleanup_cmd(t_cmdline *cmds, int count)
 	free(cmds);
 }
 
-int check_heredoc(char **argv)
+int check_heredoc(char *heredoc)
 {
 	int heredoc_len;
 
 	heredoc_len = 8;
-	if (ft_strncmp("here_doc", argv[1], heredoc_len) == 0)
+	if (ft_strncmp("here_doc", heredoc, heredoc_len) == 0)
 		return (1);
 	return (0);
 }
@@ -171,7 +184,9 @@ void	pipe_cmd(t_cmdline *cmds, char **argv, char **env, int num_cmds)
 	int		i;
 
     pipes[0] = malloc(sizeof(int) * 2);
-	setup_fds(pipes[0], in_out_fd, argv);
+	safe_pipe(pipes[0]);
+	setup_in_fd(&in_out_fd[0], argv);
+	setup_out_fd(&in_out_fd[1], argv);
     setup_cmd(&cmds[0], in_out_fd[0], argv[2], 1);
     extract_path(&cmds[0], env);
     run_command(&cmds[0], in_out_fd[0], pipes[0][1], env);
@@ -180,7 +195,7 @@ void	pipe_cmd(t_cmdline *cmds, char **argv, char **env, int num_cmds)
     while (i < num_cmds - 1)
     {
         pipes[1] = malloc(sizeof(int) * 2);
-        pipe(pipes[1]);
+    	safe_pipe(pipes[1]);
         setup_cmd(&cmds[i], pipes[0][0], argv[i + 2], 1);
         extract_path(&cmds[i], env);
         run_command(&cmds[i], pipes[0][0], pipes[1][1], env);
@@ -192,21 +207,65 @@ void	pipe_cmd(t_cmdline *cmds, char **argv, char **env, int num_cmds)
     }
     setup_cmd(&cmds[num_cmds - 1], in_out_fd[1], argv[num_cmds + 1], 0);
     extract_path(&cmds[num_cmds - 1], env);
-	run_command(&cmds[num_cmds - 1], pipes[0][0], in_out_fd[1], env);
-
+	run_command(&cmds[num_cmds - 1], pipes[0][0], cmds[i].out_fd, env);
 	close(pipes[0][0]);
 	close(in_out_fd[0]);
 	free(pipes[0]);
 	close(in_out_fd[1]);
 }
 
-void pipe_here_doc(t_cmdline *cmd, char **argv, char **env, int n)
+void write_until_limiter(int fd, char *limiter)
 {
-	int		pipe_fd[2];
+	char	*str;
+	int		limiter_len;
+
+	limiter_len = ft_strlen(limiter);
+	str = get_next_line(0);
+	while (ft_strncmp(limiter, str, limiter_len) != 0)
+	{
+		printf("%s\n", str);
+		ft_putstr_fd(str, fd);
+		free(str);
+		str = get_next_line(0);
+	}
+}
+
+void pipe_here_doc(t_cmdline *cmds, char **argv, char **env, int num_cmds)
+{
+	int		*pipes[2];
 	int		in_out_fd[2];
 	int		i;
 
-
+    pipes[0] = malloc(sizeof(int) * 2);
+	safe_pipe(pipes[0]);
+	write_until_limiter(pipes[0][1], argv[2]);
+	setup_out_fd(&in_out_fd[1], argv);
+    setup_cmd(&cmds[0], pipes[0][0], argv[3], 1);
+    extract_path(&cmds[0], env);
+    run_command(&cmds[0], pipes[0][0], pipes[0][1], env);
+    close(pipes[0][1]);
+	i = 1;
+	printf("ok here\n");
+    while (i < num_cmds - 1)
+    {
+        pipes[1] = malloc(sizeof(int) * 2);
+    	safe_pipe(pipes[1]);
+        setup_cmd(&cmds[i], pipes[0][0], argv[i + 3], 1);
+        extract_path(&cmds[i], env);
+        run_command(&cmds[i], pipes[0][0], pipes[1][1], env);
+        close(pipes[0][0]);
+        close(pipes[1][1]);
+        free(pipes[0]);
+        pipes[0] = pipes[1];
+        i++;
+    }
+    setup_cmd(&cmds[num_cmds - 1], in_out_fd[1], argv[num_cmds + 1], 0);
+    extract_path(&cmds[num_cmds - 1], env);
+	run_command(&cmds[num_cmds - 1], pipes[0][0], cmds[i].out_fd, env);
+	close(pipes[0][0]);
+	close(in_out_fd[0]);
+	free(pipes[0]);
+	close(in_out_fd[1]);
 }
 
 int main(int argc, char **argv, char **env)
@@ -214,7 +273,7 @@ int main(int argc, char **argv, char **env)
 	t_cmdline	*cmd;
 	int			n;
 
-	if (argc > 5 && check_heredoc(argv))
+	if (argc > 5 && check_heredoc(argv[1]))
 	{
 		n = argc - 4;
 		cmd = malloc(sizeof(t_cmdline) * n);
