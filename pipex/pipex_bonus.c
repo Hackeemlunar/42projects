@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   copy.c                                             :+:      :+:    :+:   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:06:18 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/02/24 20:06:21 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/02/26 21:37:55 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 static void	extract_path_dir(t_cmdline *cmd, char **dirs)
 {
@@ -167,7 +167,6 @@ static void	cleanup_cmd(t_cmdline *cmds, int count)
 		}
 		i++;
 	}
-	free(cmds);
 }
 
 int check_heredoc(char *heredoc)

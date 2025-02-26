@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 18:05:55 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/02/26 21:33:23 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/02/26 22:01:37 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 # include <errno.h>
 # include <sys/wait.h>
 # include <sys/types.h>
@@ -25,16 +25,9 @@ typedef struct s_cmdline
 	int		out_fd;
 }	t_cmdline;
 
-typedef struct s_hdocs
-{
-	char			*line;
-	struct s_docs	*next;
-}		t_hdocs;
-
-
 char	**parse_cmd(char const *s);
-void	extract_path(t_cmdline *cmd, char **env);
-void	run_command(t_cmdline *cmd, int in_fd, int out_fd, char **env);
-void	safe_dup2(int old_fd, int new_fd);
-void	setup_cmd(t_cmdline *cmd, int fd, char *full_cmd, int is_input);
+// void	extract_path(t_cmdline *cmd, char **env);
+// void	run_command(t_cmdline *cmd, int in_fd, int out_fd, char **env);
+// void	safe_dup2(int old_fd, int new_fd);
+// void	setup_cmd(t_cmdline *cmd, int fd, char *full_cmd, int is_input);
 #endif

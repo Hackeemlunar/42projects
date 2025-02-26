@@ -6,42 +6,20 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:06:18 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/02/24 20:06:21 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/02/26 22:03:04 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
-
-static void	cleanup_cmd(t_cmdline *cmds, int count)
-{
-	int		i;
-	char	**args;
-
-	if (!cmds)
-		return ;
-	i = -1;
-	while (++i < count)
-	{
-		if (cmds[i].cmd_args)
-		{
-			args = cmds[i].cmd_args;
-			while (*args)
-				free(*args++);
-			free(cmds[i].cmd_args);
-		}
-		free(cmds[i].cmd);
-	}
-	free(cmds);
-}
+#include "pipex_bonus.h"
 
 static void	extract_path_dir(t_cmdline *cmd, char **dirs)
 {
+	int		i;
 	char	*cmd_with_path;
 	char	*temp;
-	int		i;
 
 	i = -1;
-	while (dirs[++i])
+	while (dirs[++i] != NULL)
 	{
 		temp = ft_strjoin(dirs[i], "/");
 		cmd_with_path = ft_strjoin(temp, cmd->cmd);
@@ -50,11 +28,12 @@ static void	extract_path_dir(t_cmdline *cmd, char **dirs)
 		{
 			free(cmd->cmd);
 			cmd->cmd = cmd_with_path;
-			free(cmd->cmd_args[0]);
 			cmd->cmd_args[0] = cmd_with_path;
 		}
 		else
+		{
 			free(cmd_with_path);
+		}
 		free(dirs[i]);
 	}
 }
@@ -66,18 +45,21 @@ void	extract_path(t_cmdline *cmd, char **env)
 	int		i;
 
 	i = -1;
-	path = NULL;
-	while (env[++i])
+	while (env[++i] != NULL)
+	{
 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
+		{
 			path = env[i] + 5;
-	if (!path)
-		return ;
+			break ;
+		}
+	}
 	dirs = ft_split(path, ':');
 	extract_path_dir(cmd, dirs);
 	free(dirs);
+	dirs = NULL;
 }
 
-static void	setup_cmd(t_cmdline *cmd, char *full_cmd)
+void	setup_cmd(t_cmdline *cmd, int fd, char *full_cmd, int is_input)
 {
 	ft_memset(cmd, 0, sizeof(t_cmdline));
 	cmd->cmd_args = parse_cmd(full_cmd);
@@ -86,162 +68,223 @@ static void	setup_cmd(t_cmdline *cmd, char *full_cmd)
 		ft_putstr_fd("Command parsing failed\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	cmd->cmd = ft_strdup(cmd->cmd_args[0]);
+	cmd->cmd = cmd->cmd_args[0];
+	if (is_input)
+		cmd->in_fd = fd;
+	else
+		cmd->out_fd = fd;
 }
 
-static void	safe_dup2(int oldfd, int newfd)
+void	safe_dup2(int old_fd, int new_fd)
 {
-	if (dup2(oldfd, newfd) < 0)
+	if (dup2(old_fd, new_fd) < 0)
 	{
 		perror("dup2");
 		exit(EXIT_FAILURE);
 	}
-	close(oldfd);
 }
 
-static void	exec_cmd(t_cmdline *cmd, char **env)
-{
-	execve(cmd->cmd, cmd->cmd_args, env);
-	perror("execve");
-	exit(EXIT_FAILURE);
-}
-
-static void	run_command(t_cmdline *cmd, int infd, int outfd, char **env)
+void	run_command(t_cmdline *cmd, int in_fd, int out_fd, char **env)
 {
 	pid_t	pid;
-	int		pipefd[2];
 
-	if (pipe(pipefd) < 0)
+	pid = fork();
+	if (pid < 0)
+	{
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+	if (pid == 0)
+	{
+		safe_dup2(in_fd, STDIN_FILENO);
+		safe_dup2(out_fd, STDOUT_FILENO);
+		execve(cmd->cmd, cmd->cmd_args, env);
+		perror("execve");
+		exit(EXIT_FAILURE);
+	}
+	if (waitpid(pid, NULL, 0) < 0)
+	{
+		perror("waitpid");
+		exit(EXIT_FAILURE);
+	}
+}
+
+static void	setup_out_fd(int *out_fd, char **argv, int heredoc)
+{
+	int	lst_idx;
+
+	lst_idx = 0;
+	while (argv[lst_idx] != NULL)
+		lst_idx++;
+	if (!heredoc)
+		*out_fd = open(argv[lst_idx - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else
+		*out_fd = open(argv[lst_idx - 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (*out_fd < 0)
+	{
+		perror("open output file");
+		exit(EXIT_FAILURE);
+	}
+}
+
+static void	setup_in_fd(int *in_fd, char **argv)
+{
+	*in_fd = open(argv[1], O_RDONLY);
+	if (*in_fd < 0)
+	{
+		perror("open input file");
+		exit(EXIT_FAILURE);
+	}
+}
+
+void	safe_pipe(int *pipe_fd)
+{
+	if (pipe(pipe_fd) < 0)
 	{
 		perror("pipe");
 		exit(EXIT_FAILURE);
 	}
-	pid = fork();
-	if (pid == 0)
-	{
-		close(pipefd[0]);
-		safe_dup2(infd, STDIN_FILENO);
-		safe_dup2(outfd, STDOUT_FILENO);
-		exec_cmd(cmd, env);
-	}
-	close(infd);
-	close(outfd);
-	waitpid(pid, NULL, 0);
 }
 
-static int	open_file(char *path, int flags, mode_t mode)
+static void	cleanup_cmd(t_cmdline *cmds, int count)
 {
-	int	fd;
+	int		i;
+	char	**full_cmds;
 
-	fd = open(path, flags, mode);
-	if (fd < 0)
+	i = 0;
+	while (i < count)
 	{
-		perror("open");
-		exit(EXIT_FAILURE);
-	}
-	return (fd);
-}
-
-static void	here_doc(char *limiter)
-{
-	int		pipefd[2];
-	char	*line;
-	pid_t	pid;
-
-	if (pipe(pipefd) < 0)
-	{
-		perror("pipe");
-		exit(EXIT_FAILURE);
-	}
-	pid = fork();
-	if (pid == 0)
-	{
-		close(pipefd[0]);
-		while ((line = get_next_line(0)) != NULL)
+		if (cmds[i].cmd_args)
 		{
-			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
-				break ;
-			write(pipefd[1], line, ft_strlen(line));
-			write(pipefd[1], "\n", 1);
-			free(line);
+			full_cmds = cmds[i].cmd_args;
+			while (*full_cmds)
+			{
+				free(*full_cmds);
+				full_cmds++;
+			}
+			free(cmds[i].cmd_args);
+			cmds[i].cmd_args = NULL;
 		}
-		close(pipefd[1]);
-		exit(EXIT_SUCCESS);
+		i++;
 	}
-	close(pipefd[1]);
-	waitpid(pid, NULL, 0);
-	safe_dup2(pipefd[0], STDIN_FILENO);
 }
 
-static void	process_commands(t_cmdline *cmds, int count, int outfd, char **env)
+int check_heredoc(char *heredoc)
 {
-	int	i;
-	int	infd;
-	int	pipefd[2];
+	int heredoc_len;
 
-	infd = STDIN_FILENO;
-	i = -1;
-	while (++i < count)
-	{
-		if (i == count - 1)
-			outfd = outfd;
-		else if (pipe(pipefd) < 0)
-		{
-			perror("pipe");
-			exit(EXIT_FAILURE);
-		}
-		run_command(&cmds[i], infd, (i == count-1) ? outfd : pipefd[1], env);
-		if (i < count -1)
-		{
-			close(pipefd[1]);
-			infd = pipefd[0];
-		}
-	}
-	close(outfd);
+	heredoc_len = 8;
+	if (ft_strncmp("here_doc", heredoc, heredoc_len) == 0)
+		return (1);
+	return (0);
 }
 
-int	main(int argc, char **argv, char **env)
+void	pipe_cmd(t_cmdline *cmds, char **argv, char **env, int num_cmds)
 {
-	t_cmdline	*cmds;
-	int			outfd;
-	int			i;
-	int			heredoc;
+	int		pipes[2][2];
+	int		in_out_fd[2];
+	int		i;
 
-	heredoc = (argc > 1 && ft_strncmp(argv[1], "here_doc", 8) == 0);
-	if (heredoc && argc < 6)
-		ft_putstr_fd("Usage: ./pipex here_doc LIMITER cmd1..cmdn outfile\n", 2);
-	else if (!heredoc && argc < 5)
-		ft_putstr_fd("Usage: ./pipex infile cmd1..cmdn outfile\n", 2);
-	if ((heredoc && argc < 6) || (!heredoc && argc < 5))
-		exit(EXIT_FAILURE);
-
-	const int cmd_count = heredoc ? argc - 4 : argc - 3;
-	cmds = malloc(cmd_count * sizeof(t_cmdline));
-	if (!cmds)
+	safe_pipe(pipes[0]);
+	setup_in_fd(&in_out_fd[0], argv);
+	setup_out_fd(&in_out_fd[1], argv, 0);
+	setup_cmd(&cmds[0], in_out_fd[0], argv[2], 1);
+	extract_path(&cmds[0], env);
+	run_command(&cmds[0], in_out_fd[0], pipes[0][1], env);
+	close(pipes[0][1]);
+	i = 1;
+	while (i < num_cmds - 1)
 	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
+		safe_pipe(pipes[1]);
+		setup_cmd(&cmds[i], pipes[0][0], argv[i + 2], 1);
+		extract_path(&cmds[i], env);
+		run_command(&cmds[i], pipes[0][0], pipes[1][1], env);
+		close(pipes[0][0]);
+		close(pipes[1][1]);
+		pipes[0][0] = pipes[1][0];
+		pipes[0][1] = pipes[1][1];
+		i++;
 	}
+	setup_cmd(&cmds[num_cmds - 1], in_out_fd[1], argv[num_cmds + 1], 0);
+	extract_path(&cmds[num_cmds - 1], env);
+	run_command(&cmds[num_cmds - 1], pipes[0][0], cmds[i].out_fd, env);
+	close(pipes[0][0]);
+	close(in_out_fd[0]);
+	close(in_out_fd[1]);
+}
 
-	if (heredoc)
+void write_until_limiter(int fd, char *limiter)
+{
+	char	*str;
+	int		limiter_len;
+
+	limiter_len = ft_strlen(limiter);
+	str = get_next_line(0);
+	while (ft_strncmp(limiter, str, limiter_len) != 0)
 	{
-		here_doc(argv[2]);
-		outfd = open_file(argv[argc-1], O_WRONLY|O_CREAT|O_APPEND, 0644);
-		for (i = 0; i < cmd_count; i++)
-			setup_cmd(&cmds[i], argv[3 + i]);
+		ft_putstr_fd(str, fd);
+		free(str);
+		str = get_next_line(0);
+	}
+	if (str)
+		free(str);
+}
+
+void pipe_here_doc(t_cmdline *cmds, char **argv, char **env, int num_cmds)
+{
+	int		pipes[2][2];
+	int		in_out_fd[2];
+	int		i;
+
+	safe_pipe(pipes[0]);
+	safe_pipe(pipes[1]);
+	write_until_limiter(pipes[0][1], argv[2]);
+	setup_out_fd(&in_out_fd[1], argv, 1);
+	setup_cmd(&cmds[0], pipes[0][0], argv[3], 1);
+	extract_path(&cmds[0], env);
+	close(pipes[0][1]);
+	run_command(&cmds[0], pipes[0][0], pipes[1][1], env);
+	i = 1;
+	while (i < num_cmds - 1)
+	{
+		setup_cmd(&cmds[i], pipes[0][0], argv[i + 3], 1);
+		extract_path(&cmds[i], env);
+		run_command(&cmds[i], pipes[0][0], pipes[1][1], env);
+		close(pipes[0][0]);
+		close(pipes[1][1]);
+		pipes[0][0] = pipes[1][0];
+		pipes[0][1] = pipes[1][1];
+		i++;
+	}
+	setup_cmd(&cmds[num_cmds - 1], in_out_fd[1], argv[num_cmds + 2], 0);
+	extract_path(&cmds[num_cmds - 1], env);
+	run_command(&cmds[num_cmds - 1], pipes[0][0], cmds[i].out_fd, env);
+	close(pipes[0][0]);
+	close(in_out_fd[0]);
+	close(in_out_fd[1]);
+}
+
+int main(int argc, char **argv, char **env)
+{
+	t_cmdline	cmd[20];
+	int			n;
+
+	if (argc > 5 && check_heredoc(argv[1]))
+	{
+		n = argc - 4;
+		pipe_here_doc(cmd, argv, env, n);
+	}
+	else if(argc > 4)
+	{
+		n = argc - 3;
+		pipe_cmd(cmd, argv, env, n);
 	}
 	else
 	{
-		safe_dup2(open_file(argv[1], O_RDONLY, 0), STDIN_FILENO);
-		outfd = open_file(argv[argc-1], O_WRONLY|O_CREAT|O_TRUNC, 0644);
-		for (i = 0; i < cmd_count; i++)
-			setup_cmd(&cmds[i], argv[2 + i]);
+		ft_putendl_fd("Usg: ./pipex infile cmd1 .. cmdn outfile", 2);
+		ft_putstr_fd("Usg: ./pipex here_doc LIMITER cmdn .. cmd2 outfile", 2);
+		return (1);
 	}
-
-	for (i = 0; i < cmd_count; i++)
-		extract_path(&cmds[i], env);
-
-	process_commands(cmds, cmd_count, outfd, env);
-	cleanup_cmd(cmds, cmd_count);
+	cleanup_cmd(cmd, n);
 	return (0);
 }
