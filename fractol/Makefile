@@ -10,39 +10,47 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME		=	fractol
-CC			=	cc
-ARGS		=	-Wall -Werror -Wextra
-RM			=	rm -f
+NAME        = fractol
+CC          = cc
+CFLAGS      = -Wall -Werror -Wextra
+RM          = rm -f
 
-SRCS		=	fractol.c
+SRCS        = fractol.c
+OBJS        = $(SRCS:.c=.o)
 
-# OBJS		=	$(SRC:.c=.o)
+LIBFT_DIR   = ./libft
+LIBFT       = $(LIBFT_DIR)/libft.a
 
-# BONUS_SRCS	=	
+PLATFORM    = linux
+# PLATFORM    = macos
 
-LIBFT_DIR	=	./libft
+ifeq ($(PLATFORM), linux)
+	MLX_DIR     = mlx_linux
+	MLX_LIBS    = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
+else ifeq ($(PLATFORM), macos)
+	MLX_DIR     = mlx_mac
+	MLX_LIBS    = -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
+endif
 
-LIBFT		=	$(LIBFT_DIR)/libft.a
+all: $(NAME)
 
-all			:	$(NAME)
+$(LIBFT):
+		$(MAKE) -C $(LIBFT_DIR)
 
-$(LIBFT)	:
-				@$(MAKE) -C $(LIBFT_DIR)
-
-$(NAME)		:	$(LIBFT)
-				$(CC) $(SRCS) -Lmlx_mac -lmlx -Llibft -lft -framework OpenGL -framework AppKit -o $(NAME)
+$(NAME): $(LIBFT) $(OBJS)
+		$(CC) $(CFLAGS) $(OBJS) $(MLX_LIBS) -L$(LIBFT_DIR) -lft -o $(NAME)
 
 %.o: %.c
-	$(CC) $(ARGS) -Imlx_mac -c $< -o $@
+		$(CC) $(CFLAGS) -I$(MLX_DIR) -c $< -o $@
 
-clean		:
-				@$(MAKE) -C $(LIBFT_DIR) clean
+clean:
+		$(MAKE) -C $(LIBFT_DIR) clean
+		$(RM) $(OBJS)
 
-fclean		:
-				@$(MAKE) -C $(LIBFT_DIR) fclean
-				$(RM) $(NAME)
+fclean: clean
+		$(MAKE) -C $(LIBFT_DIR) fclean
+		$(RM) $(NAME)
 
-re			:	fclean all
+re: fclean all
 
-.PHONY		:	all clean fclean re
+.PHONY: all clean fclean re
