@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   copy.c                                             :+:      :+:    :+:   */
+/*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 18:06:42 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/02/23 14:20:15 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:57:25 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,15 @@ int	main(int argc, char **argv, char **env)
 	}
 	setup_fds(pipe_fd, in_out_fd, argv);
 	setup_cmd(&cmd[0], in_out_fd[0], argv[2], 1);
-	extract_path(&cmd[0], env);
-	run_command(&cmd[0], cmd[0].in_fd, pipe_fd[1], env);
-	close(pipe_fd[1]);
 	setup_cmd(&cmd[1], in_out_fd[1], argv[3], 0);
+	extract_path(&cmd[0], env);
 	extract_path(&cmd[1], env);
+	run_command(&cmd[0], cmd[0].in_fd, pipe_fd[1], env);
 	run_command(&cmd[1], pipe_fd[0], cmd[1].out_fd, env);
 	close(pipe_fd[0]);
+	close(pipe_fd[1]);
+	waitpid(-1, NULL, WNOHANG);
+	waitpid(-1, NULL, WNOHANG);
 	close(in_out_fd[0]);
 	close(in_out_fd[1]);
 	cleanup_cmd(cmd, 2);

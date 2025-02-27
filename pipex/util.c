@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 14:23:58 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/02/23 14:24:22 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:49:06 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,6 @@ void	run_command(t_cmdline *cmd, int in_fd, int out_fd, char **env)
 		safe_dup2(out_fd, STDOUT_FILENO);
 		execve(cmd->cmd, cmd->cmd_args, env);
 		perror("execve");
-		exit(EXIT_FAILURE);
-	}
-	if (waitpid(pid, NULL, 0) < 0)
-	{
-		perror("waitpid");
 		exit(EXIT_FAILURE);
 	}
 }
