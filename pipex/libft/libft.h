@@ -47,7 +47,7 @@ typedef struct s_context
 	size_t	stash_len;
 	size_t	stash_st;
 	char	stash[BUFFER_SIZE];
-	char	*buffer;
+	char	buffer[4096];
 }			t_context;
 
 typedef struct s_formated_data
@@ -65,7 +65,7 @@ typedef struct s_modifiers_info
 	int		flags_count;
 }				t_modinfo;
 
-// ************** Part 1 - Libc functions ************** 
+// ************** Part 1 - Libc functions **************
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
@@ -112,15 +112,14 @@ void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
-// ************** GNL functions ************** 
+// ************** GNL functions **************
 char	*get_next_line(int fd);
 void	cleanup_context(t_context *ctx);
 void	*ft_strncpy(char *dst, const char *src, size_t n);
 char	*handle_eof_err(t_context *ctx, ssize_t byt_read);
-void	expland_buffer(t_context *ctx);
 void	handle_stash(t_context *ctx, char **line);
 
-// ************** Ft_printf Functions ************** 
+// ************** Ft_printf Functions **************
 int		ft_printf(const char *format, ...);
 void	parse_format(const char *fmt, t_modinfo *modinfo);
 void	apply_precision(t_modinfo *modinfo, t_fdata *fdata);

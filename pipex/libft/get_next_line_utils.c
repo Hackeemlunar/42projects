@@ -34,9 +34,6 @@ void	*ft_strncpy(char *dst, const char *src, size_t n)
 
 void	cleanup_context(t_context *ctx)
 {
-	if (ctx->buffer)
-		free(ctx->buffer);
-	ctx->buffer = NULL;
 	ctx->buf_cap = 0;
 	ctx->buf_pos = 0;
 	ctx->buf_pos_prv = 0;
@@ -65,23 +62,6 @@ char	*handle_eof_err(t_context *ctx, ssize_t byt_read)
 	line[ctx->stash_len + ctx->buf_pos] = '\0';
 	cleanup_context(ctx);
 	return (line);
-}
-
-void	expland_buffer(t_context *ctx)
-{
-	char	*new_buffer;
-
-	ctx->buf_cap *= 2;
-	new_buffer = malloc(ctx->buf_cap + 1);
-	if (!new_buffer)
-	{
-		ctx->err = 1;
-		return ;
-	}
-	ft_strncpy(new_buffer, ctx->buffer, ctx->buf_pos);
-	if (ctx->buffer)
-		free(ctx->buffer);
-	ctx->buffer = new_buffer;
 }
 
 void	handle_stash(t_context *ctx, char **line)
