@@ -53,6 +53,6 @@ int main(void)
     data.addr = mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length, &data.endian);
 
     mlx_expose_hook(data.mlx_win, expose_hook, &data);
-    expose_hook(&data); // Initial draw.
+    expose_hook(&data);
     mlx_loop(data.mlx);
 }

@@ -65,6 +65,13 @@ typedef struct s_modifiers_info
 	int		flags_count;
 }				t_modinfo;
 
+typedef struct s_arena
+{
+	size_t	size;
+	size_t	used;
+	char	*buffer;
+}			t_arena;
+
 // ************** Part 1 - Libc functions **************
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -143,4 +150,10 @@ void	apply_r_justify(char *fstring, int width, char pad, t_fdata *fdata);
 void	handle_string_size(char *fstring, int size, t_fdata *data);
 void	handle_int_size(char *fstring, char pad, int size, t_fdata *data);
 void	apply_plus_space_flag(t_modinfo *info, t_fdata *data);
+
+// ************** Arena Functions **************
+void	arena_destroy(t_arena *arena);
+void	*arena_alloc(t_arena *arena, size_t size);
+void	arena_reset(t_arena *arena);
+t_arena	*arena_create(size_t size);
 #endif
