@@ -1,16 +1,8 @@
-#include "mlx_mac/mlx.h"
+#include "mlx.h"
+#include "fractol.h"
 
-typedef struct  s_data {
-    void    *img;
-    char    *addr;
-    int     bits_per_pixel;
-    int     line_length;
-    int     endian;
-    void    *mlx;
-    void    *mlx_win;
-}   t_data;
 
-void    my_mlx_pixel_put(t_data *data, int x, int y, int color)
+void    my_mlx_pixel_put(t_idata *data, int x, int y, int color)
 {
     char    *dst;
 
@@ -18,16 +10,16 @@ void    my_mlx_pixel_put(t_data *data, int x, int y, int color)
     *(unsigned int*)dst = color;
 }
 
-void    fill_image(t_data *data, int color)
+void    fill_image(t_idata *data, int color, int width, int height)
 {
     int x;
     int y;
 
     y = 0;
-    while (y < 800)
+    while (y < height - 1)
     {
         x = 0;
-        while (x < 800)
+        while (x < width - 1)
         {
             my_mlx_pixel_put(data, x, y, color);
             x++;
@@ -36,16 +28,16 @@ void    fill_image(t_data *data, int color)
     }
 }
 
-int expose_hook(t_data *data) {
-    int color = 0x00590929;
-    fill_image(data, color);
+int expose_hook(t_idata *data, int width, int height) {
+    int color = 0x00000055;
+    fill_image(data, color, width, height);
     mlx_put_image_to_window(data->mlx, data->mlx_win, data->img, 0, 0);
     return 0;
 }
 
 int main(void)
 {
-    t_data  data;
+    t_idata  data;
 
     data.mlx = mlx_init();
     data.mlx_win = mlx_new_window(data.mlx, 800, 800, "Fractol");
@@ -53,6 +45,6 @@ int main(void)
     data.addr = mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length, &data.endian);
 
     mlx_expose_hook(data.mlx_win, expose_hook, &data);
-    expose_hook(&data); // Initial draw.
+    expose_hook(&data, 800, 800); // Initial draw.
     mlx_loop(data.mlx);
 }
