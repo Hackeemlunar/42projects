@@ -15,14 +15,14 @@ CC          = cc
 CFLAGS      = -Wall -Werror -Wextra
 RM          = rm -f
 
-SRCS        = fractol.c
+SRCS        = fractol.c  image.c utils.c event_handlers.c
 OBJS        = $(SRCS:.c=.o)
 
 LIBFT_DIR   = ./libft
 LIBFT       = $(LIBFT_DIR)/libft.a
 
-# PLATFORM    = linux
-PLATFORM    = macos
+PLATFORM    = linux
+# PLATFORM    = macos
 
 ifeq ($(PLATFORM), linux)
 	MLX_DIR     = mlx_linux
