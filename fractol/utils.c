@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol.c                                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 20:21:55 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/03/01 22:10:19 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/03/03 20:24:57 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@ void my_mlx_pixel_put(t_window *window, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void destroy_window(t_window *window)
+int destroy_window(t_window *window)
 {
 	mlx_destroy_image(window->mlx, window->img);
 	mlx_destroy_window(window->mlx, window->win);
 	free(window->mlx);
+	exit(0);
 }
 
 void fill_background(t_window *window, int color)

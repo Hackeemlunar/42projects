@@ -1,23 +1,24 @@
 ﻿/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol.c                                          :+:      :+:    :+:   */
+/*   image.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 20:21:55 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/03/01 22:10:19 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/03/04 17:15:41 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int hsv_to_rgb(double h, double s, double v) {
+int hsv_to_rgb(double h, double s, double v)
+{
     int i;
     double f, p, q, t, r, g, b;
 
     if (s == 0) {
-        r = g = b = v; // Grayscale
+        r = g = b = v;
     } else {
         h = fmod(h, 1.0);
         if (h < 0) h += 1.0;
