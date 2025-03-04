@@ -16,17 +16,6 @@ void	create_context(t_context *ctx)
 {
 	ctx->err = 0;
 	ctx->nl = 0;
-	if (!ctx->buffer)
-	{
-		ctx->buf_cap = BUFFER_SIZE;
-		ctx->buffer = malloc(ctx->buf_cap + 1);
-		if (!ctx->buffer)
-		{
-			ctx->err = 1;
-			return ;
-		}
-		ctx->buffer[0] = '\0';
-	}
 }
 
 void	fill_line(t_context *ctx, char *line)
@@ -66,8 +55,6 @@ void	handle_line(t_context *ctx, ssize_t byt_read, char **line)
 		}
 		ctx->buf_pos_prv++;
 	}
-	if (ctx->buf_pos == ctx->buf_cap)
-		expland_buffer(ctx);
 }
 
 char	*get_next_line(int fd)
