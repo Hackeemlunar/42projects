@@ -55,6 +55,4 @@ int			get_color(int iter, int max_iter, t_window *window);
 // Updates the color shift value for the fractal
 void		update_color_shift(t_window *window);
 
-// Converts HSV color values to RGB
-int			hsv_to_rgb(double h, double s, double v);
 #endif

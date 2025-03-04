@@ -12,112 +12,67 @@
 
 #include "fractol.h"
 
-int hsv_to_rgb(double h, double s, double v) {
-    int i;
-    double f, p, q, t, r, g, b;
+#include "fractol.h"
 
-    if (s == 0) {
-        r = g = b = v; // Grayscale
-    } else {
-        h = fmod(h, 1.0);
-        if (h < 0) h += 1.0;
-        h *= 6.0;
-        i = (int)h;
-        f = h - i;
-        p = v * (1.0 - s);
-        q = v * (1.0 - s * f);
-        t = v * (1.0 - s * (1.0 - f));
+void render_mandelbrot(t_window *window)
+{
+    int x, y;
+    int iter;
+    double pr, pi; // Real and imaginary parts of the complex number
+    double new_re, new_im, old_re, old_im;
+    int color;
 
-        switch (i) {
-            case 0: r = v; g = t; b = p; break;
-            case 1: r = q; g = v; b = p; break;
-            case 2: r = p; g = v; b = t; break;
-            case 3: r = p; g = q; b = v; break;
-            case 4: r = t; g = p; b = v; break;
-            default: r = v; g = p; b = q; break;
-        }
-    }
-
-    return ((int)(r * 255) << 16) | ((int)(g * 255) << 8) | (int)(b * 255);
-}
-
-void render_mandelbrot(t_window *window) {
-    int x, y, iter;
-    double c_re, c_im, z_re, z_im, tmp;
-    double zoom_factor_x = 1.5 / (0.5 * window->zoom * window->width);
-    double zoom_factor_y = 1.0 / (0.5 * window->zoom * window->height);
-    double center_x = window->width / 2.0;
-    double center_y = window->height / 2.0;
-
-    // Loop through each pixel
     y = 0;
-    while (y < window->height) {
+    while (y < window->height)
+    {
         x = 0;
-        while (x < window->width) {
-            // Map screen coordinates to fractal space
-            c_re = zoom_factor_x * (x - center_x) + window->offset_x;
-            c_im = zoom_factor_y * (y - center_y) + window->offset_y;
-
-            // Mandelbrot iteration
-            z_re = 0;
-            z_im = 0;
+        while (x < window->width)
+        {
+            pr = 1.5 * (x - window->width / 2) / (0.5 * window->zoom * window->width) + window->offset_x;
+            pi = (y - window->height / 2) / (0.5 * window->zoom * window->height) + window->offset_y;
+            new_re = new_im = old_re = old_im = 0;
             iter = 0;
-            while (z_re * z_re + z_im * z_im <= 4 && iter < window->max_iter) {
-                tmp = z_re;
-                z_re = z_re * z_re - z_im * z_im + c_re;
-                z_im = 2 * tmp * z_im + c_im;
+            while (iter < window->max_iter)
+            {
+                old_re = new_re;
+                old_im = new_im;
+                new_re = old_re * old_re - old_im * old_im + pr;
+                new_im = 2 * old_re * old_im + pi;
+                if ((new_re * new_re + new_im * new_im) > 4)
+                    break;
                 iter++;
             }
-
-            // Psychedelic color based on iteration count and color shift
-            double hue = fmod(((double)iter / window->max_iter + window->color_sft), 1.0);
-            int color = hsv_to_rgb(hue, 1.0, 1.0); // Full saturation and value
-
-            // Draw the pixel
+            color = get_color(iter, window->max_iter, window);
             my_mlx_pixel_put(window, x, y, color);
-
             x++;
         }
         y++;
     }
 }
 
-void render_julia(t_window *window) {
-    int x, y, iter;
-    double z_re, z_im, tmp;
-    double zoom_factor_x = 1.5 / (0.5 * window->zoom * window->width);
-    double zoom_factor_y = 1.0 / (0.5 * window->zoom * window->height);
-    double center_x = window->width / 2.0;
-    double center_y = window->height / 2.0;
+void render_julia(t_window *window)
+{
+	double new_x;
+	double new_y;
+	double old_x;
+	int iter;
+	int color;
 
-    y = 0;
-    while (y < window->height) {
-        x = 0;
-        while (x < window->width) {
-            // Map screen coordinates to fractal space
-            z_re = zoom_factor_x * (x - center_x) + window->offset_x;
-            z_im = zoom_factor_y * (y - center_y) + window->offset_y;
-
-            // Julia iteration
-            iter = 0;
-            while (z_re * z_re + z_im * z_im <= 4 && iter < window->max_iter) {
-                tmp = z_re;
-                z_re = z_re * z_re - z_im * z_im + window->julia_re;
-                z_im = 2 * tmp * z_im + window->julia_im;
-                iter++;
-            }
-
-            // Psychedelic color based on iteration count
-            double hue = fmod(((double)iter / window->max_iter + window->color_sft), 1.0);
-            int color = hsv_to_rgb(hue, 1.0, 1.0); // Full saturation and value
-
-            // Draw the pixel
-            my_mlx_pixel_put(window, x, y, color);
-
-            x++;
-        }
-        y++;
-    }
+	iter = 0;
+	while (iter < window->max_iter && (window->offset_x + iter) < window->width)
+	{
+		new_x = window->offset_x;
+		new_y = window->offset_y;
+		while (new_x * new_x + new_y * new_y < 4)
+		{
+			old_x = new_x;
+			new_x = new_x * new_x - new_y * new_y + window->julia_re;
+			new_y = 2 * old_x * new_y + window->julia_im;
+			iter++;
+		}
+		color = get_color(iter, window->max_iter, window);
+		my_mlx_pixel_put(window, window->offset_x + iter, window->offset_y, color);
+	}
 }
 
 void draw_fractal(t_window *window)

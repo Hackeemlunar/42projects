@@ -41,24 +41,42 @@ int key_handler(int keycode, t_window *window)
 		window->offset_x = 0;
 		window->offset_y = 0;
 	}
+	draw_fractal(window);
 	return (0);
 }
 
 int mouse_handler(int button, int x, int y, t_window *window)
 {
-	if (button == 4)
-	{
-		window->zoom *= 1.1;
-		window->offset_x += (x - window->width / 2) * 0.01 / window->zoom;
-		window->offset_y += (y - window->height / 2) * 0.01 / window->zoom;
-	}
-	else if (button == 5)
-	{
-		window->zoom /= 1.1;
-		window->offset_x -= (x - window->width / 2) * 0.01 / window->zoom;
-		window->offset_y -= (y - window->height / 2) * 0.01 / window->zoom;
-	}
-	return (0);
+    if (button == 1) // Scroll up (zoom in)
+    {
+        double zoom_factor = 1.1;
+
+        // Map mouse position to fractal space
+        double mouse_re = 1.5 * (x - window->width / 2) / (0.5 * window->zoom * window->width) + window->offset_x;
+        double mouse_im = (y - window->height / 2) / (0.5 * window->zoom * window->height) + window->offset_y;
+
+        // Update zoom level
+        window->zoom *= zoom_factor;
+
+        // Adjust offsets to zoom toward the mouse position
+        window->offset_x = mouse_re - (x - window->width / 2) / (0.5 * window->zoom * window->width);
+        window->offset_y = mouse_im - (y - window->height / 2) / (0.5 * window->zoom * window->height);
+    }
+    else if (button == 2) // Scroll down (zoom out)
+    {
+        double zoom_factor = 1.1;
+        double mouse_re = 1.5 * (x - window->width / 2) / (0.5 * window->zoom * window->width) + window->offset_x;
+        double mouse_im = (y - window->height / 2) / (0.5 * window->zoom * window->height) + window->offset_y;
+
+        // Update zoom level
+        window->zoom /= zoom_factor;
+
+        // Adjust offsets to zoom away from the mouse position
+        window->offset_x = mouse_re - (x - window->width / 2) / (0.5 * window->zoom * window->width);
+        window->offset_y = mouse_im - (y - window->height / 2) / (0.5 * window->zoom * window->height);
+    }
+    draw_fractal(window);
+    return (0);
 }
 
 int expose_handler(t_window *window)
@@ -72,5 +90,4 @@ void event_handler(t_window *window)
 	mlx_hook(window->win, 2, 1L<<0, key_handler, window);
 	mlx_hook(window->win, 4, 1L<<2, mouse_handler, window);
 	mlx_hook(window->win, 12, 1L<<15, expose_handler, window);
-	mlx_loop(window->mlx);
 }

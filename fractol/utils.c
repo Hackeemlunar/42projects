@@ -47,12 +47,16 @@ void fill_background(t_window *window, int color)
 
 int get_color(int iter, int max_iter, t_window *window)
 {
-    double	hue;
+	double t;
+	int r;
+	int g;
+	int b;
 
-    if (iter == max_iter)
-        return (window->bg_color);
-    hue = fmod(((double)iter / max_iter + window->color_sft), 1.0);
-    return (hsv_to_rgb(hue, 1.0, 1.0));
+	t = (double)iter / max_iter + window->color_sft;
+	r = (int)(9 * (1 - t) * t * t * t * 255);
+	g = (int)(15 * (1 - t) * (1 - t) * t * t * 255);
+	b = (int)(8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255);
+	return (r << 16 | g << 8 | b);
 }
 
 void update_color_shift(t_window *window)
