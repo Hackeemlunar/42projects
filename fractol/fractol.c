@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 20:21:55 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/03/01 22:10:19 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/03/03 20:41:20 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int parse_args(int argc, char **argv, t_window *window)
 	else if (argc == 4 && !ft_strncmp(argv[1], "julia", 5))
 	{
 		window->type = JULIA;
-		window->julia_re = ft_atoi(argv[2]);
-		window->julia_im = ft_atoi(argv[3]);
+		window->julia_re = atof(argv[2]);
+		window->julia_im = atof(argv[3]);
 	}
 	else
 	{

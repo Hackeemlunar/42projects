@@ -19,24 +19,25 @@ void swap(Stack *s)
 		s->arr[1] = tmp;
 	}
 }
+void merge_sort(int *arr, int len);
 
 void sa(Stack *a)
 {
 	swap(a);
-	ft_printf("sa\n");
+	ft_putstr_fd("sa\n", 1);
 }
 
 void sb(Stack *b)
 {
 	swap(b);
-	ft_printf("sb\n");
+	ft_putstr_fd("sb\n", 1);
 }
 
 void ss(Stack *a, Stack *b)
 {
 	swap(a);
 	swap(b);
-	ft_printf("ss\n");
+	ft_putstr_fd("ss\n", 1);
 }
 
 void push(Stack *dest, Stack *src)
@@ -68,13 +69,13 @@ void push(Stack *dest, Stack *src)
 void pa(Stack *a, Stack *b)
 {
 	push(a, b);
-	ft_printf("pa\n");
+	ft_putstr_fd("pa\n", 1);
 }
 
 void pb(Stack *b, Stack *a)
 {
 	push(b, a);
-	ft_printf("pb\n");
+	ft_putstr_fd("pb\n", 1);
 }
 
 void rotate(Stack *s)
@@ -98,20 +99,20 @@ void rotate(Stack *s)
 void ra(Stack *a)
 {
 	rotate(a);
-	ft_printf("ra\n");
+	ft_putstr_fd("ra\n", 1);
 }
 
 void rb(Stack *b)
 {
 	rotate(b);
-	ft_printf("rb\n");
+	ft_putstr_fd("rb\n", 1);
 }
 
 void rr(Stack *a, Stack *b)
 {
 	rotate(a);
 	rotate(b);
-	ft_printf("rr\n");
+	ft_putstr_fd("rr\n", 1);
 }
 
 void rev_rotate(Stack *s)
@@ -135,37 +136,27 @@ void rev_rotate(Stack *s)
 void rra(Stack *a)
 {
 	rev_rotate(a);
-	ft_printf("rra\n");
+	ft_putstr_fd("rra\n", 1);
 }
 
 void rrb(Stack *b)
 {
 	rev_rotate(b);
-	ft_printf("rrb\n");
+	ft_putstr_fd("rrb\n", 1);
 }
 
 void rrr(Stack *a, Stack *b)
 {
 	rev_rotate(a);
 	rev_rotate(b);
-	ft_printf("rrr\n");
+	ft_putstr_fd("rrr\n", 1);
 }
 
-/* --- Utility functions --- */
-int cmp_int(const void *a, const void *b)
+void index_stack(int *arr, int *copy, int n)
 {
-	return (*(int *)a - *(int *)b);
-}
-
-void index_stack(int *arr, int n)
-{
-	int *copy;
 	int i;
 	int j;
 
-	copy = malloc(n * sizeof(int));
-	ft_memcpy(copy, arr, n * sizeof(int));
-	qsort(copy, n, sizeof(int), cmp_int);
 	i = 0;
 	while (i < n)
 	{
@@ -181,30 +172,15 @@ void index_stack(int *arr, int n)
 		}
 		i++;
 	}
-	free(copy);
 }
 
-int has_duplicates(int *arr, int n)
+int has_duplicates(int *sorted, int n)
 {
-	int i;
-	int j;
 
-	i = 0;
-	while (i < n)
-	{
-		j = i + 1;
-		while (j < n)
-		{
-			if (arr[i] == arr[j])
-				return (1);
-			j++;
-		}
-		i++;
-	}
 	return (0);
 }
 
-int	is_sorted(Stack *a)
+int is_sorted(Stack *a)
 {
 	int i;
 
@@ -216,21 +192,6 @@ int	is_sorted(Stack *a)
 		i++;
 	}
 	return (1);
-}
-
-/* --- Sorting Algorithm --- */
-void sort_small_stack(Stack *a, Stack *b)
-{
-	while (a->size > 1)
-	{
-		if (a->arr[0] > a->arr[1])
-			sa(a);
-		if (is_sorted(a) && b->size == 0)
-			return ;
-		pb(b, a);
-	}
-	while (b->size > 0)
-		pa(a, b);
 }
 
 void radix_sort(Stack *a, Stack *b, int n)
@@ -289,54 +250,58 @@ int has_overflow(char *str)
 	return (0);
 }
 
-void initialize_stacks(Stack *a, Stack *b, int n)
+void initialize_stacks(t_arena *arena, Stack *a, Stack *b, int n)
 {
-	a->arr = malloc(n * sizeof(int));
-	b->arr = malloc(n * sizeof(int));
+	a->arr = (int *)arena_alloc(arena, n * sizeof(int));
+	b->arr = (int *)arena_alloc(arena, n * sizeof(int));
 	if (!a->arr)
+	{
+		arena_destroy(arena);
 		exit(EXIT_FAILURE);
+	}
 	if (!b->arr)
 	{
-		free(a->arr);
+		arena_destroy(arena);
 		exit(EXIT_FAILURE);
 	}
 	a->size = n;
 	b->size = 0;
 }
 
-void sort_and_cleanup(Stack *a, Stack *b, int n)
+void perform_operations(int *temp, Stack *a, Stack *b, int n)
 {
-	index_stack(a->arr, n);
-	if (n <= 5)
-		sort_small_stack(a, b);
-	else
-		radix_sort(a, b, n);
-	free(a->arr);
-	free(b->arr);
+	index_stack(a->arr, temp, n);
+	radix_sort(a, b, n);
 }
 
 /* --- Main function --- */
 int main(int argc, char **argv)
 {
-	int		n;
-	int		i;
-	Stack	a;
-	Stack	b;
+	int i;
+	int *sorted_copy;
+	Stack a;
+	Stack b;
+	t_arena *arena;
 
 	if (argc < 2)
 		return 0;
-	n = argc - 1;
-	initialize_stacks(&a, &b, n);
+	arena = arena_create((argc - 1) * sizeof(int) * 10);
+	if (!arena)
+		return (write(2, "Error\n", 6), 1);
+	initialize_stacks(arena, &a, &b, (argc - 1));
 	i = 0;
-	while (i < n)
+	while (i < (argc - 1))
 	{
 		if (has_error(argv[i + 1]) || has_overflow(argv[i + 1]))
-			return (write(2, "Error\n", 6), free(a.arr), free(b.arr), 1);
+			return (write(2, "Error\n", 6), arena_destroy(arena), 1);
 		a.arr[i] = ft_atoi(argv[i + 1]);
 		i++;
 	}
-	if (has_duplicates(a.arr, n))
-		return (write(2, "Error\n", 6), free(a.arr), free(b.arr), 1);
-	sort_and_cleanup(&a, &b, n);
-	return 0;
+	sorted_copy = (int *)arena_alloc(arena, (argc - 1) * sizeof(int) + 1);
+	ft_memcpy(sorted_copy, a.arr, (argc - 1) * sizeof(int));
+	merge_sort(sorted_copy, (argc - 1));
+	if (has_duplicates(sorted_copy, (argc - 1)))
+		return (write(2, "Error\n", 6), arena_destroy(arena), 1);
+	perform_operations(sorted_copy, &a, &b, (argc - 1));
+	return (arena_destroy(arena), 0);
 }
