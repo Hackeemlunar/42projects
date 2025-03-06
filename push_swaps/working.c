@@ -7,10 +7,11 @@ typedef struct s_stack
 {
 	int *arr;
 	int size;
-} Stack;
+}	t_stack;
 
-/* --- Operation functions --- */
-void swap(Stack *s)
+void merge_sort(int *arr, int len);
+
+void swap(t_stack *s)
 {
 	if (s->size > 1)
 	{
@@ -19,28 +20,27 @@ void swap(Stack *s)
 		s->arr[1] = tmp;
 	}
 }
-void merge_sort(int *arr, int len);
 
-void sa(Stack *a)
+void sa(t_stack *a)
 {
 	swap(a);
 	ft_putstr_fd("sa\n", 1);
 }
 
-void sb(Stack *b)
+void sb(t_stack *b)
 {
 	swap(b);
 	ft_putstr_fd("sb\n", 1);
 }
 
-void ss(Stack *a, Stack *b)
+void ss(t_stack *a, t_stack *b)
 {
 	swap(a);
 	swap(b);
 	ft_putstr_fd("ss\n", 1);
 }
 
-void push(Stack *dest, Stack *src)
+void push(t_stack *dest, t_stack *src)
 {
 	int tmp;
 	int i;
@@ -66,19 +66,19 @@ void push(Stack *dest, Stack *src)
 	}
 }
 
-void pa(Stack *a, Stack *b)
+void pa(t_stack *a, t_stack *b)
 {
 	push(a, b);
 	ft_putstr_fd("pa\n", 1);
 }
 
-void pb(Stack *b, Stack *a)
+void pb(t_stack *b, t_stack *a)
 {
 	push(b, a);
 	ft_putstr_fd("pb\n", 1);
 }
 
-void rotate(Stack *s)
+void rotate(t_stack *s)
 {
 	int temp;
 	int i;
@@ -96,26 +96,26 @@ void rotate(Stack *s)
 	}
 }
 
-void ra(Stack *a)
+void ra(t_stack *a)
 {
 	rotate(a);
 	ft_putstr_fd("ra\n", 1);
 }
 
-void rb(Stack *b)
+void rb(t_stack *b)
 {
 	rotate(b);
 	ft_putstr_fd("rb\n", 1);
 }
 
-void rr(Stack *a, Stack *b)
+void rr(t_stack *a, t_stack *b)
 {
 	rotate(a);
 	rotate(b);
 	ft_putstr_fd("rr\n", 1);
 }
 
-void rev_rotate(Stack *s)
+void rev_rotate(t_stack *s)
 {
 	int i;
 	int temp;
@@ -133,19 +133,19 @@ void rev_rotate(Stack *s)
 	}
 }
 
-void rra(Stack *a)
+void rra(t_stack *a)
 {
 	rev_rotate(a);
 	ft_putstr_fd("rra\n", 1);
 }
 
-void rrb(Stack *b)
+void rrb(t_stack *b)
 {
 	rev_rotate(b);
 	ft_putstr_fd("rrb\n", 1);
 }
 
-void rrr(Stack *a, Stack *b)
+void rrr(t_stack *a, t_stack *b)
 {
 	rev_rotate(a);
 	rev_rotate(b);
@@ -176,11 +176,19 @@ void index_stack(int *arr, int *copy, int n)
 
 int has_duplicates(int *sorted, int n)
 {
+	int i;
 
+	i = 0;
+	while (i < n - 1)
+	{
+		if (sorted[i] == sorted[i + 1])
+			return (1);
+		i++;
+	}
 	return (0);
 }
 
-int is_sorted(Stack *a)
+int is_sorted(t_stack *a)
 {
 	int i;
 
@@ -194,7 +202,7 @@ int is_sorted(Stack *a)
 	return (1);
 }
 
-void radix_sort(Stack *a, Stack *b, int n)
+void radix_sort(t_stack *a, t_stack *b, int n)
 {
 	int max_bits;
 	int i_bit;
@@ -242,15 +250,15 @@ int has_error(char *str)
 
 int has_overflow(char *str)
 {
-	int n;
+	long n;
 
-	n = ft_atoi(str);
+	n = ft_atol(str);
 	if (n > 2147483647 || n < -2147483648)
 		return (1);
 	return (0);
 }
 
-void initialize_stacks(t_arena *arena, Stack *a, Stack *b, int n)
+void initialize_stacks(t_arena *arena, t_stack *a, t_stack *b, int n)
 {
 	a->arr = (int *)arena_alloc(arena, n * sizeof(int));
 	b->arr = (int *)arena_alloc(arena, n * sizeof(int));
@@ -268,36 +276,46 @@ void initialize_stacks(t_arena *arena, Stack *a, Stack *b, int n)
 	b->size = 0;
 }
 
-void perform_operations(int *temp, Stack *a, Stack *b, int n)
+static void perform_operations(int *temp, t_stack *a, t_stack *b, int n)
 {
 	index_stack(a->arr, temp, n);
 	radix_sort(a, b, n);
 }
 
+static int build_stack_a(t_arena *arena, char **argv, int argc, t_stack *a)
+{
+	int i;
+
+	i = -1;
+	while (++i < (argc - 1))
+	{
+		if (has_error(argv[i + 1]) || has_overflow(argv[i + 1]))
+			return (write(2, "Error\n", 6), arena_destroy(arena), 0);
+		a->arr[i] = ft_atoi(argv[i + 1]);
+	}
+	return (1);
+}
+
 /* --- Main function --- */
 int main(int argc, char **argv)
 {
-	int i;
-	int *sorted_copy;
-	Stack a;
-	Stack b;
-	t_arena *arena;
+	int		i;
+	int		*sorted_copy;
+	t_stack	a;
+	t_stack	b;
+	t_arena	*arena;
 
 	if (argc < 2)
-		return 0;
+		return (0);
 	arena = arena_create((argc - 1) * sizeof(int) * 10);
 	if (!arena)
 		return (write(2, "Error\n", 6), 1);
 	initialize_stacks(arena, &a, &b, (argc - 1));
-	i = 0;
-	while (i < (argc - 1))
-	{
-		if (has_error(argv[i + 1]) || has_overflow(argv[i + 1]))
-			return (write(2, "Error\n", 6), arena_destroy(arena), 1);
-		a.arr[i] = ft_atoi(argv[i + 1]);
-		i++;
-	}
+	if (!(build_stack_a(arena, argv, argc, &a)))
+		return (1);
 	sorted_copy = (int *)arena_alloc(arena, (argc - 1) * sizeof(int) + 1);
+	if (!sorted_copy)
+		return (write(2, "Error\n", 6), arena_destroy(arena), 1);
 	ft_memcpy(sorted_copy, a.arr, (argc - 1) * sizeof(int));
 	merge_sort(sorted_copy, (argc - 1));
 	if (has_duplicates(sorted_copy, (argc - 1)))
