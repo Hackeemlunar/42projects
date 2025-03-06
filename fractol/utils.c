@@ -28,37 +28,39 @@ int destroy_window(t_window *window)
 	exit(0);
 }
 
-void fill_background(t_window *window, int color)
-{
-	int	y;
-	int	x;
+// HSV to RGB conversion
+static int hsv_to_rgb(double h, double s, double v) {
+    int i;
+    double f, p, q, t, r, g, b;
 
-	y = 0;
-	while (y < window->height)
-	{
-		x = 0;
-		while (x < window->width)
-		{
-			my_mlx_pixel_put(window, x, y, color);
-			x++;
-		}
-		y++;
-	}
+    if (s == 0) {
+        r = g = b = v; // Grayscale
+    } else {
+        h = fmod(h, 1.0);
+        if (h < 0) h += 1.0;
+        h *= 6.0;
+        i = (int)h;
+        f = h - i;
+        p = v * (1.0 - s);
+        q = v * (1.0 - s * f);
+        t = v * (1.0 - s * (1.0 - f));
+
+        switch (i) {
+            case 0: r = v; g = t; b = p; break;
+            case 1: r = q; g = v; b = p; break;
+            case 2: r = p; g = v; b = t; break;
+            case 3: r = p; g = q; b = v; break;
+            case 4: r = t; g = p; b = v; break;
+            default: r = v; g = p; b = q; break;
+        }
+    }
+    return ((int)(r * 255) << 16) | ((int)(g * 255) << 8) | (int)(b * 255);
 }
 
 int get_color(int iter, int max_iter, t_window *window)
 {
-    double	hue;
-
     if (iter == max_iter)
-        return (window->bg_color);
-    hue = fmod(((double)iter / max_iter + window->color_sft), 1.0);
-    return (hsv_to_rgb(hue, 1.0, 1.0));
-}
-
-void update_color_shift(t_window *window)
-{
-    window->color_sft += 0.005;
-    if (window->color_sft >= 1.0)
-        window->color_sft -= 1.0;
+	        return 0x000000FF;
+    double hue = fmod(((double)iter / max_iter + window->color_sft), 1.0);
+    return hsv_to_rgb(hue, 1.0, 1.0);
 }

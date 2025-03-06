@@ -10,6 +10,7 @@ typedef struct s_stack
 } Stack;
 
 void merge_sort(int *arr, int len);
+
 /* --- Operation functions --- */
 void swap(Stack *s)
 {
@@ -24,20 +25,17 @@ void swap(Stack *s)
 void sa(Stack *a)
 {
 	swap(a);
-	ft_putstr_fd("sa\n", 1);
 }
 
 void sb(Stack *b)
 {
 	swap(b);
-	ft_putstr_fd("sb\n", 1);
 }
 
 void ss(Stack *a, Stack *b)
 {
 	swap(a);
 	swap(b);
-	ft_putstr_fd("ss\n", 1);
 }
 
 void push(Stack *dest, Stack *src)
@@ -69,13 +67,11 @@ void push(Stack *dest, Stack *src)
 void pa(Stack *a, Stack *b)
 {
 	push(a, b);
-	ft_putstr_fd("pa\n", 1);
 }
 
 void pb(Stack *b, Stack *a)
 {
 	push(b, a);
-	ft_putstr_fd("pb\n", 1);
 }
 
 void rotate(Stack *s)
@@ -99,20 +95,17 @@ void rotate(Stack *s)
 void ra(Stack *a)
 {
 	rotate(a);
-	ft_putstr_fd("ra\n", 1);
 }
 
 void rb(Stack *b)
 {
 	rotate(b);
-	ft_putstr_fd("rb\n", 1);
 }
 
 void rr(Stack *a, Stack *b)
 {
 	rotate(a);
 	rotate(b);
-	ft_putstr_fd("rr\n", 1);
 }
 
 void rev_rotate(Stack *s)
@@ -120,6 +113,7 @@ void rev_rotate(Stack *s)
 	int i;
 	int temp;
 
+	temp = 0;
 	if (s->size > 0)
 	{
 		temp = s->arr[s->size - 1];
@@ -136,42 +130,17 @@ void rev_rotate(Stack *s)
 void rra(Stack *a)
 {
 	rev_rotate(a);
-	ft_putstr_fd("rra\n", 1);
 }
 
 void rrb(Stack *b)
 {
 	rev_rotate(b);
-	ft_putstr_fd("rrb\n", 1);
 }
 
 void rrr(Stack *a, Stack *b)
 {
 	rev_rotate(a);
 	rev_rotate(b);
-	ft_putstr_fd("rrr\n", 1);
-}
-
-void index_stack(int *arr, int *copy, int n)
-{
-	int i;
-	int j;
-
-	i = 0;
-	while (i < n)
-	{
-		j = 0;
-		while (j < n)
-		{
-			if (arr[i] == copy[j])
-			{
-				arr[i] = j;
-				break;
-			}
-			j++;
-		}
-		i++;
-	}
 }
 
 int has_duplicates(int *sorted, int n)
@@ -202,36 +171,6 @@ int is_sorted(Stack *a)
 	return (1);
 }
 
-void radix_sort(Stack *a, Stack *b, int n)
-{
-	int max_bits;
-	int i_bit;
-	int count;
-	int i;
-
-	max_bits = 0;
-	while (((n - 1) >> max_bits) != 0)
-		max_bits++;
-	i_bit = 0;
-	while (i_bit < max_bits)
-	{
-		count = a->size;
-		i = 0;
-		while (i < count)
-		{
-			if (((a->arr[0] >> i_bit) & 1) == 1)
-				ra(a);
-			else
-				pb(b, a);
-			i++;
-		}
-		while (b->size > 0)
-			pa(a, b);
-		i_bit++;
-	}
-}
-
-/* --- Error checking functions --- */
 int has_error(char *str)
 {
 	int i;
@@ -262,12 +201,7 @@ void initialize_stacks(t_arena *arena, Stack *a, Stack *b, int n)
 {
 	a->arr = (int *)arena_alloc(arena, n * sizeof(int));
 	b->arr = (int *)arena_alloc(arena, n * sizeof(int));
-	if (!a->arr)
-	{
-		arena_destroy(arena);
-		exit(EXIT_FAILURE);
-	}
-	if (!b->arr)
+	if (!a->arr || !b->arr)
 	{
 		arena_destroy(arena);
 		exit(EXIT_FAILURE);
@@ -276,13 +210,47 @@ void initialize_stacks(t_arena *arena, Stack *a, Stack *b, int n)
 	b->size = 0;
 }
 
-static void perform_operations(int *temp, Stack *a, Stack *b, int n)
+static void perform_operations(Stack *a, Stack *b, int n)
 {
-	index_stack(a->arr, temp, n);
-	radix_sort(a, b, n);
+	char *line;
+
+	line = get_next_line(0);
+	while (ft_strncmp(line, "exit", 4) != 0)
+	{
+		if (ft_strncmp(line, "sa", 2) == 0)
+			sa(a);
+		else if (ft_strncmp(line, "sb", 2) == 0)
+			sb(b);
+		else if (ft_strncmp(line, "ss", 2) == 0)
+			ss(a, b);
+		else if (ft_strncmp(line, "pa", 2) == 0)
+			pa(a, b);
+		else if (ft_strncmp(line, "pb", 2) == 0)
+			pb(b, a);
+		else if (ft_strncmp(line, "rra", 3) == 0)
+			rra(a);
+		else if (ft_strncmp(line, "rrb", 3) == 0)
+			rrb(b);
+		else if (ft_strncmp(line, "rrr", 3) == 0)
+			rrr(a, b);
+		else if (ft_strncmp(line, "ra", 2) == 0)
+			ra(a);
+		else if (ft_strncmp(line, "rb", 2) == 0)
+			rb(b);
+		else if (ft_strncmp(line, "rr", 2) == 0)
+			rr(a, b);
+		else
+			return (ft_putstr_fd("Error\n", 2));
+		free(line);
+		line = get_next_line(0);
+	}
+	free(line);
+	if (is_sorted(a) && b->size == 0)
+		ft_putstr_fd("OK\n", 1);
+	else
+		ft_putstr_fd("KO\n", 1);
 }
 
-/* --- Main function --- */
 int main(int argc, char **argv)
 {
 	int i;
@@ -292,7 +260,7 @@ int main(int argc, char **argv)
 	t_arena *arena;
 
 	if (argc < 2)
-		return 0;
+		return (0);
 	arena = arena_create((argc - 1) * sizeof(int) * 10);
 	if (!arena)
 		return (write(2, "Error\n", 6), 1);
@@ -310,6 +278,6 @@ int main(int argc, char **argv)
 	merge_sort(sorted_copy, (argc - 1));
 	if (has_duplicates(sorted_copy, (argc - 1)))
 		return (write(2, "Error\n", 6), arena_destroy(arena), 1);
-	perform_operations(sorted_copy, &a, &b, (argc - 1));
+	perform_operations(&a, &b, (argc - 1));
 	return (arena_destroy(arena), 0);
 }

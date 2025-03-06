@@ -1,49 +1,52 @@
+
 #include "push_swap.h"
 
-void merge(int *arr, int *temp, int left, int right)
+static void	merge(int *arr, int *temp, int left, int right)
 {
 	int	mid;
-	int i;
-	int j;
-	int k;
+	int	i;
+	int	j;
+	int	k;
 
 	i = -1;
-	mid = left + (right - left) / 2;
+	mid = (right - left) / 2;
 	while (++i < (right - left))
 		temp[i] = arr[left + i];
 	i = 0;
-	j = 0;
+	j = mid;
 	k = left;
-	while ((i < (mid - left + 1)) && (j < (right - mid)))
-		if (temp[i] < temp[j])
+	while (i < mid && j < (right - left))
+	{
+		if (temp[i] <= temp[j])
 			arr[k++] = temp[i++];
 		else
-			arr[k++] = R[j++];
-	while (i < (mid - left + 1))
-		arr[k++] = L[i++];
-	while (j < (right - mid))
-		arr[k++] = R[j++];
-}
-
-void merge_sort1(int *arr, int *temp, int left, int right)
-{
-	int mid;
-	if (left < right)
-	{
-		mid = left + (right - left) / 2;
-		merge_sort1(arr, temp, left, mid);
-		merge_sort1(arr, temp, mid + 1, right);
-		merge(arr, left, mid, right);
+			arr[k++] = temp[j++];
 	}
+	while (i < mid)
+		arr[k++] = temp[i++];
+	while (j < (right - left))
+		arr[k++] = temp[j++];
 }
 
-void	merge_sort(void *arr, int len)
+static void	merge_sort1(int *arr, int *temp, int left, int right)
+{
+	int	mid;
+
+	if (left >= right - 1)
+		return ;
+	mid = left + (right - left) / 2;
+	merge_sort1(arr, temp, left, mid);
+	merge_sort1(arr, temp, mid, right);
+	merge(arr, temp, left, right);
+}
+
+void	merge_sort(int *arr, int len)
 {
 	int		*temp;
-	t_arena *arena;
+	t_arena	*arena;
 
-	arena = arena_create(len * 2);
-	temp = (int *)arena_alloc(arena, len);
+	arena = arena_create(len * sizeof(int) * 5);
+	temp = (int *)arena_alloc(arena, len * sizeof(int) + 1);
 	merge_sort1(arr, temp, 0, len);
 	arena_destroy(arena);
 }
