@@ -1,6 +1,12 @@
-#include "push_swap.h"
+// #include "push_swap.h"
 
-void radix_sort(Stack *a, Stack *b)
+typedef struct s_stack
+{
+	int *arr;
+	int size;
+} t_stack;
+
+void radix_sort(t_stack *a, t_stack *b)
 {
 	int max_bits;
 	int i_bit;
@@ -35,7 +41,7 @@ void radix_sort(Stack *a, Stack *b)
 	}
 }
 
-void process_b(Stack *a, Stack *b)
+void process_b(t_stack *a, t_stack *b)
 {
     if (b->size > 1)
     {
@@ -55,96 +61,30 @@ void process_b(Stack *a, Stack *b)
     }
 }
 
-
-void process_a(Stack *a, Stack *b)
-{
-    while (!is_sorted_asc(a))
-    {
-        if (a->arr[0] > a->arr[1])
+void sort_a(t_stack *a, t_stack *b, int n) {
+    while (a->size > 0) {
+        if (a->size > 1 && a->arr[a->size - 1] > a->arr[a->size - 2]) {
             sa(a);
-        if (a->arr[0] > a->arr[a->size - 1])
+        }
+
+        if (a->size > 1 && a->arr[a->size - 1] > a->arr[0]) {
             rra(a);
-
-        // Collect elements into B first, then sort B
-        if (a->arr[0] < a->arr[a->size - 1])
+        } else {
             pb(a, b);
+        }
+
+        if (b->size > 1) {
+            if (b->arr[b->size - 1] < b->arr[b->size - 2]) {
+                if(b->arr[b->size -1] < b->arr[0]){
+                    rb(b);
+                } else{
+                    sb(b);
+                }
+            }
+        }
+
+        if (b->size > 1 && b->arr[b->size - 1] < b->arr[0]) {
+            rrb(b);
+        }
     }
-
-    process_b(a, b); // Call once after pushing elements
-}
-
-
-void insertion_sort(Stack *a, Stack *b)
-{
-	int *a_n;
-	int *b_n;
-
-	a_n = a->arr;
-	b_n = b->arr;
-	process_a(a, b);
-	while (b->size > 0)
-	{
-		pa(a, b);
-		process_a(a, b);
-	}
-}
-
-int is_sorted_b(t_stack *b)
-{
-	int i;
-
-	i = 0;
-	while (i < b->size - 1)
-	{
-		if (b->arr[i] < b->arr[i + 1])
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-void sort_a(t_stack *a, t_stack *b)
-{
-	while (!is_sorted(a))
-	{
-		if (a->arr[0] < a->arr[1] && a->arr[0] < a->arr[a->size - 1])
-		{
-			pb(b,a);
-			if (b->size > 1 && b->arr[0] < b->arr[1] && b->arr[0] < b->arr[b->size - 1])
-				rb(b);
-			if (b->size > 1 && b->arr[0] < b->arr[1])
-				sb(b);
-			if (b->size > 1 && b->arr[b->size - 1] > b->arr[0])
-				rrb(b);
-		}
-		if (a->arr[0] > a->arr[1])
-			sa(a);
-		if (a->arr[a->size - 1] < a->arr[0])
-			rra(a);
-	}
-}
-
-void sort_b(t_stack *a, t_stack *b)
-{
-	while (!is_sorted_b(b))
-	{
-		if (b->arr[0] < b->arr[1] && b->arr[0] < b->arr[b->size - 1])
-		{
-			rb(b);
-			if (b->size > 1 && b->arr[0] < b->arr[1])
-				sb(b);
-			if (b->size > 1 && b->arr[b->size - 1] > b->arr[0])
-				rrb(b);
-		}
-		if (b->arr[0] > b->arr[1] && b->arr[0] > b->arr[b->size - 1])
-		{
-			pa(a, b);
-			if (a->size > 1 && a->arr[0] > a->arr[1])
-				sa(a);
-			if (a->size > 1 && a->arr[a->size - 1] < a->arr[0])
-				rra(a);
-		}
-		if (b->arr[0] > b->arr[1])
-			sb(b);
-	}
 }
