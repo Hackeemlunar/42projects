@@ -88,3 +88,63 @@ void insertion_sort(Stack *a, Stack *b)
 		process_a(a, b);
 	}
 }
+
+int is_sorted_b(t_stack *b)
+{
+	int i;
+
+	i = 0;
+	while (i < b->size - 1)
+	{
+		if (b->arr[i] < b->arr[i + 1])
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+void sort_a(t_stack *a, t_stack *b)
+{
+	while (!is_sorted(a))
+	{
+		if (a->arr[0] < a->arr[1] && a->arr[0] < a->arr[a->size - 1])
+		{
+			pb(b,a);
+			if (b->size > 1 && b->arr[0] < b->arr[1] && b->arr[0] < b->arr[b->size - 1])
+				rb(b);
+			if (b->size > 1 && b->arr[0] < b->arr[1])
+				sb(b);
+			if (b->size > 1 && b->arr[b->size - 1] > b->arr[0])
+				rrb(b);
+		}
+		if (a->arr[0] > a->arr[1])
+			sa(a);
+		if (a->arr[a->size - 1] < a->arr[0])
+			rra(a);
+	}
+}
+
+void sort_b(t_stack *a, t_stack *b)
+{
+	while (!is_sorted_b(b))
+	{
+		if (b->arr[0] < b->arr[1] && b->arr[0] < b->arr[b->size - 1])
+		{
+			rb(b);
+			if (b->size > 1 && b->arr[0] < b->arr[1])
+				sb(b);
+			if (b->size > 1 && b->arr[b->size - 1] > b->arr[0])
+				rrb(b);
+		}
+		if (b->arr[0] > b->arr[1] && b->arr[0] > b->arr[b->size - 1])
+		{
+			pa(a, b);
+			if (a->size > 1 && a->arr[0] > a->arr[1])
+				sa(a);
+			if (a->size > 1 && a->arr[a->size - 1] < a->arr[0])
+				rra(a);
+		}
+		if (b->arr[0] > b->arr[1])
+			sb(b);
+	}
+}

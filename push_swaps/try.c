@@ -202,70 +202,33 @@ int is_sorted(t_stack *a)
 	return (1);
 }
 
-int is_sorted_b(t_stack *b)
+void radix_sort(t_stack *a, t_stack *b, int n)
 {
+	int max_bits;
+	int i_bit;
+	int count;
 	int i;
 
-	i = 0;
-	while (i < b->size - 1)
+	max_bits = 0;
+	while (((n - 1) >> max_bits) != 0)
+		max_bits++;
+	i_bit = 0;
+	while (i_bit < max_bits)
 	{
-		if (b->arr[i] < b->arr[i + 1])
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-void sort_a(t_stack *a, t_stack *b)
-{
-	while (!is_sorted(a))
-	{
-		if (a->arr[0] < a->arr[1] && a->arr[0] < a->arr[a->size - 1])
+		count = a->size;
+		i = 0;
+		while (i < count)
 		{
-			pb(b,a);
-			if (b->size > 1 && b->arr[0] < b->arr[1] && b->arr[0] < b->arr[b->size - 1])
-				rb(b);
-			if (b->size > 1 && b->arr[0] < b->arr[1])
-				sb(b);
-			if (b->size > 1 && b->arr[b->size - 1] > b->arr[0])
-				rrb(b);
+			if (((a->arr[0] >> i_bit) & 1) == 1)
+				ra(a);
+			else
+				pb(b, a);
+			i++;
 		}
-		if (a->arr[0] > a->arr[1])
-			sa(a);
-		if (a->arr[a->size - 1] < a->arr[0])
-			rra(a);
+		while (b->size > 0)
+			pa(a, b);
+		i_bit++;
 	}
-}
-
-void sort_b(t_stack *a, t_stack *b)
-{
-	while (!is_sorted_b(b))
-	{
-		if (a->arr[0] < a->arr[1] && a->arr[0] < a->arr[a->size - 1])
-		{
-			pb(b,a);
-			if (b->size > 1 && b->arr[0] < b->arr[1] && b->arr[0] < b->arr[b->size - 1])
-				rb(b);
-			if (b->size > 1 && b->arr[0] < b->arr[1])
-				sb(b);
-			if (b->size > 1 && b->arr[b->size - 1] > b->arr[0])
-				rrb(b);
-		}
-		if (a->arr[0] > a->arr[1])
-			sa(a);
-		if (a->arr[a->size - 1] < a->arr[0])
-			rra(a);
-	}
-}
-
-void radix_sort(int *temp, t_stack *a, t_stack *b, int n)
-{
-	while (!is_sorted(a) && !is_sorted_b(b))
-	{
-		sort_a(a, b);
-		sort_b(a, b);
-	}
-	
 }
 
 /* --- Error checking functions --- */
@@ -316,7 +279,7 @@ void initialize_stacks(t_arena *arena, t_stack *a, t_stack *b, int n)
 static void perform_operations(int *temp, t_stack *a, t_stack *b, int n)
 {
 	index_stack(a->arr, temp, n);
-	radix_sort(temp, a, b, n);
+	radix_sort(a, b, n);
 }
 
 static int build_stack_a(t_arena *arena, char **argv, int argc, t_stack *a)
