@@ -197,19 +197,6 @@ int has_overflow(char *str)
 	return (0);
 }
 
-void initialize_stacks(t_arena *arena, Stack *a, Stack *b, int n)
-{
-	a->arr = (int *)arena_alloc(arena, n * sizeof(int));
-	b->arr = (int *)arena_alloc(arena, n * sizeof(int));
-	if (!a->arr || !b->arr)
-	{
-		arena_destroy(arena);
-		exit(EXIT_FAILURE);
-	}
-	a->size = n;
-	b->size = 0;
-}
-
 static void perform_operations(Stack *a, Stack *b, int n)
 {
 	char *line;

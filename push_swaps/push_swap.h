@@ -10,7 +10,7 @@ typedef struct s_stack
 {
 	int *arr;
 	int size;
-} Stack;
+} t_stack;
 
 typedef struct s_move_cost
 {
@@ -20,27 +20,23 @@ typedef struct s_move_cost
 	int index_b;   // The index of the candidate element in stack B.
 } t_move_cost;
 
-void	sa(Stack *a);
-void	sb(Stack *b);
-void	ss(Stack *a, Stack *b);
-void	pa(Stack *a, Stack *b);
-void	pb(Stack *b, Stack *a);
-void	ra(Stack *a);
-void	rb(Stack *b);
-void	rr(Stack *a, Stack *b);
-void	rra(Stack *a);
-void	rrb(Stack *b);
-void	rrr(Stack *a, Stack *b);
-void	index_stack(int *arr, int n);
+void	sa(t_stack *a);
+void	sb(t_stack *b);
+void	ss(t_stack *a, t_stack *b);
+void	pa(t_stack *a, t_stack *b);
+void	pb(t_stack *b, t_stack *a);
+void	ra(t_stack *a);
+void	rb(t_stack *b);
+void	rr(t_stack *a, t_stack *b);
+void	rra(t_stack *a);
+void	rrb(t_stack *b);
+void	rrr(t_stack *a, t_stack *b);
 void	merge_sort(int *arr, int len);
-void	sort(Stack *a, Stack *b);
-void	initialize_stacks(Stack *a, Stack *b, int n);
-void	sort_and_cleanup(Stack *a, Stack *b, int n);
-int		has_duplicates(int *arr, int n);
-int		is_sorted_asc(Stack *a);
-int		is_sorted_desc(Stack *a);
+void	radix_sort(t_stack *a, t_stack *b, int n);
+void	index_stack(int *arr, int *copy, int n);
+int		has_duplicates(int *sorted, int n);
+int		is_sorted(t_stack *a);
 int		has_error(char *str);
 int		has_overflow(char *str);
-void radix_sort(Stack *a, Stack *b);
-void insertion_sort(Stack *a, Stack *b);
+void	initialize_stacks(t_arena *arena, t_stack *a, t_stack *b, int n);
 # endif
