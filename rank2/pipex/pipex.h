@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 18:05:55 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/02/26 21:33:23 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/03/09 20:19:31 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,6 @@ typedef struct s_cmdline
 	int		in_fd;
 	int		out_fd;
 }	t_cmdline;
-
-typedef struct s_hdocs
-{
-	char			*line;
-	struct s_docs	*next;
-}		t_hdocs;
-
 
 char	**parse_cmd(char const *s);
 void	extract_path(t_cmdline *cmd, char **env);
