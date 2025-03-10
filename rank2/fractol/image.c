@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 20:39:24 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/03/09 20:39:44 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/03/10 16:23:15 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void render_mandelbrot(t_window *window)
 {
     int x, y;
     int iter;
-    double pr, pi; // Real and imaginary parts of the complex number
+    double pr, pi;
     double new_re, new_im, old_re, old_im;
     int color;
 

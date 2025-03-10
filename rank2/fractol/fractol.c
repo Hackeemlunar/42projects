@@ -6,15 +6,14 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 20:21:55 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/03/03 20:41:20 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/03/10 16:30:41 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int parse_args(int argc, char **argv, t_window *window)
+int	parse_args(int argc, char **argv, t_window *window)
 {
-
 	if (argc == 2 && !ft_strncmp(argv[1], "mandelbrot", 10))
 		window->type = MANDELBROT;
 	else if (argc == 4 && !ft_strncmp(argv[1], "julia", 5))
@@ -32,13 +31,13 @@ int parse_args(int argc, char **argv, t_window *window)
 	return (0);
 }
 
-void setup_mlx(t_window *window)
+void	setup_mlx(t_window *window)
 {
 	window->mlx = mlx_init();
 	window->win = mlx_new_window(window->mlx, WIN_WIDTH, WIN_HEIGHT, "Fractol");
 	window->img = mlx_new_image(window->mlx, WIN_WIDTH, WIN_HEIGHT);
 	window->addr = mlx_get_data_addr(window->img, &window->bits_ppx,
-									 &window->line_len, &window->endian);
+			&window->line_len, &window->endian);
 	window->width = WIN_WIDTH;
 	window->height = WIN_HEIGHT;
 	window->zoom = 1;
@@ -49,9 +48,10 @@ void setup_mlx(t_window *window)
 	window->bg_color = 0x0000F005;
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_window window;
+	t_window	window;
+
 	if (parse_args(argc, argv, &window) != 0)
 		return (1);
 	setup_mlx(&window);
