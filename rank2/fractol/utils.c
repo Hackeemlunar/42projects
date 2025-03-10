@@ -58,3 +58,11 @@ int get_color(int iter, int max_iter, t_window *window)
 	b = (int)(8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255);
 	return (r << 16 | g << 8 | b);
 }
+
+void	update_color_shift(t_window *window)
+{
+	if (window->color_sft > 1)
+		window->color_sft = 0;
+	else if (window->color_sft < 0)
+		window->color_sft = 1;
+}

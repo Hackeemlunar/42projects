@@ -64,8 +64,8 @@ void render_julia(t_window *window)
 		while (new_x * new_x + new_y * new_y < 4)
 		{
 			old_x = new_x;
-			new_x = new_x * new_x - new_y * new_y + window->julia_re;
-			new_y = 2 * old_x * new_y + window->julia_im;
+			new_x = new_x * new_x - new_y * new_y + window->fractol_re;
+			new_y = 2 * old_x * new_y + window->fractol_im;
 			iter++;
 		}
 		color = get_color(iter, window->max_iter, window);

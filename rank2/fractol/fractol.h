@@ -12,12 +12,46 @@
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
+# define WIN_WIDTH 800
+# define WIN_HEIGHT 800
+# include <math.h>
+# include "libft/libft.h"
+# include "mlx.h"
 
-
-enum e_fract_type
+typedef enum e_fract_type
 {
 	MANDELBROT,
 	JULIA
-};
+}	t_fract_type;
 
+typedef struct s_window
+{
+	void			*mlx;
+	void			*win;
+	void			*img;
+	char			*addr;
+	double			zoom;
+	double			offset_x;
+	double			color_sft;
+	double			fractol_re;
+	double			fractol_im;
+	double			offset_y;
+	t_fract_type	type;
+	int				height;
+	int				bits_ppx;
+	int				line_len;
+	int				endian;
+	int				width;
+	int				max_iter;
+	int				bg_color;
+}	t_window;
+
+/* utils.c*/
+void	my_mlx_pixel_put(t_window *window, int x, int y, int color);
+void	destroy_window(t_window *window);
+void	fill_background(t_window *window, int color);
+int		get_color(int iter, int max_iter, t_window *window);
+void	update_color_shift(t_window *window);
+void	event_handler(t_window *window);
+void	draw_fractal(t_window *window);
 #endif

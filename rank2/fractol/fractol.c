@@ -20,8 +20,8 @@ int parse_args(int argc, char **argv, t_window *window)
 	else if (argc == 4 && !ft_strncmp(argv[1], "julia", 5))
 	{
 		window->type = JULIA;
-		window->julia_re = atof(argv[2]);
-		window->julia_im = atof(argv[3]);
+		window->fractol_re = atof(argv[2]);
+		window->fractol_im = atof(argv[3]);
 	}
 	else
 	{
