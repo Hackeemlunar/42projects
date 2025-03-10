@@ -50,8 +50,7 @@ typedef struct s_window
 void	my_mlx_pixel_put(t_window *window, int x, int y, int color);
 void	destroy_window(t_window *window);
 void	fill_background(t_window *window, int color);
-int		get_color(int iter, int max_iter, t_window *window);
-void	update_color_shift(t_window *window);
+int		get_color(int iter, t_window *window);
 void	event_handler(t_window *window);
 void	draw_fractal(t_window *window);
 #endif

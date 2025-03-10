@@ -12,40 +12,44 @@
 
 #include "fractol.h"
 
+static void	pfm_iter(t_window *win, double r_i[2], double no_ri[4], int *iter)
+{
+	while (((no_ri[0] * no_ri[0] + no_ri[1] * no_ri[1]) < 4)
+			&& *iter < win->max_iter)
+	{
+		no_ri[2] = no_ri[0];
+		no_ri[3] = no_ri[1];
+		no_ri[0] = no_ri[2] * no_ri[2] - no_ri[3] * no_ri[3] + r_i[0];
+		no_ri[1] = 2 * no_ri[2] * no_ri[3] + r_i[1];
+		(*iter)++;
+	}
+}
+
 void render_mandelbrot(t_window *window)
 {
-    int x, y;
-    int iter;
-    double pr, pi;
-    double new_re, new_im, old_re, old_im;
-    int color;
+	int		x_y[2];
+	int		iter;
+	double	r_i[2];
+	double	no_ri[4]; // new re, new im, old re, old im
+	int		color;
 
-    y = 0;
-    while (y < window->height)
-    {
-        x = 0;
-        while (x < window->width)
-        {
-            pr = 1.5 * (x - window->width / 2) / (0.5 * window->zoom * window->width) + window->offset_x;
-            pi = (y - window->height / 2) / (0.5 * window->zoom * window->height) + window->offset_y;
-            new_re = new_im = old_re = old_im = 0;
-            iter = 0;
-            while (iter < window->max_iter)
-            {
-                old_re = new_re;
-                old_im = new_im;
-                new_re = old_re * old_re - old_im * old_im + pr;
-                new_im = 2 * old_re * old_im + pi;
-                if ((new_re * new_re + new_im * new_im) > 4)
-                    break;
-                iter++;
-            }
-            color = get_color(iter, window->max_iter, window);
-            my_mlx_pixel_put(window, x, y, color);
-            x++;
-        }
-        y++;
-    }
+	x_y[1] = 0;
+	while (x_y[1] < window->height)
+	{
+		x_y[0] = 0;
+		while (x_y[0] < window->width)
+		{
+			r_i[0] = 1.5 * (x_y[0] - window->width / 2) / (0.5 * window->zoom * window->width) + window->offset_x;
+			r_i[1] = (x_y[1] - window->height / 2) / (0.5 * window->zoom * window->height) + window->offset_y;
+			no_ri[0] = no_ri[1] = no_ri[2] = no_ri[3] = 0;
+			iter = 0;
+			pfm_iter(window, r_i, no_ri, &iter);
+			color = get_color(iter, window);
+			my_mlx_pixel_put(window, x_y[0], x_y[1], color);
+			x_y[0]++;
+		}
+		x_y[1]++;
+	}
 }
 
 void render_julia(t_window *window)
@@ -68,15 +72,13 @@ void render_julia(t_window *window)
 			new_y = 2 * old_x * new_y + window->fractol_im;
 			iter++;
 		}
-		color = get_color(iter, window->max_iter, window);
+		color = get_color(iter, window);
 		my_mlx_pixel_put(window, window->offset_x + iter, window->offset_y, color);
 	}
 }
 
 void draw_fractal(t_window *window)
 {
-	// fill_background(window, window->bg_color);
-	update_color_shift(window);
 	if (window->type == MANDELBROT)
 		render_mandelbrot(window);
 	else if (window->type == JULIA)

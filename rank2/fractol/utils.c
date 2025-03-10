@@ -45,24 +45,17 @@ void	fill_background(t_window *window, int color)
 	}
 }
 
-int	get_color(int iter, int max_iter, t_window *window)
+int	get_color(int iter, t_window *window)
 {
-	double	t;
-	int		r;
-	int		g;
-	int		b;
+    int		r, g, b;
+    double	frequency = 0.1; // Controls psychedelic effect speed
 
-	t = (double)iter / max_iter + window->color_sft;
-	r = (int)(9 * (1 - t) * t * t * t * 255);
-	g = (int)(15 * (1 - t) * (1 - t) * t * t * 255);
-	b = (int)(8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255);
-	return (r << 16 | g << 8 | b);
-}
+    // Normalize iteration count with a dynamic shift
 
-void	update_color_shift(t_window *window)
-{
-	if (window->color_sft > 1)
-		window->color_sft = 0;
-	else if (window->color_sft < 0)
-		window->color_sft = 1;
+    // Apply psychedelic shifting based on `color_sft`
+    r = (int)(sin(frequency * iter + window->color_sft * 0.2) * 127 + 128);
+    g = (int)(sin(frequency * iter + window->color_sft * 0.3 + 2) * 127 + 128);
+    b = (int)(sin(frequency * iter + window->color_sft * 0.5 + 4) * 127 + 128);
+
+    return (r << 16 | g << 8 | b);
 }

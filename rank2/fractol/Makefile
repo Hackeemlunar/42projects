@@ -21,8 +21,8 @@ OBJS        = $(SRCS:.c=.o)
 LIBFT_DIR   = ./libft
 LIBFT       = $(LIBFT_DIR)/libft.a
 
-# PLATFORM    = linux
-PLATFORM    = macos
+PLATFORM    = linux
+# PLATFORM    = macos
 
 ifeq ($(PLATFORM), linux)
 	MLX_DIR     = mlx_linux

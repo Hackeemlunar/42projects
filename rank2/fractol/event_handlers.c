@@ -47,28 +47,28 @@ int	key_handler(int keycode, t_window *window)
 
 int	key_handler_mac(int keycode, t_window *window)
 {
-	if (keycode == 65307)
+	if (keycode == 53) // Escape key
 	{
 		destroy_window(window);
 		exit(0);
 	}
-	else if (keycode == 65362)
+	else if (keycode == 126) // Up arrow key
 		window->offset_y -= 0.1 / window->zoom;
-	else if (keycode == 65364)
+	else if (keycode == 125) // Down arrow key
 		window->offset_y += 0.1 / window->zoom;
-	else if (keycode == 65361)
+	else if (keycode == 123) // Left arrow key
 		window->offset_x -= 0.1 / window->zoom;
-	else if (keycode == 65363)
+	else if (keycode == 124) // Right arrow key
 		window->offset_x += 0.1 / window->zoom;
-	else if (keycode == 61)
+	else if (keycode == 24) // Plus key
 		window->max_iter += 10;
-	else if (keycode == 45)
+	else if (keycode == 27) // Minus key
 		window->max_iter -= 10;
-	else if (keycode == 65361)
+	else if (keycode == 123) // Left arrow key
 		window->color_sft -= 0.01;
-	else if (keycode == 65363)
+	else if (keycode == 124) // Right arrow key
 		window->color_sft += 0.01;
-	else if (keycode == 114)
+	else if (keycode == 15) // 'R' key
 	{
 		window->zoom = 1;
 		window->offset_x = 0;
@@ -94,6 +94,7 @@ int	mouse_handler(int button, int x, int y, t_window *window)
         // Adjust offsets to zoom toward the mouse position
         window->offset_x = mouse_re - (x - window->width / 2) / (0.5 * window->zoom * window->width);
         window->offset_y = mouse_im - (y - window->height / 2) / (0.5 * window->zoom * window->height);
+		window->max_iter = (int)(50 + log2(window->zoom) * 10);
     }
     else if (button == 2) // Scroll down (zoom out)
     {
