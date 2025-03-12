@@ -32,6 +32,9 @@ void	index_stack(int *arr, int *copy, int n)
 		}
 		i++;
 	}
+	i = -1;
+	while (++i < n)
+		copy[i] = i;
 }
 
 int	has_duplicates(int *sorted, int n)

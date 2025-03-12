@@ -12,11 +12,16 @@
 
 #include "push_swap.h"
 
+// void sort_large_stack(t_stack *a, t_stack *b);
+void sort_large_stack(t_stack *a, t_stack *b, int *sorted, int n);
+
 static void perform_operations(int *temp, t_stack *a, t_stack *b, int n)
 {
 	index_stack(a->arr, temp, n);
-	radix_sort(a, b, n);
+	// radix_sort(a, b, n);
 	// sort(a, b);
+	sort_large_stack(a, b, temp, n);
+	// sort_large_stack(a, b);
 }
 
 static int build_stack_a(t_arena *arena, char **argv, int argc, t_stack *a)

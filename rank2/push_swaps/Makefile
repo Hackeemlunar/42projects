@@ -16,7 +16,7 @@ SRCS		= try.c push.c swap.c rotate.c reverse_rotate.c sort.c \
 OBJS		= $(SRCS:.c=.o)
 
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -g
 RM			= rm -f
 
 LIBFT_DIR	= ./libft
