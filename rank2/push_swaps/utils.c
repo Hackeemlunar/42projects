@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 20:48:07 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/03/09 20:49:39 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/03/10 20:36:32 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	is_sorted(t_stack *a)
 	return (1);
 }
 
-/* --- Error checking functions --- */
 int	has_error(char *str)
 {
 	int	i;

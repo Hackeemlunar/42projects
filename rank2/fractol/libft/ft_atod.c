@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atof.c                                          :+:      :+:    :+:   */
+/*   ft_atod.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 16:17:19 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/03/10 16:17:23 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/03/10 20:15:11 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-double ft_atod(const char *str)
+double	ft_atod(const char *str)
 {
 	double	res;
 	long	main_part;

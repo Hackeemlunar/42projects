@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 20:21:20 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/03/09 20:29:58 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/03/10 20:14:59 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ typedef struct s_window
 /* utils.c*/
 void	my_mlx_pixel_put(t_window *window, int x, int y, int color);
 void	destroy_window(t_window *window);
-void	fill_background(t_window *window, int color);
 int		get_color(int iter, t_window *window);
 void	event_handler(t_window *window);
 void	draw_fractal(t_window *window);
