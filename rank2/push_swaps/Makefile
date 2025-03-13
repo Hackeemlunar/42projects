@@ -11,8 +11,8 @@
 # **************************************************************************** #
 
 NAME		= push_swap
-SRCS		= try.c push.c swap.c rotate.c reverse_rotate.c sort.c \
-			  utils.c utils1.c merge_sort.c
+SRCS		= main.c push.c swap.c rotate.c reverse_rotate.c sort.c \
+			  utils.c utils1.c merge_sort.c sort_util1.c sort_util2.c
 OBJS		= $(SRCS:.c=.o)
 
 CC			= cc

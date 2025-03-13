@@ -70,10 +70,13 @@ int	has_error(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str[i] && str[i] != ' ')
 	{
 		if (str[i] == '-' && i == 0)
+		{
 			i++;
+			continue ;
+		}
 		else if (!ft_isdigit(str[i]))
 			return (1);
 		i++;
