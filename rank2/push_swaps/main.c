@@ -1,28 +1,28 @@
-﻿/* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   try.c                                              :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/09 20:32:21 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/03/12 22:24:12 by hmensah-         ###   ########.fr       */
+/*   Created: 2025/03/14 17:10:54 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/03/14 20:46:20 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void perform_operations(int *temp, t_stack *a, t_stack *b, int n)
+static void	perform_operations(int *temp, t_stack *a, t_stack *b, int n)
 {
 	index_stack(a->arr, temp, n);
-	sort(a, b);
+	sort(a, b, temp, n);
 }
 
-static size_t count_words(char **s, char c, int argc)
+static size_t	count_words(char **s, char c, int argc)
 {
-	size_t count;
-	int in_word;
-	int i;
+	size_t	count;
+	int		in_word;
+	int		i;
 
 	if (argc > 2)
 		return (argc - 1);
@@ -43,30 +43,39 @@ static size_t count_words(char **s, char c, int argc)
 	return (count);
 }
 
-static int build_stack_a(t_arena *arena, char **argv, int argc, t_stack *a)
+static int	build_stack_a_from_string(t_arena *arena, char *str, t_stack *a)
 {
-	int i;
-	int j;
-	int in_word;
+	int	i;
+	int	j;
+	int	in_word;
 
 	i = -1;
+	j = 0;
 	in_word = 0;
+	while (str[++i])
+	{
+		if (str[i] != ' ' && in_word == 0)
+		{
+			in_word = 1;
+			if (has_error(&str[i]) || has_overflow(&str[i]))
+				return (write(2, "Error\n", 6), arena_destroy(arena), 0);
+			a->arr[j++] = ft_atoi(&str[i]);
+		}
+		else if (str[i] == ' ')
+			in_word = 0;
+	}
+	return (1);
+}
+
+static int	build_stack_a(t_arena *arena, char **argv, int argc, t_stack *a)
+{
+	int	i;
+	int	j;
+
+	i = -1;
 	j = 0;
 	if (argc == 2)
-	{
-		while (argv[1][++i])
-		{
-			if (argv[1][i] != ' ' && in_word == 0)
-			{
-				in_word = 1;
-				if (has_error(&argv[1][i]) || has_overflow(&argv[1][i]))
-					return (write(2, "Error\n", 6), arena_destroy(arena), 0);
-				a->arr[j++] = ft_atoi(&argv[1][i]);
-			}
-			else if (argv[1][i] == ' ')
-				in_word = 0;
-		}
-	}
+		return (build_stack_a_from_string(arena, argv[1], a));
 	else
 	{
 		while (++i < (argc - 1))
@@ -79,13 +88,12 @@ static int build_stack_a(t_arena *arena, char **argv, int argc, t_stack *a)
 	return (1);
 }
 
-/* --- Main function --- */
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	int *sorted_copy;
-	t_stack a;
-	t_stack b;
-	t_arena *arena;
+	int		*sorted_copy;
+	t_stack	a;
+	t_stack	b;
+	t_arena	*arena;
 
 	if (argc == 1 || count_words(argv, ' ', argc) < 2)
 		return (1);

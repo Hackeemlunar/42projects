@@ -1,11 +1,21 @@
-﻿
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort_util2.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/14 17:14:11 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/03/14 17:40:08 by hmensah-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "push_swap.h"
 
 void	rotate_common_forward(t_stack *src, t_stack *dst, t_rotation cost)
 {
-	int common;
-	int i;
+	int	common;
+	int	i;
 
 	common = cost.rb;
 	if (cost.ra < common)
@@ -32,7 +42,7 @@ void	rotate_common_forward(t_stack *src, t_stack *dst, t_rotation cost)
 
 void	rotate_forward_reverse(t_stack *src, t_stack *dst, t_rotation cost)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < cost.rb)
@@ -50,7 +60,7 @@ void	rotate_forward_reverse(t_stack *src, t_stack *dst, t_rotation cost)
 
 void	rotate_reverse_forward(t_stack *src, t_stack *dst, t_rotation cost)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < cost.rrb)
@@ -68,8 +78,8 @@ void	rotate_reverse_forward(t_stack *src, t_stack *dst, t_rotation cost)
 
 void	rotate_common_reverse(t_stack *src, t_stack *dst, t_rotation cost)
 {
-	int common;
-	int i;
+	int	common;
+	int	i;
 
 	common = cost.rrb;
 	if (cost.rra < common)
@@ -102,7 +112,7 @@ void	rotate_common_reverse(t_stack *src, t_stack *dst, t_rotation cost)
  *   - common forward rotations (using rr),
  *   - or separate forward/reverse rotations as needed.
  */
-void	exec_rotations_transfer(t_stack *src, t_stack *dst, t_rotation cost)
+void	exec_rot_transfer(t_stack *src, t_stack *dst, t_rotation cost)
 {
 	if (cost.total == cost.rb || cost.total == cost.ra)
 		rotate_common_forward(src, dst, cost);

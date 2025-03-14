@@ -6,13 +6,12 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 20:32:11 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/03/12 23:42:39 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/03/14 21:49:33 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-// /*      535 operations for 100    */
 /*
  * find_target_position(dst, value):
  * Given a destination stack (dst), find the position where `value`
@@ -74,7 +73,7 @@ int	find_target_position(t_stack *dst, int value)
  *   4. Common reverse rotations (rrr): cost = max(rrb, rra)
  * and choose the minimal cost.
  */
-t_rotation	calculate_cost_transfer(t_stack *src, t_stack *dst, int src_index)
+t_rotation	calc_cost_transfer(t_stack *src, t_stack *dst, int src_index)
 {
 	t_rotation	cost;
 	int			value;
@@ -99,8 +98,17 @@ t_rotation	calculate_cost_transfer(t_stack *src, t_stack *dst, int src_index)
 	return (cost.total = min(costs, 4), cost);
 }
 
+void	push_b(t_stack *a, t_stack *b, int *sorted, int n)
+{
+	while (a->size > 2)
+	{
+		pb(b, a);
+		if (b->size > 1 && b->arr[0] > sorted[n / 2])
+			rr(a, b);
+	}
+}
 /*
- * Modified turk_sort:
+ * 		Turk_sort:
  * 1. Push all elements from A to B.
  * 2. Seed A with one element from B.
  * 3. While B is not empty, calculate the cost for each element in B to be
@@ -110,37 +118,12 @@ t_rotation	calculate_cost_transfer(t_stack *src, t_stack *dst, int src_index)
  * 		and push it into A.
  * 5. Finally, rotate A so that the smallest element is at the top.
  */
-void	align_and_insert(t_stack *a, t_stack *b)
-{
-	t_rotation	min_cost;
-	t_rotation	current;
-	int			i;
-
-	while (b->size > 0)
-	{
-		min_cost.total = INT_MAX;
-		i = 0;
-		while (i < b->size)
-		{
-			current = calculate_cost_transfer(b, a, i);
-			if (current.total < min_cost.total)
-				min_cost = current;
-			i++;
-		}
-		exec_rotations_transfer(b, a, min_cost);
-		pa(a, b);
-	}
-}
-
-void	sort(t_stack *a, t_stack *b)
+void	sort(t_stack *a, t_stack *b, int *sorted, int n)
 {
 	int	min_pos;
 	int	i;
 
-	while (a->size > 0)
-		pb(b, a);
-	if (b->size > 0)
-		pa(a, b);
+	push_b(a, b, sorted, n);
 	align_and_insert(a, b);
 	min_pos = 0;
 	i = -1;
