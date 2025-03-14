@@ -54,28 +54,35 @@ void render_mandelbrot(t_window *window)
 
 void render_julia(t_window *window)
 {
-	double new_x;
-	double new_y;
-	double old_x;
-	int iter;
-	int color;
+    int x, y;
+    int iter;
+    int color;
+    double z_re, z_im, old_re;
 
-	iter = 0;
-	while (iter < window->max_iter && (window->offset_x + iter) < window->width)
-	{
-		new_x = window->offset_x;
-		new_y = window->offset_y;
-		while (new_x * new_x + new_y * new_y < 4)
-		{
-			old_x = new_x;
-			new_x = new_x * new_x - new_y * new_y + window->fractol_re;
-			new_y = 2 * old_x * new_y + window->fractol_im;
-			iter++;
-		}
-		color = get_color(iter, window);
-		my_mlx_pixel_put(window, window->offset_x + iter, window->offset_y, color);
-	}
+    y = 0;
+    while (y < window->height)
+    {
+        x = 0;
+        while (x < window->width)
+        {
+            z_re = 1.5 * (x - window->width / 2) / (0.5 * window->zoom * window->width) + window->offset_x;
+            z_im = (y - window->height / 2) / (0.5 * window->zoom * window->height) + window->offset_y;
+            iter = 0;
+            while ((z_re * z_re + z_im * z_im < 4) && (iter < window->max_iter))
+            {
+                old_re = z_re;
+                z_re = z_re * z_re - z_im * z_im + window->fractol_re;
+                z_im = 2 * old_re * z_im + window->fractol_im;
+                iter++;
+            }
+            color = get_color(iter, window);
+            my_mlx_pixel_put(window, x, y, color);
+            x++;
+        }
+        y++;
+    }
 }
+
 
 void draw_fractal(t_window *window)
 {
