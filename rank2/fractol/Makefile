@@ -6,7 +6,7 @@
 #    By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/27 20:14:17 by hmensah-          #+#    #+#              #
-#    Updated: 2025/03/10 18:16:02 by hmensah-         ###   ########.fr        #
+#    Updated: 2025/03/15 17:18:09 by hmensah-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,8 @@ OBJS        = $(SRCS:.c=.o)
 LIBFT_DIR   = ./libft
 LIBFT       = $(LIBFT_DIR)/libft.a
 
-PLATFORM    = linux
-# PLATFORM    = macos
+# PLATFORM    = linux
+PLATFORM    = macos
 
 ifeq ($(PLATFORM), linux)
 	MLX_DIR     = mlx_linux

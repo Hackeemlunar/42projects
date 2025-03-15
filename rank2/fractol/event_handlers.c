@@ -6,13 +6,13 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 20:38:08 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/03/10 20:06:35 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/03/15 17:37:41 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int key_handler(int keycode, t_window *window)
+int	key_handler(int keycode, t_window *window)
 {
 	if (keycode == 65307)
 	{
@@ -31,10 +31,6 @@ int key_handler(int keycode, t_window *window)
 		window->max_iter += 10;
 	else if (keycode == 45)
 		window->max_iter -= 10;
-	else if (keycode == 65361)
-		window->color_sft -= 0.01;
-	else if (keycode == 65363)
-		window->color_sft += 0.01;
 	else if (keycode == 114)
 	{
 		window->zoom = 1;
@@ -45,30 +41,26 @@ int key_handler(int keycode, t_window *window)
 	return (0);
 }
 
-int key_handler_mac(int keycode, t_window *window)
+int	key_handler_mac(int keycode, t_window *window)
 {
-	if (keycode == 53) // Escape key
+	if (keycode == 53)
 	{
 		destroy_window(window);
 		exit(0);
 	}
-	else if (keycode == 126) // Up arrow key
-		window->offset_y -= 0.1 / window->zoom;
-	else if (keycode == 125) // Down arrow key
+	else if (keycode == 126)
 		window->offset_y += 0.1 / window->zoom;
-	else if (keycode == 123) // Left arrow key
-		window->offset_x -= 0.1 / window->zoom;
-	else if (keycode == 124) // Right arrow key
+	else if (keycode == 125)
+		window->offset_y -= 0.1 / window->zoom;
+	else if (keycode == 123)
 		window->offset_x += 0.1 / window->zoom;
-	else if (keycode == 24) // Plus key
+	else if (keycode == 124)
+		window->offset_x -= 0.1 / window->zoom;
+	else if (keycode == 24)
 		window->max_iter += 10;
-	else if (keycode == 27) // Minus key
+	else if (keycode == 27)
 		window->max_iter -= 10;
-	else if (keycode == 123) // Left arrow key
-		window->color_sft -= 0.01;
-	else if (keycode == 124) // Right arrow key
-		window->color_sft += 0.01;
-	else if (keycode == 15) // 'R' key
+	else if (keycode == 15)
 	{
 		window->zoom = 1;
 		window->offset_x = 0;
@@ -78,42 +70,42 @@ int key_handler_mac(int keycode, t_window *window)
 	return (0);
 }
 
-int mouse_handler(int button, int x, int y, t_window *window)
+int	mouse_handler(int button, int x, int y, t_window *win)
 {
 	double	zoom_factor;
-	double	mouse_re;
-	double	mouse_im;
+	double	m_re;
+	double	m_im;
 
 	zoom_factor = 1.1;
-	mouse_re = 1.5 * (x - window->width / 2) / (0.5 * window->zoom * window->width) + window->offset_x;
-	mouse_im = (y - window->height / 2) / (0.5 * window->zoom * window->height) + window->offset_y;
+	m_re = 1.5 * (x - win->width / 2) / (0.5 * win->zoom * win->width) + win->offset_x;
+	m_im = (y - win->height / 2) / (0.5 * win->zoom * win->height) + win->offset_y;
 	if (button == 1)
-		window->color_sft += 10;
+		win->color_sft += 10;
 	else if (button == 4)
 	{
-		window->zoom *= zoom_factor;
-		window->offset_x = mouse_re - (x - window->width / 2) / (0.5 * window->zoom * window->width);
-		window->offset_y = mouse_im - (y - window->height / 2) / (0.5 * window->zoom * window->height);
-		window->max_iter = (int)(50 + log2(window->zoom) * 10);
+		win->zoom *= zoom_factor;
+		win->offset_x = m_re - (x - win->width / 2) / (0.5 * win->zoom * win->width);
+		win->offset_y = m_im - (y - win->height / 2) / (0.5 * win->zoom * win->height);
+		win->max_iter = (int)(50 + log2(win->zoom) * 10);
 	}
 	else if (button == 5)
 	{
-		window->zoom /= zoom_factor;
-		window->offset_x = mouse_re - (x - window->width / 2) / (0.5 * window->zoom * window->width);
-		window->offset_y = mouse_im - (y - window->height / 2) / (0.5 * window->zoom * window->height);
+		win->zoom /= zoom_factor;
+		win->offset_x = m_re - (x - win->width / 2) / (0.5 * win->zoom * win->width);
+		win->offset_y = m_im - (y - win->height / 2) / (0.5 * win->zoom * win->height);
 	}
-	return (draw_fractal(window), 0);
+	return (draw_fractal(win), 0);
 }
 
-int expose_handler(t_window *window)
+int	expose_handler(t_window *window)
 {
 	draw_fractal(window);
 	return (0);
 }
 
-void event_handler(t_window *window)
+void	event_handler(t_window *window)
 {
-	mlx_hook(window->win, 2, 1L << 0, key_handler, window);
+	mlx_hook(window->win, 2, 1L << 0, key_handler_mac, window);
 	mlx_hook(window->win, 4, 1L << 2, mouse_handler, window);
 	mlx_hook(window->win, 12, 1L << 15, expose_handler, window);
 	mlx_hook(window->win, 17, 1L << 17, destroy_window, window);

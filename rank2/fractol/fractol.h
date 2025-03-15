@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 20:21:20 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/03/10 20:14:59 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/03/15 17:24:10 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # define WIN_HEIGHT 800
 # include <math.h>
 # include "libft/libft.h"
-# include "mlx.h"
+# include "../mlx_mac/mlx.h"
 
 typedef enum e_fract_type
 {
@@ -49,7 +49,7 @@ typedef struct s_window
 
 /* utils.c*/
 void	my_mlx_pixel_put(t_window *window, int x, int y, int color);
-void	destroy_window(t_window *window);
+int		destroy_window(t_window *window);
 int		get_color(int iter, t_window *window);
 void	event_handler(t_window *window);
 void	draw_fractal(t_window *window);
