@@ -32,11 +32,11 @@ typedef struct s_window
 	void			*img;
 	char			*addr;
 	double			zoom;
-	double			offset_x;
+	double			ofs_x;
 	double			color_sft;
 	double			fractol_re;
 	double			fractol_im;
-	double			offset_y;
+	double			ofs_y;
 	t_fract_type	type;
 	int				height;
 	int				bits_ppx;

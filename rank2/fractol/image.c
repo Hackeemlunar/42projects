@@ -14,8 +14,12 @@
 
 static void	pfm_iter(t_window *win, double r_i[2], double no_ri[4], int *iter)
 {
+	no_ri[0] = 0;
+	no_ri[1] = 0;
+	no_ri[2] = 0;
+	no_ri[3] = 0;
 	while (((no_ri[0] * no_ri[0] + no_ri[1] * no_ri[1]) < 4)
-			&& *iter < win->max_iter)
+		&& *iter < win->max_iter)
 	{
 		no_ri[2] = no_ri[0];
 		no_ri[3] = no_ri[1];
@@ -25,12 +29,12 @@ static void	pfm_iter(t_window *win, double r_i[2], double no_ri[4], int *iter)
 	}
 }
 
-void render_mandelbrot(t_window *window)
+void	render_mandelbrot(t_window *window)
 {
 	int		x_y[2];
 	int		iter;
 	double	r_i[2];
-	double	no_ri[4]; // new re, new im, old re, old im
+	double	no_ri[4];
 	int		color;
 
 	x_y[1] = 0;
@@ -39,9 +43,10 @@ void render_mandelbrot(t_window *window)
 		x_y[0] = 0;
 		while (x_y[0] < window->width)
 		{
-			r_i[0] = 1.5 * (x_y[0] - window->width / 2) / (0.5 * window->zoom * window->width) + window->offset_x;
-			r_i[1] = (x_y[1] - window->height / 2) / (0.5 * window->zoom * window->height) + window->offset_y;
-			no_ri[0] = no_ri[1] = no_ri[2] = no_ri[3] = 0;
+			r_i[0] = 1.5 * (x_y[0] - window->width / 2)
+				/ (0.5 * window->zoom * window->width) + window->ofs_x;
+			r_i[1] = (x_y[1] - window->height / 2)
+				/ (0.5 * window->zoom * window->height) + window->ofs_y;
 			iter = 0;
 			pfm_iter(window, r_i, no_ri, &iter);
 			color = get_color(iter, window);
@@ -52,78 +57,93 @@ void render_mandelbrot(t_window *window)
 	}
 }
 
-void render_julia(t_window *window)
+static void	julia_iter(t_window *win, int x_y[2], double zo_ri[3], int *iter)
 {
-    int x, y;
-    int iter;
-    int color;
-    double z_re, z_im, old_re;
-
-    y = 0;
-    while (y < window->height)
-    {
-        x = 0;
-        while (x < window->width)
-        {
-            z_re = 1.5 * (x - window->width / 2) / (0.5 * window->zoom * window->width) + window->offset_x;
-            z_im = (y - window->height / 2) / (0.5 * window->zoom * window->height) + window->offset_y;
-            iter = 0;
-            while ((z_re * z_re + z_im * z_im < 4) && (iter < window->max_iter))
-            {
-                old_re = z_re;
-                z_re = z_re * z_re - z_im * z_im + window->fractol_re;
-                z_im = 2 * old_re * z_im + window->fractol_im;
-                iter++;
-            }
-            color = get_color(iter, window);
-            my_mlx_pixel_put(window, x, y, color);
-            x++;
-        }
-        y++;
-    }
+	zo_ri[0] = 1.5 * (x_y[0] - win->width / 2)
+		/ (0.5 * win->zoom * win->width) + win->ofs_x;
+	zo_ri[1] = (x_y[1] - win->height / 2)
+		/ (0.5 * win->zoom * win->height) + win->ofs_y;
+	while ((zo_ri[0] * zo_ri[0] + zo_ri[1] * zo_ri[1] < 4)
+		&& (*iter < win->max_iter))
+	{
+		zo_ri[2] = zo_ri[0];
+		zo_ri[0] = zo_ri[0] * zo_ri[0] - zo_ri[1] * zo_ri[1]
+			+ win->fractol_re;
+		zo_ri[1] = 2 * zo_ri[2] * zo_ri[1] + win->fractol_im;
+		(*iter)++;
+	}
 }
 
-static void burning_ship_iter(t_window *win, double r_i[2], double no_ri[4], int *iter)
+void	render_julia(t_window *window)
 {
-    while (((no_ri[0] * no_ri[0] + no_ri[1] * no_ri[1]) < 4)
-            && *iter < win->max_iter)
-    {
-        no_ri[2] = no_ri[0];
-        no_ri[3] = no_ri[1];
-        no_ri[0] = fabs(no_ri[2]) * fabs(no_ri[2]) - fabs(no_ri[3]) * fabs(no_ri[3]) + r_i[0];
-        no_ri[1] = 2 * fabs(no_ri[2]) * fabs(no_ri[3]) + r_i[1];
-        (*iter)++;
-    }
+	int		x_y[2];
+	int		iter;
+	int		color;
+	double	zo_ri[3];
+
+	x_y[1] = 0;
+	while (x_y[1] < window->height)
+	{
+		x_y[0] = 0;
+		while (x_y[0] < window->width)
+		{
+			iter = 0;
+			julia_iter(window, x_y, zo_ri, &iter);
+			color = get_color(iter, window);
+			my_mlx_pixel_put(window, x_y[0], x_y[1], color);
+			x_y[0]++;
+		}
+		x_y[1]++;
+	}
 }
 
-void render_burning_ship(t_window *window)
+static void	ship_iter(t_window *win, double r_i[2], double no_ri[4], int *iter)
 {
-    int     x_y[2];
-    int     iter;
-    double  r_i[2];
-    double  no_ri[4]; // new re, new im, old re, old im
-    int     color;
-
-    x_y[1] = 0;
-    while (x_y[1] < window->height)
-    {
-        x_y[0] = 0;
-        while (x_y[0] < window->width)
-        {
-            r_i[0] = 1.5 * (x_y[0] - window->width / 2) / (0.5 * window->zoom * window->width) + window->offset_x;
-            r_i[1] = (x_y[1] - window->height / 2) / (0.5 * window->zoom * window->height) + window->offset_y;
-            no_ri[0] = no_ri[1] = no_ri[2] = no_ri[3] = 0;
-            iter = 0;
-            burning_ship_iter(window, r_i, no_ri, &iter);
-            color = get_color(iter, window);
-            my_mlx_pixel_put(window, x_y[0], x_y[1], color);
-            x_y[0]++;
-        }
-        x_y[1]++;
-    }
+	no_ri[0] = 0;
+	no_ri[1] = 0;
+	no_ri[2] = 0;
+	no_ri[3] = 0;
+	while (((no_ri[0] * no_ri[0] + no_ri[1] * no_ri[1]) < 4)
+		&& *iter < win->max_iter)
+	{
+		no_ri[2] = no_ri[0];
+		no_ri[3] = no_ri[1];
+		no_ri[0] = fabs(no_ri[2]) * fabs(no_ri[2])
+			- fabs(no_ri[3]) * fabs(no_ri[3]) + r_i[0];
+		no_ri[1] = 2 * fabs(no_ri[2]) * fabs(no_ri[3]) + r_i[1];
+		(*iter)++;
+	}
 }
 
-void draw_fractal(t_window *window)
+void	render_burning_ship(t_window *window)
+{
+	int		x_y[2];
+	int		iter;
+	double	r_i[2];
+	double	no_ri[4];
+	int		color;
+
+	x_y[1] = 0;
+	while (x_y[1] < window->height)
+	{
+		x_y[0] = 0;
+		while (x_y[0] < window->width)
+		{
+			r_i[0] = 1.5 * (x_y[0] - window->width / 2)
+				/ (0.5 * window->zoom * window->width) + window->ofs_x;
+			r_i[1] = (x_y[1] - window->height / 2)
+				/ (0.5 * window->zoom * window->height) + window->ofs_y;
+			iter = 0;
+			ship_iter(window, r_i, no_ri, &iter);
+			color = get_color(iter, window);
+			my_mlx_pixel_put(window, x_y[0], x_y[1], color);
+			x_y[0]++;
+		}
+		x_y[1]++;
+	}
+}
+
+void	draw_fractal(t_window *window)
 {
 	if (window->type == MANDELBROT)
 		render_mandelbrot(window);

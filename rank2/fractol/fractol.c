@@ -16,7 +16,7 @@ int	parse_args(int argc, char **argv, t_window *window)
 {
 	if (argc == 2 && !ft_strncmp(argv[1], "mandelbrot", 10))
 		window->type = MANDELBROT;
-	else if(argc == 2 && !ft_strncmp(argv[1], "burning_ship", 13))
+	else if (argc == 2 && !ft_strncmp(argv[1], "burning_ship", 13))
 		window->type = BURNING_SHIP;
 	else if (argc == 4 && !ft_strncmp(argv[1], "julia", 5))
 	{
@@ -43,8 +43,8 @@ void	setup_mlx(t_window *window)
 	window->width = WIN_WIDTH;
 	window->height = WIN_HEIGHT;
 	window->zoom = 1;
-	window->offset_x = 0;
-	window->offset_y = 0;
+	window->ofs_x = 0;
+	window->ofs_y = 0;
 	window->max_iter = 100;
 	window->color_sft = 0;
 	window->bg_color = 0x0000F005;
