@@ -83,6 +83,45 @@ void render_julia(t_window *window)
     }
 }
 
+static void burning_ship_iter(t_window *win, double r_i[2], double no_ri[4], int *iter)
+{
+    while (((no_ri[0] * no_ri[0] + no_ri[1] * no_ri[1]) < 4)
+            && *iter < win->max_iter)
+    {
+        no_ri[2] = no_ri[0];
+        no_ri[3] = no_ri[1];
+        no_ri[0] = fabs(no_ri[2]) * fabs(no_ri[2]) - fabs(no_ri[3]) * fabs(no_ri[3]) + r_i[0];
+        no_ri[1] = 2 * fabs(no_ri[2]) * fabs(no_ri[3]) + r_i[1];
+        (*iter)++;
+    }
+}
+
+void render_burning_ship(t_window *window)
+{
+    int     x_y[2];
+    int     iter;
+    double  r_i[2];
+    double  no_ri[4]; // new re, new im, old re, old im
+    int     color;
+
+    x_y[1] = 0;
+    while (x_y[1] < window->height)
+    {
+        x_y[0] = 0;
+        while (x_y[0] < window->width)
+        {
+            r_i[0] = 1.5 * (x_y[0] - window->width / 2) / (0.5 * window->zoom * window->width) + window->offset_x;
+            r_i[1] = (x_y[1] - window->height / 2) / (0.5 * window->zoom * window->height) + window->offset_y;
+            no_ri[0] = no_ri[1] = no_ri[2] = no_ri[3] = 0;
+            iter = 0;
+            burning_ship_iter(window, r_i, no_ri, &iter);
+            color = get_color(iter, window);
+            my_mlx_pixel_put(window, x_y[0], x_y[1], color);
+            x_y[0]++;
+        }
+        x_y[1]++;
+    }
+}
 
 void draw_fractal(t_window *window)
 {
@@ -90,5 +129,7 @@ void draw_fractal(t_window *window)
 		render_mandelbrot(window);
 	else if (window->type == JULIA)
 		render_julia(window);
+	else if (window->type == BURNING_SHIP)
+		render_burning_ship(window);
 	mlx_put_image_to_window(window->mlx, window->win, window->img, 0, 0);
 }

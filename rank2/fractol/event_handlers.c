@@ -116,4 +116,5 @@ void event_handler(t_window *window)
 	mlx_hook(window->win, 2, 1L << 0, key_handler, window);
 	mlx_hook(window->win, 4, 1L << 2, mouse_handler, window);
 	mlx_hook(window->win, 12, 1L << 15, expose_handler, window);
+	mlx_hook(window->win, 17, 1L << 17, destroy_window, window);
 }

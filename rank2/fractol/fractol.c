@@ -16,6 +16,8 @@ int	parse_args(int argc, char **argv, t_window *window)
 {
 	if (argc == 2 && !ft_strncmp(argv[1], "mandelbrot", 10))
 		window->type = MANDELBROT;
+	else if(argc == 2 && !ft_strncmp(argv[1], "burning_ship", 13))
+		window->type = BURNING_SHIP;
 	else if (argc == 4 && !ft_strncmp(argv[1], "julia", 5))
 	{
 		window->type = JULIA;

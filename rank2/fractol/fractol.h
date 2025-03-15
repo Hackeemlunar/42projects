@@ -21,7 +21,8 @@
 typedef enum e_fract_type
 {
 	MANDELBROT,
-	JULIA
+	JULIA,
+	BURNING_SHIP
 }	t_fract_type;
 
 typedef struct s_window
