@@ -1,0 +1,4 @@
+The quick brown fox jumps over the lazy dog.
+This is a test string.
+Hello, world!
+Goodbye for now.
