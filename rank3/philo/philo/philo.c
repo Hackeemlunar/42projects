@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:32:16 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/03/20 20:32:18 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/03/24 21:37:36 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	init_philos(t_arena *arena, t_sim *sim)
 		sim->philos[i] = (t_philo *) arena_alloc(arena, sizeof(t_philo));
 		if (!sim->philos[i])
 			return (printf("Error: Could not allocate memory\n"), 1);
-		sim->philos[i]->id = i;
+		sim->philos[i]->id = i + 1;
 		sim->philos[i]->action = THINKING;
 		sim->philos[i]->elapsed_time = 0;
 		sim->philos[i]->times_eaten = 0;
@@ -60,23 +60,28 @@ int	init_philos(t_arena *arena, t_sim *sim)
 	return (0);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_sim		*sim;
 	t_arena		*arena;
 	int			num_philo;
 
+	sim = NULL;
 	if (argc < 5 || argc > 6)
 		return (printf("Error: ./philo arg1, arg2, arg3, arg4 [arg5] \n"), 1);
 	num_philo = ft_atoi(argv[1]);
 	if (num_philo < 1)
 		return (printf("Error: invalid philosophers\n"), 1);
-	arena = arena_create(sizeof(t_sim) + (sizeof(t_philo) * num_philo) * 5);
+	arena = arena_create(sizeof(t_sim) + (sizeof(t_philo) * num_philo) * 10);
 	if (!arena)
 		return (printf("Error: Could not allocate memory\n"), 1);
 	if (init_args(arena, sim, argv, argc))
 		return (1);
 	if (init_philos(arena, sim))
 		return (1);
+	for (int i = 0; i < num_philo - 1; i++)
+	{
+		printf("left: %d, right: %d\n", sim->philos[i]->left_fork, sim->philos[i]->right_fork);
+	}
 	return (0);
 }
