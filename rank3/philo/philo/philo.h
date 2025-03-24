@@ -37,19 +37,20 @@ typedef struct s_philo
 	int				right_fork;
 }				t_philo;
 
-typedef struct s_simulation
+typedef struct s_sim
 {
 	t_philo		**philos;
+	int			*forks;
 	int			num_of_philo;
 	int			time_to_die;
 	int			time_to_eat;
 	int			time_to_sleep;
 	int			total_eat_times;
-}				t_simulation;
+}				t_sim;
 
-void	go_eat(int *forks, t_simulation *sim, t_philo *philo);
-void	go_think(t_simulation *sim, t_philo *philo);
-void	go_sleep(t_simulation *sim, t_philo *philo);
+void	go_eat(int *forks, t_sim *sim, t_philo *philo);
+void	go_think(t_sim *sim, t_philo *philo);
+void	go_sleep(t_sim *sim, t_philo *philo);
 int		ft_atoi(const char *s);
 
 #endif
