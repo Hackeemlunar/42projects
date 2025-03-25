@@ -12,24 +12,25 @@
 
 #include "philo.h"
 
-int	init_args(t_arena *arena, t_sim *sim, char **argv, int argc)
+int	init_args(t_arena *arena, t_sim **sim, char **argv, int argc)
 {
 	int		num_philo;
 
 	num_philo = ft_atoi(argv[1]);
-	sim = (t_sim *) arena_alloc(arena, sizeof(t_sim));
-	if (!sim)
+	*sim = (t_sim *) arena_alloc(arena, sizeof(t_sim));
+	(*sim)->info = (t_sim_info *) arena_alloc(arena, sizeof(t_sim_info));
+	if (!sim || !(*sim)->info)
 		return (printf("Error: Could not allocate memory\n"), 1);
-	sim->num_of_philo = num_philo;
-	sim->time_to_die = ft_atoi(argv[2]);
-	sim->time_to_eat = ft_atoi(argv[3]);
-	sim->time_to_sleep = ft_atoi(argv[4]);
+	(*sim)->num_of_philo = num_philo;
+	(*sim)->info->time_to_die = ft_atoi(argv[2]);
+	(*sim)->info->time_to_eat = ft_atoi(argv[3]);
+	(*sim)->info->time_to_sleep = ft_atoi(argv[4]);
 	if (argc == 6)
-		sim->total_eat_times = ft_atoi(argv[5]);
+		(*sim)->info->total_eat_times = ft_atoi(argv[5]);
 	else
-		sim->total_eat_times = -1;
-	sim->forks = (int *) arena_alloc(arena, sizeof(int) * num_philo);
-	if (!sim->forks)
+		(*sim)->info->total_eat_times = -1;
+	(*sim)->info->forks = (int *) arena_alloc(arena, sizeof(int) * num_philo);
+	if (!(*sim)->info->forks)
 		return (printf("Error: Could not allocate memory\n"), 1);
 	return (0);
 }
@@ -39,22 +40,69 @@ int	init_philos(t_arena *arena, t_sim *sim)
 	int		i;
 	int		num_philo;
 
-	i = 0;
+	i = -1;
 	num_philo = sim->num_of_philo;
 	sim->philos = (t_philo **)arena_alloc(arena, sizeof(t_philo *) * num_philo);
 	if (!sim->philos)
 		return (printf("Error: Could not allocate memory\n"), 1);
-	while (i < num_philo)
+	while (++i < num_philo)
 	{
 		sim->philos[i] = (t_philo *) arena_alloc(arena, sizeof(t_philo));
 		if (!sim->philos[i])
 			return (printf("Error: Could not allocate memory\n"), 1);
+		sim->philos[i]->info = sim->info;
 		sim->philos[i]->id = i + 1;
-		sim->philos[i]->action = THINKING;
-		sim->philos[i]->elapsed_time = 0;
-		sim->philos[i]->times_eaten = 0;
+		if (i % 3 == 1)
+			sim->philos[i]->action = EATING;
+		else if (i % 3 == 2)
+			sim->philos[i]->action = THINKING;
+		else
+			sim->philos[i]->action = SLEEPING;
 		sim->philos[i]->left_fork = i;
 		sim->philos[i]->right_fork = (i + 1) % num_philo;
+	}
+	return (0);
+}
+
+void	*do_philosophy(void *philosopher)
+{
+	t_philo		*philo;
+
+	philo = (t_philo *)philosopher;
+	philo->times_eaten = 0;
+	philo->elapsed_time = 0;
+	while (!is_dead(philo) && philo->times_eaten < philo->info->total_eat_times)
+	{
+		if (philo->action == THINKING)
+			go_think(philo);
+		if (philo->action == EATING)
+			go_eat(philo);
+		if (philo->action == SLEEPING)
+			go_sleep(philo);
+	}
+	return (NULL);
+}
+
+int	start_simulation(t_sim *sim)
+{
+	int		i;
+	int		num_philo;
+	t_philo	**philos;
+
+	i = 0;
+	num_philo = sim->num_of_philo;
+	philos = sim->philos;
+	while (i < num_philo)
+	{
+		if (pthread_create(&philos[i]->thread, NULL, do_philosophy, philos[i]))
+			return (printf("Error: Could not create thread\n"), 1);
+		i++;
+	}
+	i = 0;
+	while (i < num_philo)
+	{
+		if (pthread_join(philos[i]->thread, NULL))
+			return (printf("Error: Could not join thread\n"), 1);
 		i++;
 	}
 	return (0);
@@ -66,22 +114,19 @@ int	main(int argc, char **argv)
 	t_arena		*arena;
 	int			num_philo;
 
-	sim = NULL;
 	if (argc < 5 || argc > 6)
 		return (printf("Error: ./philo arg1, arg2, arg3, arg4 [arg5] \n"), 1);
 	num_philo = ft_atoi(argv[1]);
 	if (num_philo < 1)
 		return (printf("Error: invalid philosophers\n"), 1);
-	arena = arena_create(sizeof(t_sim) + (sizeof(t_philo) * num_philo) * 10);
+	arena = arena_create(sizeof(t_sim) + (sizeof(t_philo) * num_philo) * 20);
 	if (!arena)
 		return (printf("Error: Could not allocate memory\n"), 1);
-	if (init_args(arena, sim, argv, argc))
-		return (1);
+	if (init_args(arena, &sim, argv, argc))
+		return (arena_destroy(arena), 1);
 	if (init_philos(arena, sim))
-		return (1);
-	for (int i = 0; i < num_philo - 1; i++)
-	{
-		printf("left: %d, right: %d\n", sim->philos[i]->left_fork, sim->philos[i]->right_fork);
-	}
-	return (0);
+		return (arena_destroy(arena), 1);
+	if (start_simulation(sim))
+		return (arena_destroy(arena), 1);
+	return (arena_destroy(arena), 0);
 }

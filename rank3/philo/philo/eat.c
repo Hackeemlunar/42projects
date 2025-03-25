@@ -11,3 +11,11 @@
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	go_eat(t_philo *philo)
+{
+	printf("Philosopher %d is eating\n", philo->id);
+	usleep(philo->info->time_to_eat * 1000);
+	philo->times_eaten++;
+	philo->action = SLEEPING;
+}

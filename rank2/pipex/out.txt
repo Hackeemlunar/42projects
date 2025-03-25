@@ -1,0 +1,1 @@
+==6287== Command: ./pipex in.txt cat grep\ idi out.txt

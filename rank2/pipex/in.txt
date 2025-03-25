@@ -1,0 +1,4 @@
+==6287== Memcheck, a memory error detector
+==6287== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==6287== Using Valgrind-3.24.0 and LibVEX; rerun with -h for copyright info
+==6287== Command: ./pipex in.txt cat grep\ idi out.txt

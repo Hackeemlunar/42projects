@@ -11,3 +11,10 @@
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	go_sleep(t_philo *philo)
+{
+    printf("Philosopher %d is sleeping\n", philo->id);
+    usleep(philo->info->time_to_sleep * 1000);
+    philo->action = THINKING;
+}

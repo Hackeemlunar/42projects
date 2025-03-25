@@ -27,9 +27,20 @@ typedef enum e_philo_action
 	THINKING
 }			t_philo_action;
 
+typedef struct s_sim_info
+{
+	long	time_to_die;
+	long	time_to_eat;
+	long	time_to_sleep;
+	int		*forks;
+	int		total_eat_times;
+}				t_sim_info;
+
 typedef struct s_philo
 {
+	t_sim_info		*info;
 	t_philo_action	action;
+	pthread_t		thread;
 	int				id;
 	int				elapsed_time;
 	int				times_eaten;
@@ -40,17 +51,15 @@ typedef struct s_philo
 typedef struct s_sim
 {
 	t_philo		**philos;
-	int			*forks;
 	int			num_of_philo;
-	int			time_to_die;
-	int			time_to_eat;
-	int			time_to_sleep;
-	int			total_eat_times;
+	t_sim_info	*info;
 }				t_sim;
 
-void	go_eat(int *forks, t_sim *sim, t_philo *philo);
-void	go_think(t_sim *sim, t_philo *philo);
-void	go_sleep(t_sim *sim, t_philo *philo);
+void	go_eat(t_philo *philo);
+void	go_think(t_philo *philo);
+void	go_sleep(t_philo *philo);
+void	*do_philosophy(void *sim);
+int		is_dead(t_philo *philo);
 int		ft_atoi(const char *s);
 
 #endif
