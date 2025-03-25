@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:32:19 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/03/23 21:04:24 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/03/25 18:21:50 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,13 @@ typedef enum e_philo_action
 
 typedef struct s_sim_info
 {
-	long	time_to_die;
-	long	time_to_eat;
-	long	time_to_sleep;
-	int		*forks;
-	int		total_eat_times;
+	pthread_mutex_t	stop_mutex;
+	long			time_to_die;
+	long			time_to_eat;
+	long			time_to_sleep;
+	int				*forks;
+	int				total_meals;
+	int				stop_sim;
 }				t_sim_info;
 
 typedef struct s_philo

@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:32:16 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/03/24 21:37:36 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/03/25 18:20:32 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ int	init_args(t_arena *arena, t_sim **sim, char **argv, int argc)
 	(*sim)->info->time_to_eat = ft_atoi(argv[3]);
 	(*sim)->info->time_to_sleep = ft_atoi(argv[4]);
 	if (argc == 6)
-		(*sim)->info->total_eat_times = ft_atoi(argv[5]);
+		(*sim)->info->total_meals = ft_atoi(argv[5]);
 	else
-		(*sim)->info->total_eat_times = -1;
+		(*sim)->info->total_meals = -1;
+	(*sim)->info->stop_sim = 0;
+	pthread_mutex_init(&(*sim)->info->stop_mutex, NULL);
 	(*sim)->info->forks = (int *) arena_alloc(arena, sizeof(int) * num_philo);
 	if (!(*sim)->info->forks)
 		return (printf("Error: Could not allocate memory\n"), 1);
@@ -62,25 +64,6 @@ int	init_philos(t_arena *arena, t_sim *sim)
 		sim->philos[i]->right_fork = (i + 1) % num_philo;
 	}
 	return (0);
-}
-
-void	*do_philosophy(void *philosopher)
-{
-	t_philo		*philo;
-
-	philo = (t_philo *)philosopher;
-	philo->times_eaten = 0;
-	philo->elapsed_time = 0;
-	while (!is_dead(philo) && philo->times_eaten < philo->info->total_eat_times)
-	{
-		if (philo->action == THINKING)
-			go_think(philo);
-		if (philo->action == EATING)
-			go_eat(philo);
-		if (philo->action == SLEEPING)
-			go_sleep(philo);
-	}
-	return (NULL);
 }
 
 int	start_simulation(t_sim *sim)
