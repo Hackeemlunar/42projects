@@ -55,3 +55,19 @@ void	*do_philosophy(void *philosopher)
 	}
 	return (NULL);
 }
+
+void	cleanup(t_sim *sim, t_arena *arena)
+{
+	int		i;
+	int		num_philo;
+
+	i = 0;
+	num_philo = sim->num_of_philo;
+	while (i < num_philo)
+	{
+		pthread_mutex_destroy(&sim->info->forks_mutex[i]);
+		i++;
+	}
+	pthread_mutex_destroy(&sim->info->stop_mutex);
+	arena_destroy(arena);
+}

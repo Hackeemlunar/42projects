@@ -1,4 +1,4 @@
-# **************************************************************************** #
+﻿# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
@@ -12,9 +12,9 @@
 
 NAME	=	philo
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	-Wall -Wextra -Werror -g
 
-SRCS	=	philo.c ft_atoi.c sleep.c think.c eat.c ft_arena.c util.c
+SRCS	=	philo.c ft_atol.c sleep.c think.c eat.c ft_arena.c util.c
 OBJS	=	$(SRCS:.c=.o)
 
 %.o: %.c

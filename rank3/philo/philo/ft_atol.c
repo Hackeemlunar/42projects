@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/23 21:05:42 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/03/23 21:05:57 by hmensah-         ###   ########.fr       */
+/*   Created: 2024/12/19 19:00:52 by hmensah-          #+#    #+#             */
+/*   Updated: 2024/12/27 21:34:03 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	ft_isspace(char c)
 		|| c == '\v' || c == '\t');
 }
 
-static int	get_number(const char *str, int sign)
+static long	get_number(const char *str, int sign)
 {
 	long	res;
 	int		counter;
@@ -37,10 +37,10 @@ static int	get_number(const char *str, int sign)
 		res = (res * 10) + (str[counter] - '0');
 		counter++;
 	}
-	return ((int)(sign * res));
+	return (sign * res);
 }
 
-int	ft_atoi(const char *str)
+long	ft_atol(const char *str)
 {
 	int		sign;
 	int		counter;

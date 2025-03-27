@@ -30,6 +30,7 @@ typedef enum e_philo_action
 typedef struct s_sim_info
 {
 	pthread_mutex_t	stop_mutex;
+	pthread_mutex_t	*forks_mutex;
 	long			time_to_die;
 	long			time_to_eat;
 	long			time_to_sleep;
@@ -62,6 +63,7 @@ void	go_think(t_philo *philo);
 void	go_sleep(t_philo *philo);
 void	*do_philosophy(void *sim);
 int		is_dead(t_philo *philo);
-int		ft_atoi(const char *s);
+long	ft_atol(const char *s);
+void	cleanup(t_sim *sim, t_arena *arena);
 
 #endif

@@ -16,17 +16,17 @@ int	init_args(t_arena *arena, t_sim **sim, char **argv, int argc)
 {
 	int		num_philo;
 
-	num_philo = ft_atoi(argv[1]);
+	num_philo = ft_atol(argv[1]);
 	*sim = (t_sim *) arena_alloc(arena, sizeof(t_sim));
 	(*sim)->info = (t_sim_info *) arena_alloc(arena, sizeof(t_sim_info));
 	if (!sim || !(*sim)->info)
 		return (printf("Error: Could not allocate memory\n"), 1);
 	(*sim)->num_of_philo = num_philo;
-	(*sim)->info->time_to_die = ft_atoi(argv[2]);
-	(*sim)->info->time_to_eat = ft_atoi(argv[3]);
-	(*sim)->info->time_to_sleep = ft_atoi(argv[4]);
+	(*sim)->info->time_to_die = ft_atol(argv[2]);
+	(*sim)->info->time_to_eat = ft_atol(argv[3]);
+	(*sim)->info->time_to_sleep = ft_atol(argv[4]);
 	if (argc == 6)
-		(*sim)->info->total_meals = ft_atoi(argv[5]);
+		(*sim)->info->total_meals = ft_atol(argv[5]);
 	else
 		(*sim)->info->total_meals = -1;
 	(*sim)->info->stop_sim = 0;
@@ -91,6 +91,26 @@ int	start_simulation(t_sim *sim)
 	return (0);
 }
 
+int	init_forks_mutex(t_arena *arena, t_sim *sim)
+{
+	int		i;
+	int		num_philo;
+
+	i = 0;
+	num_philo = sim->num_of_philo;
+	sim->info->forks_mutex = (pthread_mutex_t *) arena_alloc(arena,
+			sizeof(pthread_mutex_t) * num_philo);
+	if (!sim->info->forks_mutex)
+		return (printf("Error: Could not allocate memory\n"), 1);
+	while (i < num_philo)
+	{
+		if (pthread_mutex_init(&sim->info->forks_mutex[i], NULL))
+			return (printf("Error: Could not initialize mutex\n"), 1);
+		i++;
+	}
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_sim		*sim;
@@ -99,17 +119,20 @@ int	main(int argc, char **argv)
 
 	if (argc < 5 || argc > 6)
 		return (printf("Error: ./philo arg1, arg2, arg3, arg4 [arg5] \n"), 1);
-	num_philo = ft_atoi(argv[1]);
+	num_philo = ft_atol(argv[1]);
 	if (num_philo < 1)
 		return (printf("Error: invalid philosophers\n"), 1);
-	arena = arena_create(sizeof(t_sim) + (sizeof(t_philo) * num_philo) * 20);
+	arena = arena_create(sizeof(t_sim) + (sizeof(pthread_mutex_t) * num_philo)
+			+ (sizeof(t_philo) * num_philo) * 20);
 	if (!arena)
 		return (printf("Error: Could not allocate memory\n"), 1);
 	if (init_args(arena, &sim, argv, argc))
 		return (arena_destroy(arena), 1);
 	if (init_philos(arena, sim))
-		return (arena_destroy(arena), 1);
+		return (cleanup(sim, arena), 1);
+	if (init_forks_mutex(arena, sim))
+		return (cleanup(sim, arena), 1);
 	if (start_simulation(sim))
-		return (arena_destroy(arena), 1);
-	return (arena_destroy(arena), 0);
+		return (cleanup(sim, arena), 1);
+	return (cleanup(sim, arena), 0);
 }
