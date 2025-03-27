@@ -1,32 +1,29 @@
 Philosopher 1 is sleeping
-Philosopher 3 is thinking
-Philosopher 4 is sleeping
-Philosopher 5 has taken a fork
-Philosopher 5 has taken a fork
-Philosopher 5 is eating
-Philosopher 6 is thinking
 Philosopher 2 has taken a fork
+Philosopher 9 is thinking
 Philosopher 2 has taken a fork
+Philosopher 10 is sleeping
 Philosopher 2 is eating
+Philosopher 4 is sleeping
+Philosopher 3 is thinking
+Philosopher 6 is thinking
 Philosopher 7 is sleeping
 Philosopher 8 has taken a fork
 Philosopher 8 has taken a fork
 Philosopher 8 is eating
-Philosopher 9 is thinking
-Philosopher 10 is sleeping
-Philosopher 5 is sleeping
+Philosopher 5 has taken a fork
+Philosopher 5 has taken a fork
+Philosopher 5 is eating
 Philosopher 2 is sleeping
 Philosopher 8 is sleeping
+Philosopher 5 is sleeping
 Philosopher 1 is thinking
-Philosopher 4 is thinking
-Philosopher 7 is thinking
-Philosopher 10 is thinking
-Philosopher 5 is thinking
-Philosopher 2 is thinking
-Philosopher 8 is thinking
 Philosopher 3 has taken a fork
+Philosopher 10 is thinking
+Philosopher 7 is thinking
 Philosopher 3 has taken a fork
 Philosopher 3 is eating
+Philosopher 4 is thinking
 Philosopher 6 has taken a fork
 Philosopher 6 has taken a fork
 Philosopher 6 is eating
@@ -34,118 +31,21 @@ Philosopher 9 has taken a fork
 Philosopher 9 has taken a fork
 Philosopher 9 is eating
 Philosopher 3 is sleeping
-Philosopher 6 is sleeping
 Philosopher 9 is sleeping
-Philosopher 4 has taken a fork
-Philosopher 4 has taken a fork
-Philosopher 4 is eating
+Philosopher 6 is sleeping
 Philosopher 1 has taken a fork
 Philosopher 1 has taken a fork
+Philosopher 1 is eating
 Philosopher 7 has taken a fork
 Philosopher 7 has taken a fork
 Philosopher 7 is eating
-Philosopher 1 is eating
-Philosopher 4 is sleeping
-Philosopher 3 is thinking
-Philosopher 7 is sleeping
-Philosopher 6 is thinking
+Philosopher 4 has taken a fork
+Philosopher 4 has taken a fork
+Philosopher 4 is eating
 Philosopher 1 is sleeping
 Philosopher 10 has taken a fork
 Philosopher 10 has taken a fork
 Philosopher 10 is eating
-Philosopher 5 has taken a fork
-Philosopher 5 has taken a fork
-Philosopher 5 is eating
-Philosopher 2 has taken a fork
-Philosopher 2 has taken a fork
-Philosopher 2 is eating
-Philosopher 8 has taken a fork
-Philosopher 8 has taken a fork
-Philosopher 8 is eating
-Philosopher 9 is thinking
-Philosopher 5 is sleeping
-Philosopher 10 is sleeping
-Philosopher 2 is sleeping
-Philosopher 8 is sleeping
-Philosopher 4 is thinking
-Philosopher 1 is thinking
-Philosopher 7 is thinking
-Philosopher 5 is thinking
-Philosopher 10 is thinking
-Philosopher 2 is thinking
-Philosopher 8 is thinking
-Philosopher 3 has taken a fork
-Philosopher 9 has taken a fork
-Philosopher 9 has taken a fork
-Philosopher 9 is eating
-Philosopher 6 has taken a fork
-Philosopher 6 has taken a fork
-Philosopher 6 is eating
-Philosopher 3 has taken a fork
-Philosopher 3 is eating
-Philosopher 6 is sleeping
-Philosopher 9 is sleeping
-Philosopher 3 is sleeping
-Philosopher 4 has taken a fork
-Philosopher 4 has taken a fork
-Philosopher 4 is eating
-Philosopher 1 has taken a fork
-Philosopher 7 has taken a fork
-Philosopher 7 has taken a fork
-Philosopher 1 has taken a fork
-Philosopher 7 is eating
-Philosopher 1 is eating
-Philosopher 9 is thinking
-Philosopher 6 is thinking
-Philosopher 4 is sleeping
-Philosopher 3 is thinking
-Philosopher 5 has taken a fork
-Philosopher 5 has taken a fork
-Philosopher 5 is eating
 Philosopher 7 is sleeping
-Philosopher 10 has taken a fork
-Philosopher 10 has taken a fork
-Philosopher 10 is eating
-Philosopher 1 is sleeping
-Philosopher 8 has taken a fork
-Philosopher 8 has taken a fork
-Philosopher 2 has taken a fork
-Philosopher 8 is eating
-Philosopher 2 has taken a fork
-Philosopher 2 is eating
-Philosopher 10 is sleeping
-Philosopher 5 is sleeping
-Philosopher 2 is sleeping
-Philosopher 8 is sleeping
-Philosopher 1 is thinking
-Philosopher 4 is thinking
-Philosopher 7 is thinking
-Philosopher 10 is thinking
-Philosopher 9 has taken a fork
-Philosopher 9 has taken a fork
-Philosopher 9 is eating
-Philosopher 6 has taken a fork
-Philosopher 3 has taken a fork
-Philosopher 6 has taken a fork
-Philosopher 6 is eating
-Philosopher 3 has taken a fork
-Philosopher 3 is eating
-Philosopher 9 is sleeping
-Philosopher 6 is sleeping
-Philosopher 3 is sleeping
-Philosopher 4 has taken a fork
-Philosopher 4 has taken a fork
-Philosopher 4 is eating
-Philosopher 7 has taken a fork
-Philosopher 7 has taken a fork
-Philosopher 7 is eating
-Philosopher 1 has taken a fork
-Philosopher 1 has taken a fork
-Philosopher 1 is eating
 Philosopher 4 is sleeping
-Philosopher 7 is sleeping
-Philosopher 1 is sleeping
-Philosopher 10 has taken a fork
-Philosopher 10 has taken a fork
-Philosopher 10 is eating
 Philosopher 10 is sleeping

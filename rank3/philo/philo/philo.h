@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:32:19 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/03/25 18:21:50 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/03/27 21:23:54 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,6 @@ void	*do_philosophy(void *sim);
 int		is_dead(t_philo *philo);
 long	ft_atol(const char *s);
 void	cleanup(t_sim *sim, t_arena *arena);
+long	get_time_in_mil(void);
 
 #endif

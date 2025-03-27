@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 21:01:51 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/03/25 18:22:18 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/03/27 21:24:04 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,14 @@ void	*do_philosophy(void *philosopher)
 	while (1)
 	{
 		pthread_mutex_lock(&philo->info->stop_mutex);
-		if (philo->info->stop_sim)
+		if (philo->info->stop_sim || (philo->times_eaten 
+			>= philo->info->total_meals && philo->info->total_meals != -1))
 		{
 			pthread_mutex_unlock(&philo->info->stop_mutex);
 			break ;
 		}
 		pthread_mutex_unlock(&philo->info->stop_mutex);
-		if (is_dead(philo) || philo->times_eaten >= philo->info->total_meals)
+		if (is_dead(philo))
 		{
 			pthread_mutex_lock(&philo->info->stop_mutex);
 			philo->info->stop_sim = 1;
@@ -70,4 +71,20 @@ void	cleanup(t_sim *sim, t_arena *arena)
 	}
 	pthread_mutex_destroy(&sim->info->stop_mutex);
 	arena_destroy(arena);
+}
+long	get_time_in_mil(void)
+{
+    struct timeval	current_time;
+	long			seconds;
+    long			microseconds;
+    long			milliseconds;
+
+    if (gettimeofday(&current_time, NULL) == -1) {
+        printf("Error: gettimeofday");
+        return 1;
+    }
+    seconds = current_time.tv_sec;
+    microseconds = current_time.tv_usec;
+    milliseconds = seconds * 1000 + microseconds / 1000;
+    return (milliseconds);
 }
