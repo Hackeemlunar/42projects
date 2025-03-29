@@ -14,7 +14,20 @@
 
 int	is_dead(t_philo *philo)
 {
-	(void)philo;
+	long	current_time;
+	long	time_since_last_meal;
+
+	current_time = get_time_in_mil();
+	pthread_mutex_lock(&philo->info->stop_mutex);
+	time_since_last_meal = current_time - philo->elapsed_time;
+	if (time_since_last_meal > philo->info->time_to_die)
+	{
+		philo->info->stop_sim = 1;
+		pthread_mutex_unlock(&philo->info->stop_mutex);
+		printf("%ld %d died\n", current_time, philo->id);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->info->stop_mutex);
 	return (0);
 }
 
@@ -34,11 +47,11 @@ void	*do_philosophy(void *philosopher)
 
 	philo = (t_philo *)philosopher;
 	philo->times_eaten = 0;
-	philo->elapsed_time = 0;
+	philo->elapsed_time = get_time_in_mil();
 	while (1)
 	{
 		pthread_mutex_lock(&philo->info->stop_mutex);
-		if (philo->info->stop_sim || (philo->times_eaten 
+		if (philo->info->stop_sim || (philo->times_eaten
 			>= philo->info->total_meals && philo->info->total_meals != -1))
 		{
 			pthread_mutex_unlock(&philo->info->stop_mutex);
@@ -72,19 +85,20 @@ void	cleanup(t_sim *sim, t_arena *arena)
 	pthread_mutex_destroy(&sim->info->stop_mutex);
 	arena_destroy(arena);
 }
+
 long	get_time_in_mil(void)
 {
-    struct timeval	current_time;
+	struct timeval	current_time;
 	long			seconds;
-    long			microseconds;
-    long			milliseconds;
+	long			microseconds;
+	long			milliseconds;
 
-    if (gettimeofday(&current_time, NULL) == -1) {
-        printf("Error: gettimeofday");
-        return 1;
-    }
-    seconds = current_time.tv_sec;
-    microseconds = current_time.tv_usec;
-    milliseconds = seconds * 1000 + microseconds / 1000;
-    return (milliseconds);
+	if (gettimeofday(&current_time, NULL) == -1) {
+		printf("Error: gettimeofday");
+		return 1;
+	}
+	seconds = current_time.tv_sec;
+	microseconds = current_time.tv_usec;
+	milliseconds = seconds * 1000 + microseconds / 1000;
+	return (milliseconds);
 }

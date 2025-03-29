@@ -44,8 +44,8 @@ typedef struct s_philo
 	t_sim_info		*info;
 	t_philo_action	action;
 	pthread_t		thread;
+	long			elapsed_time;
 	int				id;
-	int				elapsed_time;
 	int				times_eaten;
 	int				left_fork;
 	int				right_fork;

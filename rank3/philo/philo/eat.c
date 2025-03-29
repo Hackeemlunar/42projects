@@ -35,5 +35,6 @@ void	go_eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->info->forks_mutex[philo->left_fork]);
 	pthread_mutex_unlock(&philo->info->forks_mutex[philo->right_fork]);
 	philo->times_eaten++;
+	philo->elapsed_time = current_time;
 	philo->action = SLEEPING;
 }

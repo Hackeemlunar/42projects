@@ -1,20 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   think.c                                            :+:      :+:    :+:   */
+/*   arena.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/23 21:06:30 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/03/27 21:26:26 by hmensah-         ###   ########.fr       */
+/*   Created: 2024/12/19 18:32:15 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/03/20 20:30:50 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#ifndef ARENA_H
+# define ARENA_H
 
-void	go_think(t_philo *philo)
+# include <stdlib.h>
+
+typedef struct s_arena
 {
-	printf("%ld %d is thinking\n", get_time_in_mil(), philo->id);
-	usleep(philo->info->time_to_die / 2 * 1000);
-	philo->action = EATING;
-}
+	size_t	size;
+	size_t	used;
+	char	*buffer;
+}			t_arena;
+
+// ************** Arena Functions **************
+void	arena_destroy(t_arena *arena);
+void	*arena_alloc(t_arena *arena, size_t size);
+void	arena_reset(t_arena *arena);
+t_arena	*arena_create(size_t size);
+#endif

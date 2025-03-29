@@ -12,6 +12,16 @@
 
 #include "philo.h"
 
+int	sanity_check(t_sim *sim)
+{
+	if (sim->info->time_to_die < 0 || sim->info->time_to_eat < 0
+		|| sim->info->time_to_sleep < 0 || sim->num_of_philo < 1)
+		return (printf("Error: invalid arguments\n"), 1);
+	if (sim->info->total_meals == 0 || sim->info->total_meals < -1)
+		return (printf("Error: invalid arguments\n"), 1);
+	return (0);
+}
+
 int	init_args(t_arena *arena, t_sim **sim, char **argv, int argc)
 {
 	int		num_philo;
@@ -34,7 +44,7 @@ int	init_args(t_arena *arena, t_sim **sim, char **argv, int argc)
 	(*sim)->info->forks = (int *) arena_alloc(arena, sizeof(int) * num_philo);
 	if (!(*sim)->info->forks)
 		return (printf("Error: Could not allocate memory\n"), 1);
-	return (0);
+	return (sanity_check(*sim));
 }
 
 int	init_philos(t_arena *arena, t_sim *sim)
@@ -82,6 +92,17 @@ int	start_simulation(t_sim *sim)
 		i++;
 	}
 	i = 0;
+	// while (1)
+	// {
+	// 	pthread_mutex_lock(&sim->info->stop_mutex);
+	// 	if (sim->info->stop_sim)
+	// 	{
+	// 		pthread_mutex_unlock(&sim->info->stop_mutex);
+	// 		break;
+	// 	}
+	// 	pthread_mutex_unlock(&sim->info->stop_mutex);
+	// 	usleep(1000);
+	// }
 	while (i < num_philo)
 	{
 		if (pthread_join(philos[i]->thread, NULL))
@@ -123,7 +144,7 @@ int	main(int argc, char **argv)
 	if (num_philo < 1)
 		return (printf("Error: invalid philosophers\n"), 1);
 	arena = arena_create(sizeof(t_sim) + (sizeof(pthread_mutex_t) * num_philo)
-			+ (sizeof(t_philo) * num_philo) * 20);
+			+ sizeof(t_sim_info) + (sizeof(t_philo) * num_philo) * 20);
 	if (!arena)
 		return (printf("Error: Could not allocate memory\n"), 1);
 	if (init_args(arena, &sim, argv, argc))
