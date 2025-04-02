@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 21:01:51 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/02 18:27:01 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:53:47 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ long	get_time_in_mil(void)
 int	is_dead(t_philo *philo)
 {
 	long	time_since_last_meal;
+
 	pthread_mutex_lock(&philo->info->stop_mutex);
 	time_since_last_meal = get_time_in_mil() - philo->last_meal_time;
 	if (time_since_last_meal > philo->info->time_to_die)
@@ -55,7 +56,7 @@ void	*do_philosophy(void *philosopher)
 		return (go_await_your_death(philo), NULL);
 	while (1)
 	{
-		if ((philo->times_eaten >= philo->info->total_meals 
+		if ((philo->times_eaten >= philo->info->total_meals
 				&& philo->info->total_meals != -1))
 		{
 			philo->job_done = 1;
@@ -87,7 +88,8 @@ void	*do_monitor(void *simulation)
 			{
 				if (!(sim->philos[i]->job_done))
 				{
-					rel_time = get_time_in_mil() - sim->philos[i]->info->start_time;
+					rel_time = get_time_in_mil()
+						- sim->philos[i]->info->start_time;
 					pthread_mutex_lock(&sim->info->print_mutex);
 					printf("%13ld %d died\n", rel_time, sim->philos[i]->id);
 					pthread_mutex_unlock(&sim->info->print_mutex);
@@ -101,8 +103,8 @@ void	*do_monitor(void *simulation)
 
 int	start_simulation(t_sim *sim)
 {
-	int		i;
-	t_philo	**philos;
+	int			i;
+	t_philo		**philos;
 	pthread_t	monitor;
 
 	i = -1;

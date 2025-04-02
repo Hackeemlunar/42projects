@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 21:06:47 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/02 17:46:58 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:21:41 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,3 @@ void	philo_usleep(size_t mls, t_philo *philo)
 		usleep(500);
 	}
 }
-

@@ -121,7 +121,7 @@ int	init_forks_sem(t_sim *sim)
 {
 	char	*sem_name;
 
-	sem_unlink("/forks_sem"); /* Ensure no previous instance */
+	sem_unlink("/forks_sem");
 	sem_name = "/forks_sem";
 	sim->info->forks = sem_open(sem_name, O_CREAT, 0644, sim->info->num_of_philo);
 	if (sim->info->forks == SEM_FAILED)
