@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:32:16 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/01 20:01:05 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:32:27 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,6 @@ int	init_philos(t_arena *arena, t_sim *sim)
 		sim->philos[i]->info = sim->info;
 		sim->philos[i]->id = i + 1;
 		sim->philos[i]->action = THINKING;
-		if (i % 3 == 1)
-			sim->philos[i]->action = EATING;
-		if (i % 3 == 1)
-			sim->philos[i]->action = SLEEPING;
 		sim->philos[i]->job_done = 0;
 		sim->philos[i]->left_fork = i;
 		sim->philos[i]->right_fork = (i + 1) % num_philo;

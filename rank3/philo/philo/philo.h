@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:32:19 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/03/29 22:04:06 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/02 18:02:33 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ long	ft_atol(const char *s);
 void	cleanup(t_sim *sim, t_arena *arena);
 long	get_time_in_mil(void);
 int		start_simulation(t_sim *sim);
-int		wait_monitor(t_sim *sim);
+void	*do_monitor(void *sim);
+void	philo_usleep(size_t mls, t_philo *philo);
+void	go_await_your_death(t_philo *philo);
 
 #endif

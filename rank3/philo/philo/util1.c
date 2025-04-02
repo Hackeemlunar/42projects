@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 21:06:47 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/03/29 22:04:04 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/02 17:46:58 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	go_sleep(t_philo *philo)
 
 	pthread_mutex_lock(&philo->info->print_mutex);
 	relative_time = get_time_in_mil() - philo->info->start_time;
-	printf("%013ld %d is sleeping\n", relative_time, philo->id);
+	printf("%13ld %d is sleeping\n", relative_time, philo->id);
 	pthread_mutex_unlock(&philo->info->print_mutex);
-	usleep(philo->info->time_to_sleep * 1000);
+	philo_usleep(philo->info->time_to_sleep, philo);
 	philo->action = THINKING;
 }
 
@@ -30,9 +30,8 @@ void	go_think(t_philo *philo)
 
 	pthread_mutex_lock(&philo->info->print_mutex);
 	relative_time = get_time_in_mil() - philo->info->start_time;
-	printf("%013ld %d is thinking\n", relative_time, philo->id);
+	printf("%13ld %d is thinking\n", relative_time, philo->id);
 	pthread_mutex_unlock(&philo->info->print_mutex);
-	usleep(1000);
 	philo->action = EATING;
 }
 
@@ -53,42 +52,19 @@ void	cleanup(t_sim *sim, t_arena *arena)
 	arena_destroy(arena);
 }
 
-void	*do_monitor(void *simulation)
+void	philo_usleep(size_t mls, t_philo *philo)
 {
-	int		i;
-	long	rel_time;
-	t_sim	*sim;
+	size_t	start;
+	size_t	elapsed;
 
-	sim = (t_sim *)simulation;
+	start = get_time_in_mil();
 	while (1)
 	{
-		i = -1;
-		while (++i < sim->info->num_of_philo)
-		{
-			if (is_dead(sim->philos[i]))
-			{
-				if ((!sim->philos[i]->job_done))
-				{
-					rel_time = get_time_in_mil() - sim->philos[i]->info->start_time;
-					pthread_mutex_lock(&sim->info->print_mutex);
-					printf("%013ld %d died\n", rel_time, sim->philos[i]->id);
-					pthread_mutex_unlock(&sim->info->print_mutex);
-				}
-				return (NULL);
-			}
-		}
-		usleep(1000);
+		pthread_mutex_unlock(&philo->info->stop_mutex);
+		elapsed = get_time_in_mil() - start;
+		if (elapsed >= mls)
+			break ;
+		usleep(500);
 	}
-	return (NULL);
 }
 
-int	wait_monitor(t_sim *sim)
-{
-	pthread_t	monitor;
-
-	if (pthread_create(&monitor, NULL, do_monitor, sim))
-		return (printf("Error: Could not create thread\n"), 1);
-	if (pthread_join(monitor, NULL))
-		return (printf("Error: Could not join thread\n"), 1);
-	return (0);
-}
