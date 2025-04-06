@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:33:55 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/06 18:37:00 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/06 19:05:26 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	go_await_your_death(t_philo *philo)
 void	announce_death(t_philo *philo)
 {
 	long	relative_time;
+
 	relative_time = get_time_in_mil() - philo->info->start_time;
 	sem_wait(philo->info->print_sem);
 	printf("%13ld %d died\n", relative_time, philo->id);

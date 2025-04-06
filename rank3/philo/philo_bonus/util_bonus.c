@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:32:52 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/06 18:33:07 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/06 19:07:06 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	go_think(t_philo *philo)
 	sem_post(philo->info->print_sem);
 	philo->action = EATING;
 }
+
 int	is_dead(t_philo *philo)
 {
 	long	time_since_last_meal;
@@ -43,6 +44,7 @@ int	is_dead(t_philo *philo)
 		return (1);
 	return (0);
 }
+
 void	kill_all_philo(t_sim *sim)
 {
 	int	i;
@@ -54,7 +56,6 @@ void	kill_all_philo(t_sim *sim)
 			kill(sim->philos[i]->pid, SIGKILL);
 		i++;
 	}
-	
 }
 
 void	go_eat(t_philo *philo)
@@ -69,8 +70,7 @@ void	go_eat(t_philo *philo)
 	printf("%13ld %d has taken a fork\n", relative_time, philo->id);
 	sem_post(philo->info->print_sem);
 	sem_wait(philo->info->forks);
-	current_time = get_time_in_mil();
-	relative_time = current_time - philo->info->start_time;
+	relative_time = get_time_in_mil() - philo->info->start_time;
 	printf("%13ld %d has taken a fork\n", relative_time, philo->id);
 	if (is_dead(philo))
 		return ;

@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:27:32 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/06 18:47:28 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/06 19:02:14 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ long	get_time_in_mil(void)
 
 int	sanity_check(t_sim *sim)
 {
-	if (sim->info->time_to_die < 0 || sim->info->time_to_eat < 0 ||
-		sim->info->time_to_sleep < 0 || sim->info->num_of_philo < 1)
+	if (sim->info->time_to_die < 0 || sim->info->time_to_eat < 0
+		|| sim->info->time_to_sleep < 0 || sim->info->num_of_philo < 1)
 	{
 		printf("Error: invalid arguments\n");
 		return (1);
@@ -74,7 +74,7 @@ int	init_philos(t_arena *arena, t_sim *sim)
 
 	i = 0;
 	num_philo = sim->info->num_of_philo;
-	sim->philos = (t_philo **) arena_alloc(arena, sizeof(t_philo *) * num_philo);
+	sim->philos = (t_philo **)arena_alloc(arena, sizeof(t_philo *) * num_philo);
 	if (!sim->philos)
 		return (printf("Error: Could not allocate memory\n"), 1);
 	while (i < num_philo)
@@ -99,8 +99,8 @@ int	main(int argc, char **argv)
 
 	if (argc < 5 || argc > 6)
 		return (printf("Error: ./philo_bonus arg1 arg2 arg3 arg4 [arg5]\n"), 1);
-	arena = arena_create(sizeof(t_sim) +
-		(sizeof(t_sim_info)) + (sizeof(t_philo) * ft_atol(argv[1]) * 5));
+	arena = arena_create(sizeof(t_sim)
+			+ (sizeof(t_sim_info)) + (sizeof(t_philo) * ft_atol(argv[1]) * 5));
 	if (!arena)
 		return (printf("Error: Could not allocate memory\n"), 1);
 	if (init_args(arena, &sim, argv, argc))

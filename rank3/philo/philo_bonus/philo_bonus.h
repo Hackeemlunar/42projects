@@ -1,21 +1,29 @@
-﻿/* ************************************************************************** */
-/*                                 philo_bonus.h                              */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/06 19:01:04 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/04/06 19:01:43 by hmensah-         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_BONUS_H
 # define PHILO_BONUS_H
 
-#include <string.h>
-#include <limits.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/time.h>
-#include <semaphore.h>
-#include <sys/wait.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <fcntl.h>
-#include "arena.h"
+# include <string.h>
+# include <limits.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <sys/time.h>
+# include <semaphore.h>
+# include <sys/wait.h>
+# include <stdlib.h>
+# include <signal.h>
+# include <fcntl.h>
+# include "arena.h"
 
 typedef enum e_philo_action
 {
@@ -67,6 +75,5 @@ int		init_forks_sem(t_sim *sim);
 int		init_print_sem(t_sim *sim);
 int		init_stop_sem(t_sim *sim);
 void	kill_all_philo(t_sim *sim);
-
 
 #endif
