@@ -12,6 +12,9 @@
 #include <sys/time.h>
 #include <semaphore.h>
 #include <sys/wait.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <fcntl.h>
 #include "arena.h"
 
 typedef enum e_philo_action
@@ -23,15 +26,15 @@ typedef enum e_philo_action
 
 typedef struct s_sim_info
 {
-	sem_t		*forks;      /* Semaphore counting available forks */
-	sem_t		*print_sem;  /* Semaphore for protecting prints */
+	sem_t		*forks;
+	sem_t		*print_sem;
+	sem_t		*stop_sem;
 	long		time_to_die;
 	long		time_to_eat;
 	long		time_to_sleep;
 	long		start_time;
 	int			num_of_philo;
 	int			total_meals;
-	int			stop_sim;
 }				t_sim_info;
 
 typedef struct s_philo
@@ -54,12 +57,16 @@ typedef struct s_sim
 void	go_eat(t_philo *philo);
 void	go_sleep(t_philo *philo);
 void	go_think(t_philo *philo);
-void	do_philosophy(t_philo *philo);
+int		start_simulation(t_sim *sim);
 int		is_dead(t_philo *philo);
 long	ft_atol(const char *s);
 void	cleanup(t_sim *sim, t_arena *arena);
 long	get_time_in_mil(void);
 int		start_simulation(t_sim *sim);
-int		wait_monitor(t_sim *sim);
+int		init_forks_sem(t_sim *sim);
+int		init_print_sem(t_sim *sim);
+int		init_stop_sem(t_sim *sim);
+void	kill_all_philo(t_sim *sim);
+
 
 #endif

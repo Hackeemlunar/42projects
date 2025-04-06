@@ -6,15 +6,16 @@
 #    By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/27 20:32:49 by hmensah-          #+#    #+#              #
-#    Updated: 2025/03/29 18:20:40 by hmensah-         ###   ########.fr        #
+#    Updated: 2025/04/06 18:50:40 by hmensah-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	=	philo
+NAME	=	philo_bonus
 CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror
 
-SRCS	=	philo.c ft_atol.c util1.c eat.c ft_arena.c util.c
+SRCS	=	ft_atol.c ft_arena.c philo_bonus.c util_bonus.c util_bonus1.c \
+			fork_init.c
 OBJS	=	$(SRCS:.c=.o)
 
 %.o: %.c

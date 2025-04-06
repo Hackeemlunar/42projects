@@ -87,7 +87,6 @@ int	init_args(t_arena *arena, t_sim **sim, char **argv, int argc)
 		(*sim)->info->total_meals = ft_atol(argv[5]);
 	else
 		(*sim)->info->total_meals = -1;
-	(*sim)->info->stop_sim = 0;
 	(*sim)->info->start_time = get_time_in_mil();
 	return (sanity_check(*sim));
 }
@@ -149,88 +148,145 @@ int	init_print_sem(t_sim *sim)
 	return (0);
 }
 
-void	do_philosophy(t_philo *philo)
+int	init_stop_sem(t_sim *sim)
 {
-	while (1)
+	char	*sem_name;
+
+	sem_unlink("/stop_sem");
+	sem_name = "/stop_sem";
+	sim->info->stop_sem = sem_open(sem_name, O_CREAT, 0644, 0);
+	if (sim->info->stop_sem == SEM_FAILED)
 	{
-		sem_wait(philo->info->forks);
-		sem_wait(philo->info->print_sem);
-		printf("%ld %d has taken a fork\n", get_time_in_mil() - philo->info->start_time, philo->id);
-		sem_post(philo->info->print_sem);
-
-		sem_wait(philo->info->forks);
-		sem_wait(philo->info->print_sem);
-		printf("%ld %d has taken a fork\n", get_time_in_mil() - philo->info->start_time, philo->id);
-		sem_post(philo->info->print_sem);
-
-		/* Eating */
-		sem_wait(philo->info->print_sem);
-		printf("%ld %d is eating\n", get_time_in_mil() - philo->info->start_time, philo->id);
-		sem_post(philo->info->print_sem);
-		philo->last_meal_time = get_time_in_mil();
-		usleep(philo->info->time_to_eat * 1000);
-		philo->times_eaten++;
-		if (philo->info->total_meals != -1 && philo->times_eaten >= philo->info->total_meals)
-			exit(0);
-		/* Release forks */
-		sem_post(philo->info->forks);
-		sem_post(philo->info->forks);
-		/* Sleeping */
-		sem_wait(philo->info->print_sem);
-		printf("%ld %d is sleeping\n", get_time_in_mil() - philo->info->start_time, philo->id);
-		sem_post(philo->info->print_sem);
-		usleep(philo->info->time_to_sleep * 1000);
-		/* Thinking */
-		sem_wait(philo->info->print_sem);
-		printf("%ld %d is thinking\n", get_time_in_mil() - philo->info->start_time, philo->id);
-		sem_post(philo->info->print_sem);
-		usleep(1000);
+		printf("Error: Could not create stop semaphore\n");
+		return (1);
 	}
+	sem_unlink("/stop_sem");
+	return (0);
 }
 
-void	monitor_philos(t_sim *sim)
+void	go_sleep(t_philo *philo)
 {
-	int		i;
-	long	now;
-	int		philosophers_done;
+	long	relative_time;
 
+	sem_wait(philo->info->print_sem);
+	relative_time = get_time_in_mil() - philo->info->start_time;
+	printf("%13ld %d is sleeping\n", relative_time, philo->id);
+	sem_post(philo->info->print_sem);
+	usleep(philo->info->time_to_sleep * 1000);
+	philo->action = THINKING;
+}
+
+void	go_think(t_philo *philo)
+{
+	long	relative_time;
+
+	sem_wait(philo->info->print_sem);
+	relative_time = get_time_in_mil() - philo->info->start_time;
+	printf("%13ld %d is thinking\n", relative_time, philo->id);
+	sem_post(philo->info->print_sem);
+	philo->action = EATING;
+}
+int	is_dead(t_philo *philo)
+{
+	long	time_since_last_meal;
+
+	time_since_last_meal = get_time_in_mil() - philo->last_meal_time;
+	if (time_since_last_meal > philo->info->time_to_die)
+		return (1);
+	return (0);
+}
+void	kill_all_philo(t_sim *sim)
+{
+	int	i;
+
+	i = 0;
+	while (i < sim->info->num_of_philo)
+	{
+		if (kill(sim->philos[i]->pid, 0) == 0)
+			kill(sim->philos[i]->pid, SIGKILL);
+		i++;
+	}
+	
+}
+
+void	go_eat(t_philo *philo)
+{
+	long	current_time;
+	long	relative_time;
+
+	sem_wait(philo->info->forks);
+	current_time = get_time_in_mil();
+	relative_time = current_time - philo->info->start_time;
+	sem_wait(philo->info->print_sem);
+	printf("%13ld %d has taken a fork\n", relative_time, philo->id);
+	sem_post(philo->info->print_sem);
+	sem_wait(philo->info->forks);
+	current_time = get_time_in_mil();
+	relative_time = current_time - philo->info->start_time;
+	printf("%13ld %d has taken a fork\n", relative_time, philo->id);
+	if (is_dead(philo))
+		return ;
+	current_time = get_time_in_mil();
+	philo->last_meal_time = current_time;
+	relative_time = current_time - philo->info->start_time;
+	sem_wait(philo->info->print_sem);
+	printf("%13ld %d is eating\n", relative_time, philo->id);
+	sem_post(philo->info->print_sem);
+	usleep(philo->info->time_to_eat * 1000);
+	sem_post(philo->info->forks);
+	sem_post(philo->info->forks);
+	philo->times_eaten++;
+	philo->action = SLEEPING;
+}
+
+void	go_await_your_death(t_philo *philo)
+{
+	long	relative_time;
+	long	current_time;
+
+	go_think(philo);
+	current_time = get_time_in_mil();
+	relative_time = current_time - philo->info->start_time;
+	printf("%13ld %d has taken a fork\n", relative_time, philo->id);
+	usleep(philo->info->time_to_die * 1000);
+	current_time = get_time_in_mil();
+	relative_time = current_time - philo->info->start_time;
+	printf("%13ld %d died\n", relative_time, philo->id);
+}
+
+void	announce_death(t_philo *philo)
+{
+	long	relative_time;
+	relative_time = get_time_in_mil() - philo->info->start_time;
+	sem_wait(philo->info->print_sem);
+	printf("%13ld %d died\n", relative_time, philo->id);
+	sem_post(philo->info->stop_sem);
+}
+
+void	do_philosophy(t_philo *philo)
+{
+	philo->times_eaten = 0;
+	if (philo->info->num_of_philo == 1)
+	{
+		go_await_your_death(philo);
+		return ;
+	}
 	while (1)
 	{
-		i = 0;
-		philosophers_done = 0;
-		while (i < sim->info->num_of_philo)
+		if (is_dead(philo))
 		{
-			now = get_time_in_mil();
-			if ((now - sim->philos[i]->last_meal_time) > sim->info->time_to_die)
-			{
-				sem_wait(sim->info->print_sem);
-				printf("%ld %d died\n", now - sim->info->start_time, sim->philos[i]->id);
-				sem_post(sim->info->print_sem);
-				i = 0;
-				while (i < sim->info->num_of_philo)
-				{
-					kill(sim->philos[i]->pid, SIGKILL);
-					i++;
-				}
-				return;
-			}
-			i++;
+			announce_death(philo);
+			return ;
 		}
-		usleep(1000);
-
-		if (sim->info->total_meals != -1)
-		{
-			i = 0;
-			philosophers_done = 0;
-			while (i < sim->info->num_of_philo)
-			{
-				if (waitpid(sim->philos[i]->pid, NULL, WNOHANG) > 0)
-					philosophers_done++;
-				i++;
-			}
-			if (philosophers_done == sim->info->num_of_philo)
-				return;
-		}
+		if ((philo->times_eaten >= philo->info->total_meals
+				&& philo->info->total_meals != -1))
+			break ;
+		if (philo->action == THINKING)
+			go_think(philo);
+		else if (philo->action == EATING)
+			go_eat(philo);
+		else if (philo->action == SLEEPING)
+			go_sleep(philo);
 	}
 }
 
@@ -239,9 +295,9 @@ int	start_simulation(t_sim *sim)
 	int		i;
 	pid_t	pid;
 
-	i = 0;
+	i = -1;
 	sim->info->start_time = get_time_in_mil();
-	while (i < sim->info->num_of_philo)
+	while (++i < sim->info->num_of_philo)
 	{
 		pid = fork();
 		if (pid < 0)
@@ -253,15 +309,10 @@ int	start_simulation(t_sim *sim)
 		}
 		else
 			sim->philos[i]->pid = pid;
-		i++;
 	}
-	monitor_philos(sim);
-	i = 0;
-	while (i < sim->info->num_of_philo)
-	{
-		waitpid(sim->philos[i]->pid, NULL, 0);
-		i++;
-	}
+	sem_wait(sim->info->stop_sem);
+	kill_all_philo(sim);
+	sem_post(sim->info->stop_sem);
 	return (0);
 }
 
@@ -269,6 +320,7 @@ void	cleanup(t_sim *sim, t_arena *arena)
 {
 	sem_close(sim->info->forks);
 	sem_close(sim->info->print_sem);
+	sem_close(sim->info->stop_sem);
 	arena_destroy(arena);
 }
 
@@ -290,6 +342,8 @@ int	main(int argc, char **argv)
 	if (init_forks_sem(sim))
 		return (cleanup(sim, arena), 1);
 	if (init_print_sem(sim))
+		return (cleanup(sim, arena), 1);
+	if (init_stop_sem(sim))
 		return (cleanup(sim, arena), 1);
 	if (start_simulation(sim))
 		return (cleanup(sim, arena), 1);
