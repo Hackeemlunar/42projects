@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 21:06:47 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/02 19:21:41 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/07 21:01:48 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,27 @@ void	philo_usleep(size_t mls, t_philo *philo)
 	start = get_time_in_mil();
 	while (1)
 	{
-		pthread_mutex_unlock(&philo->info->stop_mutex);
 		elapsed = get_time_in_mil() - start;
 		if (elapsed >= mls)
 			break ;
 		usleep(500);
 	}
+}
+
+long	get_time_in_mil(void)
+{
+	struct timeval	current_time;
+	long			seconds;
+	long			microseconds;
+	long			milliseconds;
+
+	if (gettimeofday(&current_time, NULL) == -1)
+	{
+		printf("Error: gettimeofday");
+		return (1);
+	}
+	seconds = current_time.tv_sec;
+	microseconds = current_time.tv_usec;
+	milliseconds = seconds * 1000 + microseconds / 1000;
+	return (milliseconds);
 }

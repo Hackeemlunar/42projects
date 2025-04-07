@@ -6,29 +6,11 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 21:01:51 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/02 19:53:47 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/07 21:09:08 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-long	get_time_in_mil(void)
-{
-	struct timeval	current_time;
-	long			seconds;
-	long			microseconds;
-	long			milliseconds;
-
-	if (gettimeofday(&current_time, NULL) == -1)
-	{
-		printf("Error: gettimeofday");
-		return (1);
-	}
-	seconds = current_time.tv_sec;
-	microseconds = current_time.tv_usec;
-	milliseconds = seconds * 1000 + microseconds / 1000;
-	return (milliseconds);
-}
 
 int	is_dead(t_philo *philo)
 {
@@ -44,6 +26,16 @@ int	is_dead(t_philo *philo)
 	}
 	pthread_mutex_unlock(&philo->info->stop_mutex);
 	return (0);
+}
+
+void	do_philo_action(t_philo *philo)
+{
+	if (philo->action == THINKING)
+		go_think(philo);
+	else if (philo->action == EATING)
+		go_eat(philo);
+	else if (philo->action == SLEEPING)
+		go_sleep(philo);
 }
 
 void	*do_philosophy(void *philosopher)
@@ -62,12 +54,14 @@ void	*do_philosophy(void *philosopher)
 			philo->job_done = 1;
 			break ;
 		}
-		if (philo->action == THINKING)
-			go_think(philo);
-		else if (philo->action == EATING)
-			go_eat(philo);
-		else if (philo->action == SLEEPING)
-			go_sleep(philo);
+		pthread_mutex_lock(&philo->info->stop_mutex);
+		if (philo->info->stop_sim)
+		{
+			pthread_mutex_unlock(&philo->info->stop_mutex);
+			break ;
+		}
+		pthread_mutex_unlock(&philo->info->stop_mutex);
+		do_philo_action(philo);
 	}
 	return (NULL);
 }
