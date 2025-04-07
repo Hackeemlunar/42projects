@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:33:55 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/06 19:05:26 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/07 15:28:22 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,14 @@ int	start_simulation(t_sim *sim)
 		if (pid == 0)
 		{
 			do_philosophy(sim->philos[i]);
+			sem_post(sim->info->stop_sem);
 			exit(0);
 		}
 		else
 			sim->philos[i]->pid = pid;
 	}
 	sem_wait(sim->info->stop_sem);
+	usleep(sim->info->time_to_die * 1000);
 	kill_all_philo(sim);
 	sem_post(sim->info->stop_sem);
 	return (0);

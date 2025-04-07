@@ -1,1 +1,1700 @@
-801 1 died
+            2 11 is thinking
+            2 11 has taken a fork
+            2 11 has taken a fork
+            2 11 is eating
+          203 11 is sleeping
+          404 11 is thinking
+          404 11 has taken a fork
+          404 11 has taken a fork
+          404 11 is eating
+          606 11 is sleeping
+          807 11 is thinking
+          807 11 has taken a fork
+          807 11 has taken a fork
+          807 11 is eating
+         1009 11 is sleeping
+         1210 11 is thinking
+         1210 11 has taken a fork
+         1210 11 has taken a fork
+         1210 11 is eating
+         1411 11 is sleeping
+         1613 11 is thinking
+         1613 11 has taken a fork
+         1613 11 has taken a fork
+         1613 11 is eating
+         1815 11 is sleeping
+         2016 11 is thinking
+         2016 11 has taken a fork
+         2017 11 has taken a fork
+         2017 11 is eating
+         2217 11 is sleeping
+         2418 11 is thinking
+         2418 11 has taken a fork
+         2419 11 has taken a fork
+         2419 11 is eating
+            1 8 is thinking
+            1 8 has taken a fork
+            1 8 has taken a fork
+            1 8 is eating
+          201 8 is sleeping
+          403 8 is thinking
+          404 8 has taken a fork
+          404 8 has taken a fork
+          404 8 is eating
+          606 8 is sleeping
+          807 8 is thinking
+          807 8 has taken a fork
+          808 8 has taken a fork
+          808 8 is eating
+         1009 8 is sleeping
+         1210 8 is thinking
+         1210 8 has taken a fork
+         1210 8 has taken a fork
+         1210 8 is eating
+         1411 8 is sleeping
+         1613 8 is thinking
+         1613 8 has taken a fork
+         1613 8 has taken a fork
+         1613 8 is eating
+         1815 8 is sleeping
+         2016 8 is thinking
+         2016 8 has taken a fork
+         2016 8 has taken a fork
+         2016 8 is eating
+         2217 8 is sleeping
+         2418 8 is thinking
+         2418 8 has taken a fork
+         2418 8 has taken a fork
+         2418 8 is eating
+            1 3 is thinking
+            1 3 has taken a fork
+            1 3 has taken a fork
+            1 3 is eating
+          202 3 is sleeping
+          403 3 is thinking
+          404 3 has taken a fork
+          404 3 has taken a fork
+          404 3 is eating
+          606 3 is sleeping
+          807 3 is thinking
+          807 3 has taken a fork
+          807 3 has taken a fork
+          807 3 is eating
+         1009 3 is sleeping
+         1210 3 is thinking
+         1210 3 has taken a fork
+         1210 3 has taken a fork
+         1210 3 is eating
+         1411 3 is sleeping
+         1613 3 is thinking
+         1613 3 has taken a fork
+         1613 3 has taken a fork
+         1613 3 is eating
+         1815 3 is sleeping
+         2016 3 is thinking
+         2016 3 has taken a fork
+         2017 3 has taken a fork
+         2017 3 is eating
+         2217 3 is sleeping
+         2418 3 is thinking
+         2418 3 has taken a fork
+         2419 3 has taken a fork
+         2419 3 is eating
+            0 1 is thinking
+            0 1 has taken a fork
+            0 1 has taken a fork
+            0 1 is eating
+          201 1 is sleeping
+          402 1 is thinking
+          404 1 has taken a fork
+          404 1 has taken a fork
+          404 1 is eating
+          606 1 is sleeping
+          807 1 is thinking
+          807 1 has taken a fork
+          807 1 has taken a fork
+          807 1 is eating
+         1008 1 is sleeping
+         1210 1 is thinking
+         1210 1 has taken a fork
+         1210 1 has taken a fork
+         1210 1 is eating
+         1411 1 is sleeping
+         1613 1 is thinking
+         1613 1 has taken a fork
+         1613 1 has taken a fork
+         1613 1 is eating
+         1815 1 is sleeping
+         2016 1 is thinking
+         2016 1 has taken a fork
+         2017 1 has taken a fork
+         2017 1 is eating
+         2217 1 is sleeping
+         2418 1 is thinking
+         2418 1 has taken a fork
+         2419 1 has taken a fork
+         2419 1 is eating
+            0 2 is thinking
+            0 2 has taken a fork
+            0 2 has taken a fork
+            0 2 is eating
+          202 2 is sleeping
+          403 2 is thinking
+          404 2 has taken a fork
+          404 2 has taken a fork
+          404 2 is eating
+          606 2 is sleeping
+          807 2 is thinking
+          807 2 has taken a fork
+          807 2 has taken a fork
+          807 2 is eating
+         1009 2 is sleeping
+         1210 2 is thinking
+         1210 2 has taken a fork
+         1210 2 has taken a fork
+         1210 2 is eating
+         1411 2 is sleeping
+         1613 2 is thinking
+         1613 2 has taken a fork
+         1613 2 has taken a fork
+         1613 2 is eating
+         1815 2 is sleeping
+         2016 2 is thinking
+         2016 2 has taken a fork
+         2017 2 has taken a fork
+         2017 2 is eating
+         2217 2 is sleeping
+         2418 2 is thinking
+         2418 2 has taken a fork
+         2419 2 has taken a fork
+         2419 2 is eating
+            2 10 is thinking
+            2 10 has taken a fork
+            2 10 has taken a fork
+            2 10 is eating
+          202 10 is sleeping
+          403 10 is thinking
+          404 10 has taken a fork
+          404 10 has taken a fork
+          404 10 is eating
+          606 10 is sleeping
+          807 10 is thinking
+          807 10 has taken a fork
+          807 10 has taken a fork
+          807 10 is eating
+         1009 10 is sleeping
+         1210 10 is thinking
+         1210 10 has taken a fork
+         1210 10 has taken a fork
+         1210 10 is eating
+         1411 10 is sleeping
+         1613 10 is thinking
+         1613 10 has taken a fork
+         1613 10 has taken a fork
+         1613 10 is eating
+         1815 10 is sleeping
+         2016 10 is thinking
+         2016 10 has taken a fork
+         2017 10 has taken a fork
+         2017 10 is eating
+         2217 10 is sleeping
+         2418 10 is thinking
+         2418 10 has taken a fork
+         2419 10 has taken a fork
+         2419 10 is eating
+            3 21 is thinking
+            3 21 has taken a fork
+            3 21 has taken a fork
+            3 21 is eating
+          203 21 is sleeping
+          404 21 is thinking
+          404 21 has taken a fork
+          405 21 has taken a fork
+          405 21 is eating
+          606 21 is sleeping
+          807 21 is thinking
+          807 21 has taken a fork
+          808 21 has taken a fork
+          808 21 is eating
+         1009 21 is sleeping
+         1210 21 is thinking
+         1210 21 has taken a fork
+         1210 21 has taken a fork
+         1210 21 is eating
+         1411 21 is sleeping
+         1613 21 is thinking
+         1613 21 has taken a fork
+         1613 21 has taken a fork
+         1613 21 is eating
+         1815 21 is sleeping
+         2016 21 is thinking
+         2016 21 has taken a fork
+         2017 21 has taken a fork
+         2017 21 is eating
+         2217 21 is sleeping
+         2418 21 is thinking
+         2418 21 has taken a fork
+         2418 21 has taken a fork
+         2418 21 is eating
+            3 19 is thinking
+            3 19 has taken a fork
+            3 19 has taken a fork
+            3 19 is eating
+          203 19 is sleeping
+          404 19 is thinking
+          404 19 has taken a fork
+          405 19 has taken a fork
+          405 19 is eating
+          606 19 is sleeping
+          807 19 is thinking
+          807 19 has taken a fork
+          807 19 has taken a fork
+          807 19 is eating
+         1009 19 is sleeping
+         1210 19 is thinking
+         1210 19 has taken a fork
+         1210 19 has taken a fork
+         1210 19 is eating
+         1411 19 is sleeping
+         1613 19 is thinking
+         1613 19 has taken a fork
+         1613 19 has taken a fork
+         1613 19 is eating
+         1815 19 is sleeping
+         2016 19 is thinking
+         2016 19 has taken a fork
+         2017 19 has taken a fork
+         2017 19 is eating
+         2217 19 is sleeping
+         2418 19 is thinking
+         2418 19 has taken a fork
+         2419 19 has taken a fork
+         2419 19 is eating
+            2 18 is thinking
+            2 18 has taken a fork
+            2 18 has taken a fork
+            3 18 is eating
+          203 18 is sleeping
+          404 18 is thinking
+          404 18 has taken a fork
+          404 18 has taken a fork
+          404 18 is eating
+          606 18 is sleeping
+          807 18 is thinking
+          807 18 has taken a fork
+          808 18 has taken a fork
+          808 18 is eating
+         1009 18 is sleeping
+         1210 18 is thinking
+         1210 18 has taken a fork
+         1210 18 has taken a fork
+         1210 18 is eating
+         1411 18 is sleeping
+         1613 18 is thinking
+         1613 18 has taken a fork
+         1613 18 has taken a fork
+         1613 18 is eating
+         1815 18 is sleeping
+         2016 18 is thinking
+         2016 18 has taken a fork
+         2017 18 has taken a fork
+         2017 18 is eating
+         2217 18 is sleeping
+         2418 18 is thinking
+         2418 18 has taken a fork
+         2419 18 has taken a fork
+         2419 18 is eating
+            2 17 is thinking
+            2 17 has taken a fork
+            2 17 has taken a fork
+            2 17 is eating
+          203 17 is sleeping
+          404 17 is thinking
+          404 17 has taken a fork
+          405 17 has taken a fork
+          405 17 is eating
+          606 17 is sleeping
+          807 17 is thinking
+          807 17 has taken a fork
+          808 17 has taken a fork
+          808 17 is eating
+         1009 17 is sleeping
+         1210 17 is thinking
+         1210 17 has taken a fork
+         1210 17 has taken a fork
+         1210 17 is eating
+         1411 17 is sleeping
+         1612 17 is thinking
+         1613 17 has taken a fork
+         1613 17 has taken a fork
+         1613 17 is eating
+         1815 17 is sleeping
+         2016 17 is thinking
+         2016 17 has taken a fork
+         2017 17 has taken a fork
+         2017 17 is eating
+         2217 17 is sleeping
+         2418 17 is thinking
+         2418 17 has taken a fork
+         2419 17 has taken a fork
+         2419 17 is eating
+            3 22 is thinking
+            3 22 has taken a fork
+            3 22 has taken a fork
+            3 22 is eating
+          203 22 is sleeping
+          404 22 is thinking
+          404 22 has taken a fork
+          405 22 has taken a fork
+          405 22 is eating
+          606 22 is sleeping
+          807 22 is thinking
+          807 22 has taken a fork
+          808 22 has taken a fork
+          808 22 is eating
+         1009 22 is sleeping
+         1210 22 is thinking
+         1210 22 has taken a fork
+         1210 22 has taken a fork
+         1210 22 is eating
+         1411 22 is sleeping
+         1613 22 is thinking
+         1613 22 has taken a fork
+         1613 22 has taken a fork
+         1613 22 is eating
+         1815 22 is sleeping
+         2016 22 is thinking
+         2016 22 has taken a fork
+         2017 22 has taken a fork
+         2017 22 is eating
+         2217 22 is sleeping
+         2418 22 is thinking
+         2418 22 has taken a fork
+         2419 22 has taken a fork
+         2419 22 is eating
+            1 6 is thinking
+            1 6 has taken a fork
+            1 6 has taken a fork
+            1 6 is eating
+          201 6 is sleeping
+          403 6 is thinking
+          404 6 has taken a fork
+          404 6 has taken a fork
+          404 6 is eating
+          606 6 is sleeping
+          807 6 is thinking
+          807 6 has taken a fork
+          808 6 has taken a fork
+          808 6 is eating
+         1009 6 is sleeping
+         1210 6 is thinking
+         1210 6 has taken a fork
+         1210 6 has taken a fork
+         1210 6 is eating
+         1411 6 is sleeping
+         1613 6 is thinking
+         1613 6 has taken a fork
+         1613 6 has taken a fork
+         1613 6 is eating
+         1815 6 is sleeping
+         2016 6 is thinking
+         2016 6 has taken a fork
+         2017 6 has taken a fork
+         2017 6 is eating
+         2217 6 is sleeping
+         2418 6 is thinking
+         2418 6 has taken a fork
+         2419 6 has taken a fork
+         2419 6 is eating
+            2 14 is thinking
+            2 14 has taken a fork
+            2 14 has taken a fork
+            2 14 is eating
+          203 14 is sleeping
+          404 14 is thinking
+          404 14 has taken a fork
+          405 14 has taken a fork
+          405 14 is eating
+          606 14 is sleeping
+          807 14 is thinking
+          807 14 has taken a fork
+          808 14 has taken a fork
+          808 14 is eating
+         1009 14 is sleeping
+         1210 14 is thinking
+         1210 14 has taken a fork
+         1210 14 has taken a fork
+         1210 14 is eating
+         1411 14 is sleeping
+         1613 14 is thinking
+         1613 14 has taken a fork
+         1613 14 has taken a fork
+         1613 14 is eating
+         1815 14 is sleeping
+         2016 14 is thinking
+         2016 14 has taken a fork
+         2017 14 has taken a fork
+         2017 14 is eating
+         2217 14 is sleeping
+         2418 14 is thinking
+         2418 14 has taken a fork
+         2419 14 has taken a fork
+         2419 14 is eating
+            1 9 is thinking
+            1 9 has taken a fork
+            1 9 has taken a fork
+            1 9 is eating
+          202 9 is sleeping
+          403 9 is thinking
+          404 9 has taken a fork
+          404 9 has taken a fork
+          404 9 is eating
+          606 9 is sleeping
+          807 9 is thinking
+          807 9 has taken a fork
+          807 9 has taken a fork
+          807 9 is eating
+         1009 9 is sleeping
+         1210 9 is thinking
+         1210 9 has taken a fork
+         1210 9 has taken a fork
+         1210 9 is eating
+         1411 9 is sleeping
+         1613 9 is thinking
+         1613 9 has taken a fork
+         1613 9 has taken a fork
+         1613 9 is eating
+         1815 9 is sleeping
+         2016 9 is thinking
+         2016 9 has taken a fork
+         2017 9 has taken a fork
+         2017 9 is eating
+         2217 9 is sleeping
+         2419 9 is thinking
+         2419 9 has taken a fork
+         2419 9 has taken a fork
+         2419 9 is eating
+            2 16 is thinking
+            2 16 has taken a fork
+            2 16 has taken a fork
+            2 16 is eating
+          203 16 is sleeping
+          404 16 is thinking
+          404 16 has taken a fork
+          404 16 has taken a fork
+          404 16 is eating
+          606 16 is sleeping
+          807 16 is thinking
+          807 16 has taken a fork
+          808 16 has taken a fork
+          808 16 is eating
+         1009 16 is sleeping
+         1209 16 is thinking
+         1210 16 has taken a fork
+         1210 16 has taken a fork
+         1210 16 is eating
+         1411 16 is sleeping
+         1613 16 is thinking
+         1613 16 has taken a fork
+         1613 16 has taken a fork
+         1613 16 is eating
+         1815 16 is sleeping
+         2016 16 is thinking
+         2016 16 has taken a fork
+         2017 16 has taken a fork
+         2017 16 is eating
+         2217 16 is sleeping
+         2418 16 is thinking
+         2418 16 has taken a fork
+         2419 16 has taken a fork
+         2419 16 is eating
+            1 4 is thinking
+            1 4 has taken a fork
+            1 4 has taken a fork
+            1 4 is eating
+          201 4 is sleeping
+          403 4 is thinking
+          404 4 has taken a fork
+          404 4 has taken a fork
+          404 4 is eating
+          606 4 is sleeping
+          807 4 is thinking
+          807 4 has taken a fork
+          808 4 has taken a fork
+          808 4 is eating
+         1009 4 is sleeping
+         1210 4 is thinking
+         1210 4 has taken a fork
+         1210 4 has taken a fork
+         1210 4 is eating
+         1411 4 is sleeping
+         1613 4 is thinking
+         1613 4 has taken a fork
+         1613 4 has taken a fork
+         1613 4 is eating
+         1815 4 is sleeping
+         2016 4 is thinking
+         2016 4 has taken a fork
+         2017 4 has taken a fork
+         2017 4 is eating
+         2217 4 is sleeping
+         2418 4 is thinking
+         2418 4 has taken a fork
+         2419 4 has taken a fork
+         2419 4 is eating
+            3 20 is thinking
+            3 20 has taken a fork
+            3 20 has taken a fork
+            3 20 is eating
+          203 20 is sleeping
+          404 20 is thinking
+          404 20 has taken a fork
+          405 20 has taken a fork
+          405 20 is eating
+          606 20 is sleeping
+          807 20 is thinking
+          807 20 has taken a fork
+          807 20 has taken a fork
+          807 20 is eating
+         1009 20 is sleeping
+         1210 20 is thinking
+         1210 20 has taken a fork
+         1210 20 has taken a fork
+         1210 20 is eating
+         1411 20 is sleeping
+         1613 20 is thinking
+         1613 20 has taken a fork
+         1613 20 has taken a fork
+         1613 20 is eating
+         1815 20 is sleeping
+         2016 20 is thinking
+         2016 20 has taken a fork
+         2017 20 has taken a fork
+         2017 20 is eating
+         2217 20 is sleeping
+         2419 20 is thinking
+         2419 20 has taken a fork
+         2419 20 has taken a fork
+         2419 20 is eating
+            2 13 is thinking
+            2 13 has taken a fork
+            2 13 has taken a fork
+            2 13 is eating
+          203 13 is sleeping
+          404 13 is thinking
+          404 13 has taken a fork
+          405 13 has taken a fork
+          405 13 is eating
+          606 13 is sleeping
+          807 13 is thinking
+          807 13 has taken a fork
+          808 13 has taken a fork
+          808 13 is eating
+         1009 13 is sleeping
+         1210 13 is thinking
+         1210 13 has taken a fork
+         1210 13 has taken a fork
+         1210 13 is eating
+         1411 13 is sleeping
+         1613 13 is thinking
+         1613 13 has taken a fork
+         1613 13 has taken a fork
+         1613 13 is eating
+         1815 13 is sleeping
+         2016 13 is thinking
+         2016 13 has taken a fork
+         2017 13 has taken a fork
+         2017 13 is eating
+         2217 13 is sleeping
+         2418 13 is thinking
+         2418 13 has taken a fork
+         2419 13 has taken a fork
+         2419 13 is eating
+            2 15 is thinking
+            2 15 has taken a fork
+            2 15 has taken a fork
+            2 15 is eating
+          203 15 is sleeping
+          404 15 is thinking
+          404 15 has taken a fork
+          405 15 has taken a fork
+          405 15 is eating
+          606 15 is sleeping
+          807 15 is thinking
+          807 15 has taken a fork
+          808 15 has taken a fork
+          808 15 is eating
+         1009 15 is sleeping
+         1210 15 is thinking
+         1210 15 has taken a fork
+         1210 15 has taken a fork
+         1210 15 is eating
+         1411 15 is sleeping
+         1613 15 is thinking
+         1613 15 has taken a fork
+         1613 15 has taken a fork
+         1613 15 is eating
+         1815 15 is sleeping
+         2016 15 is thinking
+         2016 15 has taken a fork
+         2017 15 has taken a fork
+         2017 15 is eating
+         2217 15 is sleeping
+         2419 15 is thinking
+         2419 15 has taken a fork
+         2419 15 has taken a fork
+         2419 15 is eating
+            4 24 is thinking
+            4 24 has taken a fork
+            4 24 has taken a fork
+            4 24 is eating
+          204 24 is sleeping
+          405 24 is thinking
+          405 24 has taken a fork
+          405 24 has taken a fork
+          405 24 is eating
+          606 24 is sleeping
+          807 24 is thinking
+          807 24 has taken a fork
+          808 24 has taken a fork
+          808 24 is eating
+         1009 24 is sleeping
+         1210 24 is thinking
+         1210 24 has taken a fork
+         1210 24 has taken a fork
+         1210 24 is eating
+         1411 24 is sleeping
+         1613 24 is thinking
+         1613 24 has taken a fork
+         1613 24 has taken a fork
+         1613 24 is eating
+         1815 24 is sleeping
+         2016 24 is thinking
+         2016 24 has taken a fork
+         2017 24 has taken a fork
+         2017 24 is eating
+         2217 24 is sleeping
+         2418 24 is thinking
+         2418 24 has taken a fork
+         2419 24 has taken a fork
+         2419 24 is eating
+            4 25 is thinking
+            4 25 has taken a fork
+            4 25 has taken a fork
+            4 25 is eating
+          204 25 is sleeping
+          405 25 is thinking
+          405 25 has taken a fork
+          405 25 has taken a fork
+          405 25 is eating
+          606 25 is sleeping
+          807 25 is thinking
+          807 25 has taken a fork
+          808 25 has taken a fork
+          808 25 is eating
+         1009 25 is sleeping
+         1210 25 is thinking
+         1210 25 has taken a fork
+         1210 25 has taken a fork
+         1210 25 is eating
+         1411 25 is sleeping
+         1613 25 is thinking
+         1613 25 has taken a fork
+         1613 25 has taken a fork
+         1613 25 is eating
+         1815 25 is sleeping
+         2016 25 is thinking
+         2016 25 has taken a fork
+         2016 25 has taken a fork
+         2016 25 is eating
+         2217 25 is sleeping
+         2418 25 is thinking
+         2418 25 has taken a fork
+         2419 25 has taken a fork
+         2419 25 is eating
+            1 7 is thinking
+            1 7 has taken a fork
+            1 7 has taken a fork
+            1 7 is eating
+          201 7 is sleeping
+          403 7 is thinking
+          404 7 has taken a fork
+          404 7 has taken a fork
+          404 7 is eating
+          606 7 is sleeping
+          807 7 is thinking
+          807 7 has taken a fork
+          807 7 has taken a fork
+          807 7 is eating
+         1009 7 is sleeping
+         1210 7 is thinking
+         1210 7 has taken a fork
+         1210 7 has taken a fork
+         1210 7 is eating
+         1411 7 is sleeping
+         1613 7 is thinking
+         1613 7 has taken a fork
+         1613 7 has taken a fork
+         1613 7 is eating
+         1815 7 is sleeping
+         2016 7 is thinking
+         2016 7 has taken a fork
+         2017 7 has taken a fork
+         2017 7 is eating
+         2217 7 is sleeping
+         2418 7 is thinking
+         2418 7 has taken a fork
+         2419 7 has taken a fork
+         2419 7 is eating
+            3 23 is thinking
+            3 23 has taken a fork
+            3 23 has taken a fork
+            3 23 is eating
+          204 23 is sleeping
+          405 23 is thinking
+          405 23 has taken a fork
+          405 23 has taken a fork
+          405 23 is eating
+          606 23 is sleeping
+          807 23 is thinking
+          807 23 has taken a fork
+          808 23 has taken a fork
+          808 23 is eating
+         1009 23 is sleeping
+         1210 23 is thinking
+         1210 23 has taken a fork
+         1210 23 has taken a fork
+         1210 23 is eating
+         1411 23 is sleeping
+         1613 23 is thinking
+         1613 23 has taken a fork
+         1613 23 has taken a fork
+         1613 23 is eating
+         1815 23 is sleeping
+         2016 23 is thinking
+         2016 23 has taken a fork
+         2017 23 has taken a fork
+         2017 23 is eating
+         2217 23 is sleeping
+         2418 23 is thinking
+         2418 23 has taken a fork
+         2419 23 has taken a fork
+         2419 23 is eating
+            2 12 is thinking
+            2 12 has taken a fork
+            2 12 has taken a fork
+            2 12 is eating
+          203 12 is sleeping
+          404 12 is thinking
+          404 12 has taken a fork
+          404 12 has taken a fork
+          404 12 is eating
+          606 12 is sleeping
+          807 12 is thinking
+          807 12 has taken a fork
+          807 12 has taken a fork
+          807 12 is eating
+         1009 12 is sleeping
+         1210 12 is thinking
+         1210 12 has taken a fork
+         1210 12 has taken a fork
+         1210 12 is eating
+         1411 12 is sleeping
+         1613 12 is thinking
+         1613 12 has taken a fork
+         1613 12 has taken a fork
+         1613 12 is eating
+         1815 12 is sleeping
+         2016 12 is thinking
+         2016 12 has taken a fork
+         2017 12 has taken a fork
+         2017 12 is eating
+         2217 12 is sleeping
+         2418 12 is thinking
+         2418 12 has taken a fork
+         2419 12 has taken a fork
+         2419 12 is eating
+            1 5 is thinking
+            1 5 has taken a fork
+            1 5 has taken a fork
+            1 5 is eating
+          201 5 is sleeping
+          402 5 is thinking
+          404 5 has taken a fork
+          404 5 has taken a fork
+          404 5 is eating
+          606 5 is sleeping
+          807 5 is thinking
+          807 5 has taken a fork
+          808 5 has taken a fork
+          808 5 is eating
+         1009 5 is sleeping
+         1210 5 is thinking
+         1210 5 has taken a fork
+         1210 5 has taken a fork
+         1210 5 is eating
+         1411 5 is sleeping
+         1613 5 is thinking
+         1613 5 has taken a fork
+         1613 5 has taken a fork
+         1613 5 is eating
+         1815 5 is sleeping
+         2016 5 is thinking
+         2016 5 has taken a fork
+         2017 5 has taken a fork
+         2017 5 is eating
+         2217 5 is sleeping
+         2418 5 is thinking
+         2418 5 has taken a fork
+         2419 5 has taken a fork
+         2419 5 is eating
+            6 44 is thinking
+          202 44 has taken a fork
+          203 44 has taken a fork
+          203 44 is eating
+          404 44 is sleeping
+          605 44 is thinking
+          605 44 has taken a fork
+          606 44 has taken a fork
+          606 44 is eating
+          807 44 is sleeping
+         1008 44 is thinking
+         1008 44 has taken a fork
+         1009 44 has taken a fork
+         1009 44 is eating
+         1210 44 is sleeping
+         1411 44 is thinking
+         1411 44 has taken a fork
+         1412 44 has taken a fork
+         1412 44 is eating
+         1613 44 is sleeping
+         1815 44 is thinking
+         1815 44 has taken a fork
+         1815 44 has taken a fork
+         1815 44 is eating
+         2016 44 is sleeping
+         2217 44 is thinking
+         2217 44 has taken a fork
+         2217 44 has taken a fork
+         2217 44 is eating
+         2418 44 is sleeping
+         2619 44 is thinking
+         2619 44 has taken a fork
+         2619 44 has taken a fork
+         2619 44 is eating
+            7 49 is thinking
+          203 49 has taken a fork
+          204 49 has taken a fork
+          204 49 is eating
+          405 49 is sleeping
+          606 49 is thinking
+          606 49 has taken a fork
+          606 49 has taken a fork
+          606 49 is eating
+          807 49 is sleeping
+         1009 49 is thinking
+         1009 49 has taken a fork
+         1009 49 has taken a fork
+         1009 49 is eating
+         1210 49 is sleeping
+         1411 49 is thinking
+         1411 49 has taken a fork
+         1412 49 has taken a fork
+         1412 49 is eating
+         1613 49 is sleeping
+         1815 49 is thinking
+         1815 49 has taken a fork
+         1815 49 has taken a fork
+         1815 49 is eating
+         2016 49 is sleeping
+         2216 49 is thinking
+         2217 49 has taken a fork
+         2217 49 has taken a fork
+         2217 49 is eating
+         2418 49 is sleeping
+         2619 49 is thinking
+         2619 49 has taken a fork
+         2619 49 has taken a fork
+         2619 49 is eating
+            4 29 is thinking
+          201 29 has taken a fork
+          203 29 has taken a fork
+          203 29 is eating
+          404 29 is sleeping
+          606 29 is thinking
+          606 29 has taken a fork
+          606 29 has taken a fork
+          606 29 is eating
+          807 29 is sleeping
+         1008 29 is thinking
+         1008 29 has taken a fork
+         1009 29 has taken a fork
+         1009 29 is eating
+         1210 29 is sleeping
+         1411 29 is thinking
+         1411 29 has taken a fork
+         1411 29 has taken a fork
+         1411 29 is eating
+         1613 29 is sleeping
+         1815 29 is thinking
+         1815 29 has taken a fork
+         1815 29 has taken a fork
+         1815 29 is eating
+         2017 29 is sleeping
+         2217 29 is thinking
+         2217 29 has taken a fork
+         2217 29 has taken a fork
+         2217 29 is eating
+         2419 29 is sleeping
+         2619 29 is thinking
+         2619 29 has taken a fork
+         2619 29 has taken a fork
+         2619 29 is eating
+            5 32 is thinking
+          201 32 has taken a fork
+          203 32 has taken a fork
+          203 32 is eating
+          404 32 is sleeping
+          605 32 is thinking
+          605 32 has taken a fork
+          606 32 has taken a fork
+          606 32 is eating
+          807 32 is sleeping
+         1009 32 is thinking
+         1009 32 has taken a fork
+         1009 32 has taken a fork
+         1009 32 is eating
+         1210 32 is sleeping
+         1411 32 is thinking
+         1411 32 has taken a fork
+         1412 32 has taken a fork
+         1412 32 is eating
+         1613 32 is sleeping
+         1815 32 is thinking
+         1815 32 has taken a fork
+         1815 32 has taken a fork
+         1815 32 is eating
+         2017 32 is sleeping
+         2217 32 is thinking
+         2217 32 has taken a fork
+         2217 32 has taken a fork
+         2217 32 is eating
+         2419 32 is sleeping
+         2619 32 is thinking
+         2619 32 has taken a fork
+         2619 32 has taken a fork
+         2619 32 is eating
+            5 36 is thinking
+          201 36 has taken a fork
+          203 36 has taken a fork
+          203 36 is eating
+          404 36 is sleeping
+          605 36 is thinking
+          605 36 has taken a fork
+          606 36 has taken a fork
+          606 36 is eating
+          807 36 is sleeping
+         1009 36 is thinking
+         1009 36 has taken a fork
+         1009 36 has taken a fork
+         1009 36 is eating
+         1210 36 is sleeping
+         1411 36 is thinking
+         1411 36 has taken a fork
+         1411 36 has taken a fork
+         1411 36 is eating
+         1613 36 is sleeping
+         1815 36 is thinking
+         1815 36 has taken a fork
+         1815 36 has taken a fork
+         1815 36 is eating
+         2017 36 is sleeping
+         2217 36 is thinking
+         2217 36 has taken a fork
+         2217 36 has taken a fork
+         2217 36 is eating
+         2419 36 is sleeping
+         2619 36 is thinking
+         2619 36 has taken a fork
+         2619 36 has taken a fork
+         2619 36 is eating
+            7 46 is thinking
+          203 46 has taken a fork
+          204 46 has taken a fork
+          204 46 is eating
+          405 46 is sleeping
+          606 46 is thinking
+          606 46 has taken a fork
+          606 46 has taken a fork
+          606 46 is eating
+          807 46 is sleeping
+         1009 46 is thinking
+         1009 46 has taken a fork
+         1009 46 has taken a fork
+         1009 46 is eating
+         1210 46 is sleeping
+         1411 46 is thinking
+         1411 46 has taken a fork
+         1412 46 has taken a fork
+         1412 46 is eating
+         1613 46 is sleeping
+         1815 46 is thinking
+         1815 46 has taken a fork
+         1815 46 has taken a fork
+         1815 46 is eating
+         2017 46 is sleeping
+         2217 46 is thinking
+         2217 46 has taken a fork
+         2217 46 has taken a fork
+         2217 46 is eating
+         2419 46 is sleeping
+         2619 46 is thinking
+         2619 46 has taken a fork
+         2620 46 has taken a fork
+         2620 46 is eating
+            5 31 is thinking
+          201 31 has taken a fork
+          203 31 has taken a fork
+          203 31 is eating
+          404 31 is sleeping
+          605 31 is thinking
+          605 31 has taken a fork
+          606 31 has taken a fork
+          606 31 is eating
+          807 31 is sleeping
+         1009 31 is thinking
+         1009 31 has taken a fork
+         1009 31 has taken a fork
+         1009 31 is eating
+         1210 31 is sleeping
+         1411 31 is thinking
+         1411 31 has taken a fork
+         1411 31 has taken a fork
+         1411 31 is eating
+         1613 31 is sleeping
+         1815 31 is thinking
+         1815 31 has taken a fork
+         1815 31 has taken a fork
+         1815 31 is eating
+         2016 31 is sleeping
+         2217 31 is thinking
+         2217 31 has taken a fork
+         2217 31 has taken a fork
+         2217 31 is eating
+         2418 31 is sleeping
+         2619 31 is thinking
+         2619 31 has taken a fork
+         2619 31 has taken a fork
+         2619 31 is eating
+            4 27 is thinking
+          201 27 has taken a fork
+          203 27 has taken a fork
+          203 27 is eating
+          404 27 is sleeping
+          605 27 is thinking
+          605 27 has taken a fork
+          606 27 has taken a fork
+          606 27 is eating
+          807 27 is sleeping
+         1009 27 is thinking
+         1009 27 has taken a fork
+         1009 27 has taken a fork
+         1009 27 is eating
+         1210 27 is sleeping
+         1411 27 is thinking
+         1411 27 has taken a fork
+         1412 27 has taken a fork
+         1412 27 is eating
+         1613 27 is sleeping
+         1815 27 is thinking
+         1815 27 has taken a fork
+         1815 27 has taken a fork
+         1815 27 is eating
+         2017 27 is sleeping
+         2217 27 is thinking
+         2217 27 has taken a fork
+         2217 27 has taken a fork
+         2217 27 is eating
+         2419 27 is sleeping
+         2619 27 is thinking
+         2619 27 has taken a fork
+         2620 27 has taken a fork
+         2620 27 is eating
+            6 43 is thinking
+          201 43 has taken a fork
+          203 43 has taken a fork
+          203 43 is eating
+          404 43 is sleeping
+          605 43 is thinking
+          605 43 has taken a fork
+          606 43 has taken a fork
+          606 43 is eating
+          807 43 is sleeping
+         1009 43 is thinking
+         1009 43 has taken a fork
+         1009 43 has taken a fork
+         1009 43 is eating
+         1210 43 is sleeping
+         1411 43 is thinking
+         1411 43 has taken a fork
+         1412 43 has taken a fork
+         1412 43 is eating
+         1613 43 is sleeping
+         1814 43 is thinking
+         1815 43 has taken a fork
+         1815 43 has taken a fork
+         1815 43 is eating
+         2017 43 is sleeping
+         2217 43 is thinking
+         2217 43 has taken a fork
+         2217 43 has taken a fork
+         2217 43 is eating
+         2418 43 is sleeping
+         2619 43 is thinking
+         2619 43 has taken a fork
+         2619 43 has taken a fork
+         2619 43 is eating
+            4 26 is thinking
+          201 26 has taken a fork
+          203 26 has taken a fork
+          203 26 is eating
+          404 26 is sleeping
+          605 26 is thinking
+          605 26 has taken a fork
+          606 26 has taken a fork
+          606 26 is eating
+          807 26 is sleeping
+         1009 26 is thinking
+         1009 26 has taken a fork
+         1009 26 has taken a fork
+         1009 26 is eating
+         1210 26 is sleeping
+         1411 26 is thinking
+         1411 26 has taken a fork
+         1412 26 has taken a fork
+         1412 26 is eating
+         1613 26 is sleeping
+         1815 26 is thinking
+         1815 26 has taken a fork
+         1815 26 has taken a fork
+         1815 26 is eating
+         2017 26 is sleeping
+         2217 26 is thinking
+         2217 26 has taken a fork
+         2217 26 has taken a fork
+         2217 26 is eating
+         2419 26 is sleeping
+         2619 26 is thinking
+         2619 26 has taken a fork
+         2619 26 has taken a fork
+         2619 26 is eating
+            7 48 is thinking
+          203 48 has taken a fork
+          204 48 has taken a fork
+          204 48 is eating
+          405 48 is sleeping
+          606 48 is thinking
+          606 48 has taken a fork
+          606 48 has taken a fork
+          606 48 is eating
+          807 48 is sleeping
+         1008 48 is thinking
+         1008 48 has taken a fork
+         1009 48 has taken a fork
+         1009 48 is eating
+         1210 48 is sleeping
+         1411 48 is thinking
+         1411 48 has taken a fork
+         1411 48 has taken a fork
+         1411 48 is eating
+         1613 48 is sleeping
+         1814 48 is thinking
+         1815 48 has taken a fork
+         1815 48 has taken a fork
+         1815 48 is eating
+         2016 48 is sleeping
+         2217 48 is thinking
+         2217 48 has taken a fork
+         2217 48 has taken a fork
+         2217 48 is eating
+         2419 48 is sleeping
+         2619 48 is thinking
+         2619 48 has taken a fork
+         2620 48 has taken a fork
+         2620 48 is eating
+            6 41 is thinking
+          201 41 has taken a fork
+          203 41 has taken a fork
+          203 41 is eating
+          404 41 is sleeping
+          606 41 is thinking
+          606 41 has taken a fork
+          606 41 has taken a fork
+          606 41 is eating
+          807 41 is sleeping
+         1009 41 is thinking
+         1009 41 has taken a fork
+         1009 41 has taken a fork
+         1009 41 is eating
+         1210 41 is sleeping
+         1411 41 is thinking
+         1411 41 has taken a fork
+         1412 41 has taken a fork
+         1412 41 is eating
+         1613 41 is sleeping
+         1814 41 is thinking
+         1815 41 has taken a fork
+         1815 41 has taken a fork
+         1815 41 is eating
+         2017 41 is sleeping
+         2217 41 is thinking
+         2217 41 has taken a fork
+         2217 41 has taken a fork
+         2217 41 is eating
+         2418 41 is sleeping
+         2619 41 is thinking
+         2619 41 has taken a fork
+         2619 41 has taken a fork
+         2619 41 is eating
+            6 39 is thinking
+          201 39 has taken a fork
+          203 39 has taken a fork
+          203 39 is eating
+          404 39 is sleeping
+          606 39 is thinking
+          606 39 has taken a fork
+          606 39 has taken a fork
+          606 39 is eating
+          807 39 is sleeping
+         1008 39 is thinking
+         1008 39 has taken a fork
+         1009 39 has taken a fork
+         1009 39 is eating
+         1210 39 is sleeping
+         1411 39 is thinking
+         1411 39 has taken a fork
+         1411 39 has taken a fork
+         1411 39 is eating
+         1613 39 is sleeping
+         1815 39 is thinking
+         1815 39 has taken a fork
+         1815 39 has taken a fork
+         1815 39 is eating
+         2017 39 is sleeping
+         2217 39 is thinking
+         2217 39 has taken a fork
+         2217 39 has taken a fork
+         2217 39 is eating
+         2418 39 is sleeping
+         2619 39 is thinking
+         2619 39 has taken a fork
+         2619 39 has taken a fork
+         2619 39 is eating
+            7 50 is thinking
+          203 50 has taken a fork
+          204 50 has taken a fork
+          204 50 is eating
+          405 50 is sleeping
+          606 50 is thinking
+          606 50 has taken a fork
+          606 50 has taken a fork
+          606 50 is eating
+          807 50 is sleeping
+         1009 50 is thinking
+         1009 50 has taken a fork
+         1009 50 has taken a fork
+         1009 50 is eating
+         1210 50 is sleeping
+         1411 50 is thinking
+         1411 50 has taken a fork
+         1412 50 has taken a fork
+         1412 50 is eating
+         1613 50 is sleeping
+         1815 50 is thinking
+         1815 50 has taken a fork
+         1815 50 has taken a fork
+         1815 50 is eating
+         2017 50 is sleeping
+         2217 50 is thinking
+         2217 50 has taken a fork
+         2217 50 has taken a fork
+         2217 50 is eating
+         2419 50 is sleeping
+         2619 50 is thinking
+         2619 50 has taken a fork
+         2619 50 has taken a fork
+         2619 50 is eating
+            5 35 is thinking
+          201 35 has taken a fork
+          203 35 has taken a fork
+          203 35 is eating
+          404 35 is sleeping
+          605 35 is thinking
+          605 35 has taken a fork
+          606 35 has taken a fork
+          606 35 is eating
+          807 35 is sleeping
+         1009 35 is thinking
+         1009 35 has taken a fork
+         1009 35 has taken a fork
+         1009 35 is eating
+         1210 35 is sleeping
+         1411 35 is thinking
+         1411 35 has taken a fork
+         1412 35 has taken a fork
+         1412 35 is eating
+         1613 35 is sleeping
+         1814 35 is thinking
+         1814 35 has taken a fork
+         1815 35 has taken a fork
+         1815 35 is eating
+         2017 35 is sleeping
+         2217 35 is thinking
+         2217 35 has taken a fork
+         2217 35 has taken a fork
+         2217 35 is eating
+         2418 35 is sleeping
+         2619 35 is thinking
+         2619 35 has taken a fork
+         2619 35 has taken a fork
+         2619 35 is eating
+            7 47 is thinking
+          203 47 has taken a fork
+          204 47 has taken a fork
+          204 47 is eating
+          405 47 is sleeping
+          606 47 is thinking
+          606 47 has taken a fork
+          606 47 has taken a fork
+          606 47 is eating
+          807 47 is sleeping
+         1008 47 is thinking
+         1008 47 has taken a fork
+         1009 47 has taken a fork
+         1009 47 is eating
+         1210 47 is sleeping
+         1411 47 is thinking
+         1411 47 has taken a fork
+         1412 47 has taken a fork
+         1412 47 is eating
+         1613 47 is sleeping
+         1815 47 is thinking
+         1815 47 has taken a fork
+         1815 47 has taken a fork
+         1815 47 is eating
+         2017 47 is sleeping
+         2217 47 is thinking
+         2217 47 has taken a fork
+         2217 47 has taken a fork
+         2217 47 is eating
+         2418 47 is sleeping
+         2619 47 is thinking
+         2619 47 has taken a fork
+         2619 47 has taken a fork
+         2619 47 is eating
+            5 34 is thinking
+          201 34 has taken a fork
+          203 34 has taken a fork
+          203 34 is eating
+          404 34 is sleeping
+          605 34 is thinking
+          605 34 has taken a fork
+          606 34 has taken a fork
+          606 34 is eating
+          807 34 is sleeping
+         1008 34 is thinking
+         1008 34 has taken a fork
+         1009 34 has taken a fork
+         1009 34 is eating
+         1210 34 is sleeping
+         1411 34 is thinking
+         1411 34 has taken a fork
+         1412 34 has taken a fork
+         1412 34 is eating
+         1613 34 is sleeping
+         1815 34 is thinking
+         1815 34 has taken a fork
+         1815 34 has taken a fork
+         1815 34 is eating
+         2016 34 is sleeping
+         2216 34 is thinking
+         2217 34 has taken a fork
+         2217 34 has taken a fork
+         2217 34 is eating
+         2418 34 is sleeping
+         2619 34 is thinking
+         2619 34 has taken a fork
+         2619 34 has taken a fork
+         2619 34 is eating
+            5 37 is thinking
+          201 37 has taken a fork
+          203 37 has taken a fork
+          203 37 is eating
+          404 37 is sleeping
+          605 37 is thinking
+          605 37 has taken a fork
+          606 37 has taken a fork
+          606 37 is eating
+          807 37 is sleeping
+         1008 37 is thinking
+         1008 37 has taken a fork
+         1009 37 has taken a fork
+         1009 37 is eating
+         1210 37 is sleeping
+         1411 37 is thinking
+         1411 37 has taken a fork
+         1411 37 has taken a fork
+         1411 37 is eating
+         1613 37 is sleeping
+         1815 37 is thinking
+         1815 37 has taken a fork
+         1815 37 has taken a fork
+         1815 37 is eating
+         2017 37 is sleeping
+         2217 37 is thinking
+         2217 37 has taken a fork
+         2217 37 has taken a fork
+         2217 37 is eating
+         2419 37 is sleeping
+         2619 37 is thinking
+         2619 37 has taken a fork
+         2620 37 has taken a fork
+         2620 37 is eating
+            4 30 is thinking
+          201 30 has taken a fork
+          203 30 has taken a fork
+          203 30 is eating
+          404 30 is sleeping
+          606 30 is thinking
+          606 30 has taken a fork
+          606 30 has taken a fork
+          606 30 is eating
+          807 30 is sleeping
+         1008 30 is thinking
+         1008 30 has taken a fork
+         1009 30 has taken a fork
+         1009 30 is eating
+         1210 30 is sleeping
+         1411 30 is thinking
+         1411 30 has taken a fork
+         1411 30 has taken a fork
+         1411 30 is eating
+         1613 30 is sleeping
+         1815 30 is thinking
+         1815 30 has taken a fork
+         1815 30 has taken a fork
+         1815 30 is eating
+         2016 30 is sleeping
+         2216 30 is thinking
+         2217 30 has taken a fork
+         2217 30 has taken a fork
+         2217 30 is eating
+         2418 30 is sleeping
+         2619 30 is thinking
+         2619 30 has taken a fork
+         2619 30 has taken a fork
+         2619 30 is eating
+            4 28 is thinking
+          201 28 has taken a fork
+          203 28 has taken a fork
+          203 28 is eating
+          404 28 is sleeping
+          605 28 is thinking
+          605 28 has taken a fork
+          606 28 has taken a fork
+          606 28 is eating
+          807 28 is sleeping
+         1009 28 is thinking
+         1009 28 has taken a fork
+         1009 28 has taken a fork
+         1009 28 is eating
+         1210 28 is sleeping
+         1411 28 is thinking
+         1411 28 has taken a fork
+         1412 28 has taken a fork
+         1412 28 is eating
+         1613 28 is sleeping
+         1815 28 is thinking
+         1815 28 has taken a fork
+         1815 28 has taken a fork
+         1815 28 is eating
+         2016 28 is sleeping
+         2217 28 is thinking
+         2217 28 has taken a fork
+         2217 28 has taken a fork
+         2217 28 is eating
+         2418 28 is sleeping
+         2619 28 is thinking
+         2619 28 has taken a fork
+         2619 28 has taken a fork
+         2619 28 is eating
+            6 42 is thinking
+          201 42 has taken a fork
+          203 42 has taken a fork
+          203 42 is eating
+          404 42 is sleeping
+          606 42 is thinking
+          606 42 has taken a fork
+          606 42 has taken a fork
+          606 42 is eating
+          807 42 is sleeping
+         1008 42 is thinking
+         1008 42 has taken a fork
+         1009 42 has taken a fork
+         1009 42 is eating
+         1210 42 is sleeping
+         1411 42 is thinking
+         1411 42 has taken a fork
+         1411 42 has taken a fork
+         1411 42 is eating
+         1613 42 is sleeping
+         1815 42 is thinking
+         1815 42 has taken a fork
+         1815 42 has taken a fork
+         1815 42 is eating
+         2016 42 is sleeping
+         2217 42 is thinking
+         2217 42 has taken a fork
+         2217 42 has taken a fork
+         2217 42 is eating
+         2418 42 is sleeping
+         2619 42 is thinking
+         2619 42 has taken a fork
+         2620 42 has taken a fork
+         2620 42 is eating
+            7 45 is thinking
+          202 45 has taken a fork
+          204 45 has taken a fork
+          204 45 is eating
+          405 45 is sleeping
+          606 45 is thinking
+          606 45 has taken a fork
+          606 45 has taken a fork
+          606 45 is eating
+          807 45 is sleeping
+         1008 45 is thinking
+         1008 45 has taken a fork
+         1009 45 has taken a fork
+         1009 45 is eating
+         1210 45 is sleeping
+         1411 45 is thinking
+         1411 45 has taken a fork
+         1412 45 has taken a fork
+         1412 45 is eating
+         1613 45 is sleeping
+         1815 45 is thinking
+         1815 45 has taken a fork
+         1815 45 has taken a fork
+         1815 45 is eating
+         2017 45 is sleeping
+         2217 45 is thinking
+         2217 45 has taken a fork
+         2217 45 has taken a fork
+         2217 45 is eating
+         2418 45 is sleeping
+         2619 45 is thinking
+         2619 45 has taken a fork
+         2619 45 has taken a fork
+         2619 45 is eating
+            5 33 is thinking
+          201 33 has taken a fork
+          203 33 has taken a fork
+          203 33 is eating
+          404 33 is sleeping
+          606 33 is thinking
+          606 33 has taken a fork
+          606 33 has taken a fork
+          606 33 is eating
+          807 33 is sleeping
+         1008 33 is thinking
+         1008 33 has taken a fork
+         1009 33 has taken a fork
+         1009 33 is eating
+         1210 33 is sleeping
+         1411 33 is thinking
+         1411 33 has taken a fork
+         1412 33 has taken a fork
+         1412 33 is eating
+         1613 33 is sleeping
+         1815 33 is thinking
+         1815 33 has taken a fork
+         1815 33 has taken a fork
+         1815 33 is eating
+         2016 33 is sleeping
+         2216 33 is thinking
+         2217 33 has taken a fork
+         2217 33 has taken a fork
+         2217 33 is eating
+         2418 33 is sleeping
+         2619 33 is thinking
+         2619 33 has taken a fork
+         2619 33 has taken a fork
+         2619 33 is eating
+            6 40 is thinking
+          201 40 has taken a fork
+          203 40 has taken a fork
+          203 40 is eating
+          404 40 is sleeping
+          605 40 is thinking
+          606 40 has taken a fork
+          606 40 has taken a fork
+          606 40 is eating
+          807 40 is sleeping
+         1008 40 is thinking
+         1008 40 has taken a fork
+         1009 40 has taken a fork
+         1009 40 is eating
+         1210 40 is sleeping
+         1411 40 is thinking
+         1411 40 has taken a fork
+         1411 40 has taken a fork
+         1411 40 is eating
+         1613 40 is sleeping
+         1815 40 is thinking
+         1815 40 has taken a fork
+         1815 40 has taken a fork
+         1815 40 is eating
+         2017 40 is sleeping
+         2217 40 is thinking
+         2217 40 has taken a fork
+         2217 40 has taken a fork
+         2217 40 is eating
+         2419 40 is sleeping
+         2619 40 is thinking
+         2619 40 has taken a fork
+         2619 40 has taken a fork
+         2619 40 is eating
+            6 38 is thinking
+          201 38 has taken a fork
+          203 38 has taken a fork
+          203 38 is eating
+          404 38 is sleeping
+          606 38 is thinking
+          606 38 has taken a fork
+          606 38 has taken a fork
+          606 38 is eating
+          807 38 is sleeping
+         1009 38 is thinking
+         1009 38 has taken a fork
+         1009 38 has taken a fork
+         1009 38 is eating
+         1210 38 is sleeping
+         1411 38 is thinking
+         1411 38 has taken a fork
+         1411 38 has taken a fork
+         1411 38 is eating
+         1613 38 is sleeping
+         1815 38 is thinking
+         1815 38 has taken a fork
+         1815 38 has taken a fork
+         1815 38 is eating
+         2017 38 is sleeping
+         2217 38 is thinking
+         2217 38 has taken a fork
+         2217 38 has taken a fork
+         2217 38 is eating
+         2418 38 is sleeping
+         2619 38 is thinking
+         2619 38 has taken a fork
+         2619 38 has taken a fork
+         2619 38 is eating
