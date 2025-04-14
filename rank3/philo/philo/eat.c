@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   eat.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 21:06:05 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/02 18:48:32 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:50:14 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	go_await_your_death(t_philo *philo)
 	current_time = get_time_in_mil();
 	relative_time = current_time - philo->info->start_time;
 	printf("%13ld %d has taken a fork\n", relative_time, philo->id);
-	philo_usleep(philo->info->time_to_sleep);
+	usleep(philo->info->time_to_die * 1000);
+	current_time = get_time_in_mil();
+	relative_time = current_time - philo->info->start_time;
+	printf("%13ld %d died\n", relative_time, philo->id);
 }
 
 void	take_left_fork_first(t_philo *philo)
@@ -66,12 +69,14 @@ void	go_eat(t_philo *philo)
 	else
 		take_right_fork_first(philo);
 	current_time = get_time_in_mil();
+	pthread_mutex_lock(&philo->info->eat_update_mutex);
 	philo->last_meal_time = current_time;
+	pthread_mutex_unlock(&philo->info->eat_update_mutex);
 	pthread_mutex_lock(&philo->info->print_mutex);
 	relative_time = current_time - philo->info->start_time;
 	printf("%13ld %d is eating\n", relative_time, philo->id);
 	pthread_mutex_unlock(&philo->info->print_mutex);
-	philo_usleep(philo->info->time_to_eat);
+	usleep(philo->info->time_to_eat * 1000);
 	pthread_mutex_unlock(&philo->info->forks_mutex[philo->left_fork]);
 	pthread_mutex_unlock(&philo->info->forks_mutex[philo->right_fork]);
 	philo->times_eaten++;

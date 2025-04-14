@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 21:01:51 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/14 14:30:48 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:39:21 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ int	is_dead(t_philo *philo)
 {
 	long	time_since_last_meal;
 
-	pthread_mutex_lock(&philo->info->stop_mutex);
+	pthread_mutex_lock(&philo->info->eat_update_mutex);
 	time_since_last_meal = get_time_in_mil() - philo->last_meal_time;
+	pthread_mutex_unlock(&philo->info->eat_update_mutex);
+	pthread_mutex_lock(&philo->info->stop_mutex);
 	if (time_since_last_meal > philo->info->time_to_die)
 	{
 		philo->info->stop_sim = 1;
@@ -28,17 +30,7 @@ int	is_dead(t_philo *philo)
 	return (0);
 }
 
-static int	check_done(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->info->done_mutex);
-	if (philo->job_done)
-	{
-		pthread_mutex_unlock(&philo->info->done_mutex);
-		return (1);
-	}
-	pthread_mutex_unlock(&philo->info->done_mutex);
-	return (0);
-}
+
 
 void	*do_monitor(void *simulation)
 {
@@ -54,14 +46,11 @@ void	*do_monitor(void *simulation)
 		{
 			if (is_dead(sim->philos[i]))
 			{
-				if (!(check_done(sim->philos[i])))
-				{
-					rel_time = get_time_in_mil()
-						- sim->philos[i]->info->start_time;
-					pthread_mutex_lock(&sim->info->print_mutex);
-					printf("%13ld %d died\n", rel_time, sim->philos[i]->id);
-					pthread_mutex_unlock(&sim->info->print_mutex);
-				}
+				rel_time = get_time_in_mil()
+					- sim->philos[i]->info->start_time;
+				pthread_mutex_lock(&sim->info->print_mutex);
+				printf("%13ld %d died\n", rel_time, sim->philos[i]->id);
+				pthread_mutex_unlock(&sim->info->print_mutex);
 				return (NULL);
 			}
 		}
@@ -78,6 +67,8 @@ int	start_simulation(t_sim *sim)
 	i = -1;
 	philos = sim->philos;
 	sim->info->start_time = get_time_in_mil();
+	if (sim->info->num_of_philo == 1)
+		return (go_await_your_death(sim->philos[0]), 0);
 	while (++i < sim->info->num_of_philo)
 	{
 		sim->philos[i]->last_meal_time = get_time_in_mil();

@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 21:06:47 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/14 14:37:35 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:53:55 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	go_sleep(t_philo *philo)
 	relative_time = get_time_in_mil() - philo->info->start_time;
 	printf("%13ld %d is sleeping\n", relative_time, philo->id);
 	pthread_mutex_unlock(&philo->info->print_mutex);
-	philo_usleep(philo->info->time_to_sleep);
+	usleep(philo->info->time_to_sleep * 1000);
 	philo->action = THINKING;
 }
 
@@ -33,6 +33,7 @@ void	go_think(t_philo *philo)
 	printf("%13ld %d is thinking\n", relative_time, philo->id);
 	pthread_mutex_unlock(&philo->info->print_mutex);
 	philo->action = EATING;
+	usleep(1000);
 }
 
 void	cleanup(t_sim *sim, t_arena *arena)
@@ -49,24 +50,24 @@ void	cleanup(t_sim *sim, t_arena *arena)
 	}
 	pthread_mutex_destroy(&sim->info->stop_mutex);
 	pthread_mutex_destroy(&sim->info->print_mutex);
-	pthread_mutex_destroy(&sim->info->done_mutex);
+	pthread_mutex_destroy(&sim->info->eat_update_mutex);
 	arena_destroy(arena);
 }
 
-void	philo_usleep(size_t mls)
-{
-	size_t	start;
-	size_t	elapsed;
+// void	philo_usleep(size_t mls)
+// {
+// 	size_t	start;
+// 	size_t	elapsed;
 
-	start = get_time_in_mil();
-	while (1)
-	{
-		elapsed = get_time_in_mil() - start;
-		if (elapsed >= mls)
-			break ;
-		usleep(500);
-	}
-}
+// 	start = get_time_in_mil();
+// 	while (1)
+// 	{
+// 		elapsed = get_time_in_mil() - start;
+// 		if (elapsed >= mls)
+// 			break ;
+// 		usleep(500);
+// 	}
+// }
 
 long	get_time_in_mil(void)
 {

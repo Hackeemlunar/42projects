@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:32:19 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/14 14:27:13 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:36:03 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef enum e_philo_action
 typedef struct s_sim_info
 {
 	pthread_mutex_t	stop_mutex;
-	pthread_mutex_t	done_mutex;
+	pthread_mutex_t	eat_update_mutex;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	*forks_mutex;
 	long			time_to_die;
@@ -39,7 +39,6 @@ typedef struct s_sim_info
 	long			time_to_sleep;
 	long			start_time;
 	int				num_of_philo;
-	int				*forks;
 	int				total_meals;
 	int				stop_sim;
 }				t_sim_info;
