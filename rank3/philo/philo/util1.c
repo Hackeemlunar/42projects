@@ -20,7 +20,7 @@ void	go_sleep(t_philo *philo)
 	relative_time = get_time_in_mil() - philo->info->start_time;
 	printf("%13ld %d is sleeping\n", relative_time, philo->id);
 	pthread_mutex_unlock(&philo->info->print_mutex);
-	philo_usleep(philo->info->time_to_sleep, philo);
+	philo_usleep(philo->info->time_to_sleep);
 	philo->action = THINKING;
 }
 
@@ -52,7 +52,7 @@ void	cleanup(t_sim *sim, t_arena *arena)
 	arena_destroy(arena);
 }
 
-void	philo_usleep(size_t mls, t_philo *philo)
+void	philo_usleep(size_t mls)
 {
 	size_t	start;
 	size_t	elapsed;

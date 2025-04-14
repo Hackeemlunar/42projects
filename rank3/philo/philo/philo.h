@@ -74,7 +74,7 @@ void	cleanup(t_sim *sim, t_arena *arena);
 long	get_time_in_mil(void);
 int		start_simulation(t_sim *sim);
 void	*do_monitor(void *sim);
-void	philo_usleep(size_t mls, t_philo *philo);
+void	philo_usleep(size_t mls);
 void	go_await_your_death(t_philo *philo);
 
 #endif
