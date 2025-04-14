@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:16:46 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/14 16:43:57 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/14 18:28:15 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,7 +237,9 @@ void	go_eat(t_philo *philo)
 	philo_usleep(philo->info->time_to_eat);
 	pthread_mutex_unlock(&philo->info->forks_mutex[philo->left_fork]);
 	pthread_mutex_unlock(&philo->info->forks_mutex[philo->right_fork]);
+	pthread_mutex_lock(&philo->info->eat_update_mutex);
 	philo->times_eaten++;
+	pthread_mutex_unlock(&philo->info->eat_update_mutex);
 	philo->action = SLEEPING;
 }
 
@@ -246,7 +248,9 @@ void	*do_philosophy(void *philosopher)
 	t_philo	*philo;
 
 	philo = (t_philo *)philosopher;
+	pthread_mutex_lock(&philo->info->eat_update_mutex);
 	philo->times_eaten = 0;
+	pthread_mutex_unlock(&philo->info->eat_update_mutex);
 	if (philo->info->num_of_philo == 1)
 		return (go_await_your_death(philo), NULL);
 	while (1)
@@ -256,9 +260,7 @@ void	*do_philosophy(void *philosopher)
 	    else if (philo->action == EATING)
 	    	go_eat(philo);
 	    else if (philo->action == SLEEPING)
-		{
 	    	go_sleep(philo);
-		}
 		pthread_mutex_lock(&philo->info->stop_mutex);
 		if (philo->info->stop_sim)
 		{
@@ -328,7 +330,7 @@ void	*do_monitor(void *simulation)
 			pthread_mutex_unlock(&sim->info->stop_mutex);
 			return (NULL);
 		}
-		usleep(1000); // Small sleep to prevent CPU hogging
+		usleep(1000);
 	}
 	return (NULL);
 }
