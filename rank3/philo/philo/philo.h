@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:32:19 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/02 18:02:33 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/14 14:27:13 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef enum e_philo_action
 typedef struct s_sim_info
 {
 	pthread_mutex_t	stop_mutex;
+	pthread_mutex_t	done_mutex;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	*forks_mutex;
 	long			time_to_die;

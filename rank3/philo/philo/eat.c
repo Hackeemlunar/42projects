@@ -21,7 +21,7 @@ void	go_await_your_death(t_philo *philo)
 	current_time = get_time_in_mil();
 	relative_time = current_time - philo->info->start_time;
 	printf("%13ld %d has taken a fork\n", relative_time, philo->id);
-	philo_usleep(philo->info->time_to_sleep, philo);
+	philo_usleep(philo->info->time_to_sleep);
 }
 
 void	take_left_fork_first(t_philo *philo)
@@ -71,7 +71,7 @@ void	go_eat(t_philo *philo)
 	relative_time = current_time - philo->info->start_time;
 	printf("%13ld %d is eating\n", relative_time, philo->id);
 	pthread_mutex_unlock(&philo->info->print_mutex);
-	philo_usleep(philo->info->time_to_eat, philo);
+	philo_usleep(philo->info->time_to_eat);
 	pthread_mutex_unlock(&philo->info->forks_mutex[philo->left_fork]);
 	pthread_mutex_unlock(&philo->info->forks_mutex[philo->right_fork]);
 	philo->times_eaten++;

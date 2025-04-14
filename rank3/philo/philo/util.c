@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 21:01:51 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/07 21:09:08 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/14 14:30:48 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,42 +28,16 @@ int	is_dead(t_philo *philo)
 	return (0);
 }
 
-void	do_philo_action(t_philo *philo)
+static int	check_done(t_philo *philo)
 {
-	if (philo->action == THINKING)
-		go_think(philo);
-	else if (philo->action == EATING)
-		go_eat(philo);
-	else if (philo->action == SLEEPING)
-		go_sleep(philo);
-}
-
-void	*do_philosophy(void *philosopher)
-{
-	t_philo	*philo;
-
-	philo = (t_philo *)philosopher;
-	philo->times_eaten = 0;
-	if (philo->info->num_of_philo == 1)
-		return (go_await_your_death(philo), NULL);
-	while (1)
+	pthread_mutex_lock(&philo->info->done_mutex);
+	if (philo->job_done)
 	{
-		if ((philo->times_eaten >= philo->info->total_meals
-				&& philo->info->total_meals != -1))
-		{
-			philo->job_done = 1;
-			break ;
-		}
-		pthread_mutex_lock(&philo->info->stop_mutex);
-		if (philo->info->stop_sim)
-		{
-			pthread_mutex_unlock(&philo->info->stop_mutex);
-			break ;
-		}
-		pthread_mutex_unlock(&philo->info->stop_mutex);
-		do_philo_action(philo);
+		pthread_mutex_unlock(&philo->info->done_mutex);
+		return (1);
 	}
-	return (NULL);
+	pthread_mutex_unlock(&philo->info->done_mutex);
+	return (0);
 }
 
 void	*do_monitor(void *simulation)
@@ -80,7 +54,7 @@ void	*do_monitor(void *simulation)
 		{
 			if (is_dead(sim->philos[i]))
 			{
-				if (!(sim->philos[i]->job_done))
+				if (!(check_done(sim->philos[i])))
 				{
 					rel_time = get_time_in_mil()
 						- sim->philos[i]->info->start_time;

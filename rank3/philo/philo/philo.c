@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:32:16 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/02 16:32:27 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/14 14:35:55 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	init_args(t_arena *arena, t_sim **sim, char **argv, int argc)
 		(*sim)->info->total_meals = -1;
 	(*sim)->info->stop_sim = 0;
 	pthread_mutex_init(&(*sim)->info->stop_mutex, NULL);
+	pthread_mutex_init(&(*sim)->info->done_mutex, NULL);
 	pthread_mutex_init(&(*sim)->info->print_mutex, NULL);
 	(*sim)->info->forks = (int *) arena_alloc(arena, sizeof(int) * num_philo);
 	if (!(*sim)->info->forks)

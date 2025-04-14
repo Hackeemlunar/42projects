@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 21:06:47 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/07 21:01:48 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/14 14:37:35 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	cleanup(t_sim *sim, t_arena *arena)
 	}
 	pthread_mutex_destroy(&sim->info->stop_mutex);
 	pthread_mutex_destroy(&sim->info->print_mutex);
+	pthread_mutex_destroy(&sim->info->done_mutex);
 	arena_destroy(arena);
 }
 
