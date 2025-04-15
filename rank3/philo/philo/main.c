@@ -260,7 +260,9 @@ void	*do_philosophy(void *philosopher)
 	    else if (philo->action == EATING)
 	    	go_eat(philo);
 	    else if (philo->action == SLEEPING)
-	    	go_sleep(philo);
+	    {
+			go_sleep(philo);
+		}
 		pthread_mutex_lock(&philo->info->stop_mutex);
 		if (philo->info->stop_sim)
 		{
