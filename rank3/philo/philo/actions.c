@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:23:27 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/14 15:58:31 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/27 17:47:07 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ void	*do_philosophy(void *philosopher)
 	t_philo	*philo;
 
 	philo = (t_philo *)philosopher;
+	pthread_mutex_lock(&philo->info->eat_update_mutex);
 	philo->times_eaten = 0;
+	pthread_mutex_unlock(&philo->info->eat_update_mutex);
 	if (philo->info->num_of_philo == 1)
 		return (go_await_your_death(philo), NULL);
 	while (1)
@@ -26,8 +28,8 @@ void	*do_philosophy(void *philosopher)
 		    go_think(philo);
 	    else if (philo->action == EATING)
 	    	go_eat(philo);
-	    else if (philo->action == SLEEPING)
-	    	go_sleep(philo);
+	    else
+			go_sleep(philo);
 		pthread_mutex_lock(&philo->info->stop_mutex);
 		if (philo->info->stop_sim)
 		{

@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:32:19 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/14 15:36:03 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/27 17:15:30 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # include <string.h>
 # include <limits.h>
 # include <stdio.h>
+# include <stdlib.h>
 # include <unistd.h>
 # include <sys/time.h>
 # include <pthread.h>
-# include "arena.h"
 
 typedef enum e_philo_action
 {
@@ -70,7 +70,7 @@ void	go_sleep(t_philo *philo);
 void	*do_philosophy(void *sim);
 int		is_dead(t_philo *philo);
 long	ft_atol(const char *s);
-void	cleanup(t_sim *sim, t_arena *arena);
+void	cleanup(t_sim *sim);
 long	get_time_in_mil(void);
 int		start_simulation(t_sim *sim);
 void	*do_monitor(void *sim);

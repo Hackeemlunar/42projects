@@ -6,11 +6,25 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 21:01:51 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/14 15:39:21 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/27 17:41:29 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	philo_usleep(size_t ms)
+{
+	long	start;
+	long	current;
+
+	start = get_time_in_mil();
+	current = start;
+	while (current - start < (long)ms)
+	{
+		usleep(500);
+		current = get_time_in_mil();
+	}
+}
 
 int	is_dead(t_philo *philo)
 {
@@ -30,33 +44,57 @@ int	is_dead(t_philo *philo)
 	return (0);
 }
 
-
-
-void	*do_monitor(void *simulation)
+static int	check_philos(t_sim *sim, int *all_done)
 {
 	int		i;
 	long	rel_time;
+
+	i = 0;
+	while (i < sim->info->num_of_philo)
+	{
+		if (is_dead(sim->philos[i]))
+		{
+			rel_time = get_time_in_mil() - sim->philos[i]->info->start_time;
+			pthread_mutex_lock(&sim->info->print_mutex);
+			printf("%13ld %d died\n", rel_time, sim->philos[i]->id);
+			pthread_mutex_unlock(&sim->info->print_mutex);
+			return (1);
+		}
+		if (sim->info->total_meals != -1)
+		{
+			pthread_mutex_lock(&sim->info->eat_update_mutex);
+			if (sim->philos[i]->times_eaten < sim->info->total_meals)
+				*all_done = 0;
+			pthread_mutex_unlock(&sim->info->eat_update_mutex);
+		}
+		i++;
+	}
+	return (0);
+}
+
+void	*do_monitor(void *simulation)
+{
 	t_sim	*sim;
+	int		all_done;
 
 	sim = (t_sim *)simulation;
 	while (1)
 	{
-		i = -1;
-		while (++i < sim->info->num_of_philo)
+		all_done = 1;
+		if (check_philos(sim, &all_done))
+			return (NULL);
+		if (sim->info->total_meals != -1 && all_done)
 		{
-			if (is_dead(sim->philos[i]))
-			{
-				rel_time = get_time_in_mil()
-					- sim->philos[i]->info->start_time;
-				pthread_mutex_lock(&sim->info->print_mutex);
-				printf("%13ld %d died\n", rel_time, sim->philos[i]->id);
-				pthread_mutex_unlock(&sim->info->print_mutex);
-				return (NULL);
-			}
+			pthread_mutex_lock(&sim->info->stop_mutex);
+			sim->info->stop_sim = 1;
+			pthread_mutex_unlock(&sim->info->stop_mutex);
+			return (NULL);
 		}
+		usleep(1000);
 	}
 	return (NULL);
 }
+
 
 int	start_simulation(t_sim *sim)
 {
@@ -81,7 +119,7 @@ int	start_simulation(t_sim *sim)
 		return (printf("Error: Could not join thread\n"), 1);
 	i = -1;
 	while (++i < sim->info->num_of_philo)
-		if (pthread_detach(philos[i]->thread))
-			return (printf("Error: Could not detach thread\n"), 1);
+		if (pthread_join(philos[i]->thread, NULL))
+			return (printf("Error: Could not join thread\n"), 1);
 	return (0);
 }

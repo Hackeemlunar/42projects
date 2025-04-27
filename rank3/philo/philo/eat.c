@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 21:06:05 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/14 15:50:14 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/04/15 15:37:37 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,15 @@ void	go_await_your_death(t_philo *philo)
 	go_think(philo);
 	current_time = get_time_in_mil();
 	relative_time = current_time - philo->info->start_time;
+	pthread_mutex_lock(&philo->info->print_mutex);
 	printf("%13ld %d has taken a fork\n", relative_time, philo->id);
-	usleep(philo->info->time_to_die * 1000);
+	pthread_mutex_unlock(&philo->info->print_mutex);
+	philo_usleep(philo->info->time_to_die);
 	current_time = get_time_in_mil();
 	relative_time = current_time - philo->info->start_time;
+	pthread_mutex_lock(&philo->info->print_mutex);
 	printf("%13ld %d died\n", relative_time, philo->id);
+	pthread_mutex_unlock(&philo->info->print_mutex);
 }
 
 void	take_left_fork_first(t_philo *philo)
@@ -76,9 +80,11 @@ void	go_eat(t_philo *philo)
 	relative_time = current_time - philo->info->start_time;
 	printf("%13ld %d is eating\n", relative_time, philo->id);
 	pthread_mutex_unlock(&philo->info->print_mutex);
-	usleep(philo->info->time_to_eat * 1000);
+	philo_usleep(philo->info->time_to_eat);
 	pthread_mutex_unlock(&philo->info->forks_mutex[philo->left_fork]);
 	pthread_mutex_unlock(&philo->info->forks_mutex[philo->right_fork]);
+	pthread_mutex_lock(&philo->info->eat_update_mutex);
 	philo->times_eaten++;
+	pthread_mutex_unlock(&philo->info->eat_update_mutex);
 	philo->action = SLEEPING;
 }
