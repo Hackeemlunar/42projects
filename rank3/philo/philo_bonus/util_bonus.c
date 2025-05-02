@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:32:52 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/06 19:07:06 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/05/02 18:52:59 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	go_think(t_philo *philo)
 	printf("%13ld %d is thinking\n", relative_time, philo->id);
 	sem_post(philo->info->print_sem);
 	philo->action = EATING;
+	usleep(1000);
 }
 
 int	is_dead(t_philo *philo)
@@ -60,12 +61,10 @@ void	kill_all_philo(t_sim *sim)
 
 void	go_eat(t_philo *philo)
 {
-	long	current_time;
 	long	relative_time;
 
 	sem_wait(philo->info->forks);
-	current_time = get_time_in_mil();
-	relative_time = current_time - philo->info->start_time;
+	relative_time = get_time_in_mil() - philo->info->start_time;
 	sem_wait(philo->info->print_sem);
 	printf("%13ld %d has taken a fork\n", relative_time, philo->id);
 	sem_post(philo->info->print_sem);
@@ -74,9 +73,8 @@ void	go_eat(t_philo *philo)
 	printf("%13ld %d has taken a fork\n", relative_time, philo->id);
 	if (is_dead(philo))
 		return ;
-	current_time = get_time_in_mil();
-	philo->last_meal_time = current_time;
-	relative_time = current_time - philo->info->start_time;
+	philo->last_meal_time = get_time_in_mil();
+	relative_time = get_time_in_mil() - philo->info->start_time;
 	sem_wait(philo->info->print_sem);
 	printf("%13ld %d is eating\n", relative_time, philo->id);
 	sem_post(philo->info->print_sem);

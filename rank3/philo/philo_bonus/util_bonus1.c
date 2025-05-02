@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util_bonus1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:33:55 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/07 15:28:22 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/05/02 19:50:00 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,12 @@
 void	go_await_your_death(t_philo *philo)
 {
 	long	relative_time;
-	long	current_time;
 
 	go_think(philo);
-	current_time = get_time_in_mil();
-	relative_time = current_time - philo->info->start_time;
+	relative_time = get_time_in_mil() - philo->info->start_time;
 	printf("%13ld %d has taken a fork\n", relative_time, philo->id);
 	usleep(philo->info->time_to_die * 1000);
-	current_time = get_time_in_mil();
-	relative_time = current_time - philo->info->start_time;
+	relative_time = get_time_in_mil() - philo->info->start_time;
 	printf("%13ld %d died\n", relative_time, philo->id);
 }
 
@@ -31,8 +28,8 @@ void	announce_death(t_philo *philo)
 {
 	long	relative_time;
 
-	relative_time = get_time_in_mil() - philo->info->start_time;
 	sem_wait(philo->info->print_sem);
+	relative_time = get_time_in_mil() - philo->info->start_time;
 	printf("%13ld %d died\n", relative_time, philo->id);
 	sem_post(philo->info->stop_sem);
 }
@@ -86,8 +83,8 @@ int	start_simulation(t_sim *sim)
 			sim->philos[i]->pid = pid;
 	}
 	sem_wait(sim->info->stop_sem);
-	usleep(sim->info->time_to_die * 1000);
 	kill_all_philo(sim);
+	usleep(sim->info->time_to_die * 2000);
 	sem_post(sim->info->stop_sem);
 	return (0);
 }
