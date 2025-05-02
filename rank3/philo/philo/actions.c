@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:23:27 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/27 17:47:07 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/05/02 18:17:46 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void	*do_philosophy(void *philosopher)
 		return (go_await_your_death(philo), NULL);
 	while (1)
 	{
-        if (philo->action == THINKING)
-		    go_think(philo);
-	    else if (philo->action == EATING)
-	    	go_eat(philo);
-	    else
+		if (philo->action == THINKING)
+			go_think(philo);
+		else if (philo->action == EATING)
+			go_eat(philo);
+		else
 			go_sleep(philo);
 		pthread_mutex_lock(&philo->info->stop_mutex);
 		if (philo->info->stop_sim)
@@ -39,4 +39,18 @@ void	*do_philosophy(void *philosopher)
 		pthread_mutex_unlock(&philo->info->stop_mutex);
 	}
 	return (NULL);
+}
+
+inline void	go_sleep(t_philo *philo)
+{
+	write_event(philo->info, "is sleeping", philo);
+	philo_usleep(philo->info->time_to_sleep);
+	philo->action = THINKING;
+}
+
+inline void	go_think(t_philo *philo)
+{
+	write_event(philo->info, "is thinking", philo);
+	philo->action = EATING;
+	philo_usleep(1);
 }

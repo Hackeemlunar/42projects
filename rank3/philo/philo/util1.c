@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 21:06:47 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/15 15:37:09 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:49:22 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,28 +35,18 @@ long	ft_atol(const char *s)
 	return (sign * res);
 }
 
-void	go_sleep(t_philo *philo)
+void	philo_usleep(size_t ms)
 {
-	long	relative_time;
+	long	start;
+	long	current;
 
-	pthread_mutex_lock(&philo->info->print_mutex);
-	relative_time = get_time_in_mil() - philo->info->start_time;
-	printf("%13ld %d is sleeping\n", relative_time, philo->id);
-	pthread_mutex_unlock(&philo->info->print_mutex);
-	philo_usleep(philo->info->time_to_sleep);
-	philo->action = THINKING;
-}
-
-void	go_think(t_philo *philo)
-{
-	long	relative_time;
-
-	pthread_mutex_lock(&philo->info->print_mutex);
-	relative_time = get_time_in_mil() - philo->info->start_time;
-	printf("%13ld %d is thinking\n", relative_time, philo->id);
-	pthread_mutex_unlock(&philo->info->print_mutex);
-	philo->action = EATING;
-	philo_usleep(1);
+	start = get_time_in_mil();
+	current = start;
+	while (current - start < (long)ms)
+	{
+		usleep(500);
+		current = get_time_in_mil();
+	}
 }
 
 void	cleanup(t_sim *sim)

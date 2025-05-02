@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:32:19 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/27 17:15:30 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/05/02 18:06:24 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_sim_info
 	int				num_of_philo;
 	int				total_meals;
 	int				stop_sim;
+	int				dead_id;
 }				t_sim_info;
 
 typedef struct s_philo
@@ -51,7 +52,6 @@ typedef struct s_philo
 	long			elapsed_time;
 	long			last_meal_time;
 	int				id;
-	int				job_done;
 	int				times_eaten;
 	int				left_fork;
 	int				right_fork;
@@ -68,7 +68,7 @@ void	go_eat(t_philo *philo);
 void	go_think(t_philo *philo);
 void	go_sleep(t_philo *philo);
 void	*do_philosophy(void *sim);
-int		is_dead(t_philo *philo);
+int		is_dead(t_sim *sim, t_philo *philo);
 long	ft_atol(const char *s);
 void	cleanup(t_sim *sim);
 long	get_time_in_mil(void);
@@ -76,5 +76,6 @@ int		start_simulation(t_sim *sim);
 void	*do_monitor(void *sim);
 void	philo_usleep(size_t mls);
 void	go_await_your_death(t_philo *philo);
+void	write_event(t_sim_info *info, char *msg, t_philo *philo);
 
 #endif

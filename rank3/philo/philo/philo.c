@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:32:16 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/27 17:11:38 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:49:19 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,12 @@ int	init_args(t_sim **sim, char **argv, int argc)
 	*sim = (t_sim *) malloc(sizeof(t_sim));
 	if (!*sim)
 		return (printf("Error: Could not allocate memory\n"), 1);
-
 	(*sim)->info = (t_sim_info *) malloc(sizeof(t_sim_info));
 	if (!(*sim)->info)
 	{
 		free(*sim);
 		return (printf("Error: Could not allocate memory\n"), 1);
 	}
-
 	(*sim)->info->num_of_philo = num_philo;
 	(*sim)->info->time_to_die = ft_atol(argv[2]);
 	(*sim)->info->time_to_eat = ft_atol(argv[3]);
@@ -58,12 +56,12 @@ int	init_philos(t_sim *sim)
 	int	i;
 	int	num_philo;
 
-	i = 0;
+	i = -1;
 	num_philo = sim->info->num_of_philo;
 	sim->philos = (t_philo **)malloc(sizeof(t_philo *) * num_philo);
 	if (!sim->philos)
 		return (printf("Error: Could not allocate memory\n"), 1);
-	while (i < num_philo)
+	while (++i < num_philo)
 	{
 		sim->philos[i] = (t_philo *)malloc(sizeof(t_philo));
 		if (!sim->philos[i])
@@ -76,10 +74,8 @@ int	init_philos(t_sim *sim)
 		sim->philos[i]->info = sim->info;
 		sim->philos[i]->id = i + 1;
 		sim->philos[i]->action = THINKING;
-		sim->philos[i]->job_done = 0;
 		sim->philos[i]->left_fork = i;
 		sim->philos[i]->right_fork = (i + 1) % num_philo;
-		i++;
 	}
 	return (0);
 }
@@ -91,7 +87,8 @@ int	init_forks_mutex(t_sim *sim)
 
 	i = 0;
 	num_philo = sim->info->num_of_philo;
-	sim->info->forks_mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * num_philo);
+	sim->info->forks_mutex = (pthread_mutex_t *)
+		malloc(sizeof(pthread_mutex_t) * num_philo);
 	if (!sim->info->forks_mutex)
 		return (printf("Error: Could not allocate memory\n"), 1);
 	while (i < num_philo)
@@ -103,7 +100,6 @@ int	init_forks_mutex(t_sim *sim)
 	return (0);
 }
 
-
 int	main(int argc, char **argv)
 {
 	t_sim		*sim;
@@ -114,7 +110,6 @@ int	main(int argc, char **argv)
 	num_philo = ft_atol(argv[1]);
 	if (num_philo < 1)
 		return (printf("Error: invalid philosophers\n"), 1);
-
 	if (init_args(&sim, argv, argc))
 		return (1);
 	if (init_philos(sim))

@@ -6,41 +6,43 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 21:01:51 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/04/27 17:41:29 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/05/02 18:16:33 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	philo_usleep(size_t ms)
+void	write_event(t_sim_info *info, char *msg, t_philo *philo)
 {
-	long	start;
-	long	current;
+	long	rel_time;
 
-	start = get_time_in_mil();
-	current = start;
-	while (current - start < (long)ms)
+	pthread_mutex_lock(&info->stop_mutex);
+	if (!info->stop_sim)
 	{
-		usleep(500);
-		current = get_time_in_mil();
+		pthread_mutex_unlock(&info->stop_mutex);
+		pthread_mutex_lock(&info->print_mutex);
+		rel_time = get_time_in_mil() - info->start_time;
+		printf("%13ld %d %s\n", rel_time, philo->id, msg);
+		pthread_mutex_unlock(&info->print_mutex);
 	}
+	pthread_mutex_unlock(&info->stop_mutex);
 }
 
-int	is_dead(t_philo *philo)
+int	is_dead(t_sim *sim, t_philo *philo)
 {
 	long	time_since_last_meal;
 
-	pthread_mutex_lock(&philo->info->eat_update_mutex);
+	pthread_mutex_lock(&sim->info->eat_update_mutex);
 	time_since_last_meal = get_time_in_mil() - philo->last_meal_time;
-	pthread_mutex_unlock(&philo->info->eat_update_mutex);
-	pthread_mutex_lock(&philo->info->stop_mutex);
-	if (time_since_last_meal > philo->info->time_to_die)
+	pthread_mutex_unlock(&sim->info->eat_update_mutex);
+	pthread_mutex_lock(&sim->info->stop_mutex);
+	if (time_since_last_meal > sim->info->time_to_die)
 	{
-		philo->info->stop_sim = 1;
-		pthread_mutex_unlock(&philo->info->stop_mutex);
+		sim->info->stop_sim = 1;
+		pthread_mutex_unlock(&sim->info->stop_mutex);
 		return (1);
 	}
-	pthread_mutex_unlock(&philo->info->stop_mutex);
+	pthread_mutex_unlock(&sim->info->stop_mutex);
 	return (0);
 }
 
@@ -52,9 +54,9 @@ static int	check_philos(t_sim *sim, int *all_done)
 	i = 0;
 	while (i < sim->info->num_of_philo)
 	{
-		if (is_dead(sim->philos[i]))
+		if (is_dead(sim, sim->philos[i]))
 		{
-			rel_time = get_time_in_mil() - sim->philos[i]->info->start_time;
+			rel_time = get_time_in_mil() - sim->info->start_time;
 			pthread_mutex_lock(&sim->info->print_mutex);
 			printf("%13ld %d died\n", rel_time, sim->philos[i]->id);
 			pthread_mutex_unlock(&sim->info->print_mutex);
@@ -94,7 +96,6 @@ void	*do_monitor(void *simulation)
 	}
 	return (NULL);
 }
-
 
 int	start_simulation(t_sim *sim)
 {
