@@ -24,6 +24,7 @@ void	write_event(t_sim_info *info, char *msg, t_philo *philo)
 		rel_time = get_time_in_mil() - info->start_time;
 		printf("%13ld %d %s\n", rel_time, philo->id, msg);
 		pthread_mutex_unlock(&info->print_mutex);
+		return ;
 	}
 	pthread_mutex_unlock(&info->stop_mutex);
 }

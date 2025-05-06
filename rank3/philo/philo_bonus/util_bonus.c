@@ -68,6 +68,8 @@ void	go_eat(t_philo *philo)
 	sem_wait(philo->info->print_sem);
 	printf("%13ld %d has taken a fork\n", relative_time, philo->id);
 	sem_post(philo->info->print_sem);
+	if (is_dead(philo))
+		return ;
 	sem_wait(philo->info->forks);
 	relative_time = get_time_in_mil() - philo->info->start_time;
 	printf("%13ld %d has taken a fork\n", relative_time, philo->id);

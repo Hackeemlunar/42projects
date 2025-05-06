@@ -31,17 +31,13 @@ void	announce_death(t_philo *philo)
 	sem_wait(philo->info->print_sem);
 	relative_time = get_time_in_mil() - philo->info->start_time;
 	printf("%13ld %d died\n", relative_time, philo->id);
-	sem_post(philo->info->stop_sem);
 }
 
 void	do_philosophy(t_philo *philo)
 {
 	philo->times_eaten = 0;
 	if (philo->info->num_of_philo == 1)
-	{
-		go_await_your_death(philo);
-		return ;
-	}
+		return (go_await_your_death(philo));
 	while (1)
 	{
 		if (is_dead(philo))
@@ -84,8 +80,6 @@ int	start_simulation(t_sim *sim)
 	}
 	sem_wait(sim->info->stop_sem);
 	kill_all_philo(sim);
-	usleep(sim->info->time_to_die * 2000);
-	sem_post(sim->info->stop_sem);
 	return (0);
 }
 

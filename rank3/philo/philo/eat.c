@@ -14,16 +14,9 @@
 
 void	go_await_your_death(t_philo *philo)
 {
-	long	rel_time;
-	long	current_time;
-
 	go_think(philo);
-	current_time = get_time_in_mil();
-	rel_time = current_time - philo->info->start_time;
 	write_event(philo->info, "has taken a fork", philo);
 	philo_usleep(philo->info->time_to_die);
-	current_time = get_time_in_mil();
-	rel_time = current_time - philo->info->start_time;
 	write_event(philo->info, "died", philo);
 }
 
