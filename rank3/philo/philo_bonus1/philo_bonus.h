@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 15:14:22 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/05/13 15:11:03 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:52:56 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ typedef struct s_sim_info
 
 typedef struct s_death_monitor
 {
-	t_sim_info	*info;
-	long long	*last_meal_time;
-	int			id;
-	int			*running;
+	t_sim_info		*info;
+	long long		*last_meal_time;
+	int				id;
+	int				*running;
 	pthread_mutex_t	*mutex;
 }	t_death_monitor;
 
@@ -55,4 +55,6 @@ long long	get_timestamp_ms(void);
 int			run_philosopher(int id, t_sim_info *info);
 void		go_await_death(t_sim_info *info);
 void		*monitor_death(void *arg);
+int			go_eat(t_sim_info *info, long long *last, long long *now, int id);
+void		do_others(int id, t_sim_info *info);
 #endif
