@@ -23,6 +23,7 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <sys/stat.h>
+# include <pthread.h>
 
 typedef struct s_sim_info
 {
@@ -36,10 +37,22 @@ typedef struct s_sim_info
 	sem_t		*write_sem;
 	sem_t		*death_sem;
 	sem_t		*table_sem;
+	void		*mutex_ptr;
 }	t_sim_info;
 
+typedef struct s_death_monitor
+{
+	t_sim_info	*info;
+	long long	*last_meal_time;
+	int			id;
+	int			*running;
+	pthread_mutex_t	*mutex;
+}	t_death_monitor;
+
 void		write_log(int id, const char *msg, t_sim_info *info);
+void		write_death(int id, const char *msg, t_sim_info *info);
 long long	get_timestamp_ms(void);
 int			run_philosopher(int id, t_sim_info *info);
 void		go_await_death(t_sim_info *info);
+void		*monitor_death(void *arg);
 #endif
