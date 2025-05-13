@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:03:55 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/05/06 17:18:30 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/05/13 15:02:52 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int	start_simulation(t_sim_info *info, pid_t *pids)
 	if (info->num_philos == 1)
 		return (go_await_death(info), 1);
 	i = -1;
+	info->start_time = get_timestamp_ms();
 	while (++i < info->num_philos)
 	{
 		pid = fork();
@@ -117,7 +118,6 @@ int	main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 	init(&info, argv, argc);
-	info.start_time = get_timestamp_ms();
 	pids = malloc(info.num_philos * sizeof(pid_t));
 	if (!pids)
 		return (printf("Memory allocation failed\n"), 1);

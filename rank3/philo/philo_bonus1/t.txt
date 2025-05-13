@@ -1,8 +1,0 @@
-            0 2 has taken a fork
-            0 2 has taken a fork
-            0 2 is eating
-          201 2 is sleeping
-          317 2 is thinking
-          403 2 has taken a fork
-          403 2 has taken a fork
-          403 2 is eating

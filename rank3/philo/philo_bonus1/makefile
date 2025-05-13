@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    makefile                                           :+:      :+:    :+:    #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/27 20:32:49 by hmensah-          #+#    #+#              #
-#    Updated: 2025/05/06 15:20:41 by hmensah-         ###   ########.fr        #
+#    Updated: 2025/05/13 14:58:31 by hmensah-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	=	philo_bonus
 CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror
 
-SRCS	=	philo_bonus.c utils.c
+SRCS	=	philo_bonus.c utils.c util1.c
 OBJS	=	$(SRCS:.c=.o)
 
 %.o: %.c
