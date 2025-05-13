@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 15:12:30 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/05/06 17:31:34 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:09:04 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,15 @@ void	write_log(int id, const char *msg, t_sim_info *info)
 	sem_post(info->write_sem);
 }
 
+void	write_death(int id, const char *msg, t_sim_info *info)
+{
+	long long	timestamp;
+
+	timestamp = get_timestamp_ms() - info->start_time;
+	sem_wait(info->write_sem);
+	printf("% 13lld %d %s\n", timestamp, id, msg);
+}
+
 void	go_await_death(t_sim_info *info)
 {
 	write_log(1, "has taken a fork", info);
@@ -54,7 +63,7 @@ int	run_philosopher(int id, t_sim_info *info)
 		now = get_timestamp_ms();
 		if (now - last_meal_time > info->time_to_die)
 		{
-			write_log(id, "died", info);
+			write_death(id, "died", info);
 			sem_post(info->death_sem);
 			return (1);
 		}
@@ -66,7 +75,7 @@ int	run_philosopher(int id, t_sim_info *info)
 		now = get_timestamp_ms();
 		if (now - last_meal_time > info->time_to_die)
 		{
-			write_log(id, "died", info);
+			write_death(id, "died", info);
 			sem_post(info->death_sem);
 			return (1);
 		}
