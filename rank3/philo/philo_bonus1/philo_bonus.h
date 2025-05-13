@@ -38,6 +38,7 @@ typedef struct s_sim_info
 	sem_t		*death_sem;
 	sem_t		*table_sem;
 	void		*mutex_ptr;
+	int			current_philo_id;
 }	t_sim_info;
 
 typedef struct s_death_monitor

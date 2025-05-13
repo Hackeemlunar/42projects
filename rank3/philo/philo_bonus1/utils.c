@@ -57,20 +57,46 @@ void	*monitor_death(void *arg)
 	return (NULL);
 }
 
+static int	philo_main_loop(t_sim_info *info, long long *last_meal_time, 
+					int *running, pthread_mutex_t *data_mutex)
+{
+	long long	now;
+	int			eat_count;
+	int			id;
+
+	id = info->current_philo_id;
+	eat_count = 0;
+	while (1)
+	{
+		pthread_mutex_lock(data_mutex);
+		if (!(*running))
+		{
+			pthread_mutex_unlock(data_mutex);
+			break ;
+		}
+		pthread_mutex_unlock(data_mutex);
+		if (go_eat(info, last_meal_time, &now, id))
+			return (pthread_mutex_destroy(data_mutex), 1);
+		eat_count++;
+		if (info->num_eat != -1 && eat_count >= info->num_eat)
+			return (pthread_mutex_destroy(data_mutex), 0);
+		do_others(id, info);
+	}
+	return (pthread_mutex_destroy(data_mutex), 0);
+}
+
 int	run_philosopher(int id, t_sim_info *info)
 {
 	long long		last_meal_time;
-	long long		now;
-	int				eat_count;
 	int				running;
 	pthread_t		monitor_thd;
 	t_death_monitor	monitor_data;
 	pthread_mutex_t	data_mutex;
 
+	info->current_philo_id = id;
 	if (pthread_mutex_init(&data_mutex, NULL) != 0)
 		return (1);
 	last_meal_time = get_timestamp_ms();
-	eat_count = 0;
 	running = 1;
 	info->mutex_ptr = &data_mutex;
 	monitor_data.info = info;
@@ -81,21 +107,5 @@ int	run_philosopher(int id, t_sim_info *info)
 	if (pthread_create(&monitor_thd, NULL, &monitor_death, &monitor_data) != 0)
 		return (pthread_mutex_destroy(&data_mutex), 1);
 	pthread_detach(monitor_thd);
-	while (1)
-	{
-		pthread_mutex_lock(&data_mutex);
-		if (!running)
-		{
-			pthread_mutex_unlock(&data_mutex);
-			break ;
-		}
-		pthread_mutex_unlock(&data_mutex);
-		if (go_eat(info, &last_meal_time, &now, id))
-			return (pthread_mutex_destroy(&data_mutex), 1);
-		eat_count++;
-		if (info->num_eat != -1 && eat_count >= info->num_eat)
-			return (pthread_mutex_destroy(&data_mutex), 0);
-		do_others(id, info);
-	}
-	return (pthread_mutex_destroy(&data_mutex), 0);
+	return (philo_main_loop(info, &last_meal_time, &running, &data_mutex));
 }
