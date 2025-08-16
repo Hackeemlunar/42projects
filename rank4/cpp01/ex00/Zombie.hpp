@@ -1,20 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Zombie.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/31 16:36:59 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/07/31 16:37:02 by hmensah-         ###   ########.fr       */
+/*   Created: 2025/08/16 22:58:01 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/08/16 23:06:01 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "PhoneBook.hpp"
+#ifndef Zombie.hpp
+# define Zombie.hpp
 
-int main()
+#include <string>
+
+class Zombie
 {
-	PhoneBook phoneBook;
-	phoneBook.run();
-	return 0;
-}
+private:
+    std::string _name;
+
+public:
+    Zombie();
+    ~Zombie();
+    
+    void announce(void);
+};
+
+#endif

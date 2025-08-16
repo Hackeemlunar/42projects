@@ -5,18 +5,18 @@
 #                                                     +:+ +:+         +:+      #
 #    By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/07/31 16:37:48 by hmensah-          #+#    #+#              #
-#    Updated: 2025/07/31 16:37:50 by hmensah-         ###   ########.fr        #
+#    Created: 2025/08/16 17:53:25 by hmensah-          #+#    #+#              #
+#    Updated: 2025/08/16 17:53:28 by hmensah-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = account
+NAME = megaphone
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
 SRCDIR = .
-SOURCES = Account.cpp tests.cpp
+SOURCES = megaphone.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 
 all: $(NAME)

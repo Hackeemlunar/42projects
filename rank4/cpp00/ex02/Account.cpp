@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Account.cpp                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/31 16:36:34 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/07/31 16:36:44 by hmensah-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Account.hpp"
 #include <iostream>
 #include <iomanip>
 #include <ctime>
 
-// Static member initialization
 int Account::_nbAccounts = 0;
 int Account::_totalAmount = 0;
 int Account::_totalNbDeposits = 0;
@@ -54,7 +65,6 @@ void Account::displayAccountsInfos(void)
 			  << ";deposits:" << _totalNbDeposits << ";withdrawals:" << _totalNbWithdrawals << std::endl;
 }
 
-// Member methods
 void Account::makeDeposit(int deposit)
 {
 	int p_amount = _amount;
@@ -105,7 +115,6 @@ void Account::displayStatus(void) const
 			  << ";deposits:" << _nbDeposits << ";withdrawals:" << _nbWithdrawals << std::endl;
 }
 
-// Private static method for timestamp
 void Account::_displayTimestamp(void)
 {
 	std::time_t rawtime;
