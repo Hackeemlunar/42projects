@@ -6,17 +6,16 @@
 #    By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/16 17:53:34 by hmensah-          #+#    #+#              #
-#    Updated: 2025/08/16 17:53:36 by hmensah-         ###   ########.fr        #
+#    Updated: 2025/08/17 20:37:57 by hmensah-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = megaphone
+NAME = 'HI THIS IS BRAIN'
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
-SRCDIR = .
-SOURCES = megaphone.cpp
+SOURCES = main.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 
 all: $(NAME)

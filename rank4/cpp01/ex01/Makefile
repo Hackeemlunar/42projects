@@ -6,17 +6,16 @@
 #    By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/16 17:53:25 by hmensah-          #+#    #+#              #
-#    Updated: 2025/08/16 17:53:28 by hmensah-         ###   ########.fr        #
+#    Updated: 2025/08/17 17:44:07 by hmensah-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = megaphone
+NAME = 'Moar brainz!'
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
-SRCDIR = .
-SOURCES = megaphone.cpp
+SOURCES = main.cpp Zombie.cpp zombieHorde.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 
 all: $(NAME)

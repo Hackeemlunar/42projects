@@ -5,27 +5,28 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/17 16:38:43 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/08/17 17:11:46 by hmensah-         ###   ########.fr       */
+/*   Created: 2025/08/17 18:43:47 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/08/17 20:34:31 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Zombie.hpp"
+#include <string>
 #include <iostream>
 
 int main() {
-    std::cout << "Creating a zombie on the heap...\n";
-    Zombie* heapZombie = newZombie("HeapZombie");
-    
-    heapZombie->announce();
+    std::string  str        = "HI THIS IS BRAIN";
+    std::string* stringPTR  = &str;
+    std::string& stringREF  = str;
 
-    delete heapZombie;
-    heapZombie = nullptr;
+    std::cout << &str       << "\n";
+    std::cout << stringPTR  << "\n";
+    std::cout << &stringREF << "\n";
 
     std::cout << "\n";
 
-    std::cout << "Creating a zombie on the stack...\n";
-    randomChump("StackZombie");
+    std::cout << str        << "\n";
+    std::cout << *stringPTR  << "\n";
+    std::cout << stringREF  << "\n";
 
     return 0;
 }
