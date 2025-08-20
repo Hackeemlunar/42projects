@@ -6,17 +6,16 @@
 #    By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/16 17:53:42 by hmensah-          #+#    #+#              #
-#    Updated: 2025/08/16 17:53:44 by hmensah-         ###   ########.fr        #
+#    Updated: 2025/08/20 22:55:18 by hmensah-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = megaphone
+NAME = harl
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
-SRCDIR = .
-SOURCES = megaphone.cpp
+SOURCES = Harl.cpp main.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 
 all: $(NAME)

@@ -6,17 +6,16 @@
 #    By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/16 17:53:38 by hmensah-          #+#    #+#              #
-#    Updated: 2025/08/16 17:53:40 by hmensah-         ###   ########.fr        #
+#    Updated: 2025/08/20 17:07:25 by hmensah-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = megaphone
+NAME = 'Sed is for losers'
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
-SRCDIR = .
-SOURCES = megaphone.cpp
+SOURCES = main.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 
 all: $(NAME)

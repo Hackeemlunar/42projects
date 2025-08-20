@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Weapon.cpp                                         :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/18 15:15:58 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/08/18 16:00:54 by hmensah-         ###   ########.fr       */
+/*   Created: 2025/08/20 22:15:47 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/08/20 23:01:38 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Weapon.hpp"
+#include "Harl.hpp"
+#include <iostream>
 
-Weapon::Weapon(const std::string& newType) : _type(newType) {}
-Weapon::~Weapon() {}
+int main(int argc, char **argv) {
+    Harl instance;
 
-const std::string& Weapon::getType() const {
-    return _type;
-}
-
-void Weapon::setType(const std::string& newType) {
-    _type = newType;
+    if (argc != 2 ) {
+        std::cerr << "Error: Usage <filename> LEVEL\n";
+        return 1;
+    }
+    std::string level = std::string(argv[1]);
+    instance.complain(level);
+    return 0;
 }
