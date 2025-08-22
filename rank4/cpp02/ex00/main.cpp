@@ -5,27 +5,22 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/17 16:38:43 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/08/22 19:27:07 by hmensah-         ###   ########.fr       */
+/*   Created: 2025/08/21 17:28:09 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/08/22 20:25:13 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Zombie.hpp"
 #include <iostream>
+#include "Fixed.hpp"
 
-int main() {
-    int numOfHorde = 15;
-
-    Zombie* horde = zombieHorde(numOfHorde, "James Bond");
-
-    if (horde == NULL)
-        return 0;
-    for (int i = 0; i < numOfHorde; i++)
-        horde[i].announce();
-
-    std::cout << "\n";
-
-    delete[] horde;
-    
+int main(void)
+{
+    Fixed a;
+    Fixed b(a);
+    Fixed c;
+    c = b;
+    std::cout << a.getRawBits() << std::endl;
+    std::cout << b.getRawBits() << std::endl;
+    std::cout << c.getRawBits() << std::endl;
     return 0;
 }

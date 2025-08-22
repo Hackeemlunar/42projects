@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Harl.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/17 16:38:43 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/08/22 19:27:07 by hmensah-         ###   ########.fr       */
+/*   Created: 2025/08/20 22:15:43 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/08/21 12:39:00 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Zombie.hpp"
-#include <iostream>
+#ifndef HARL_HPP
+#define HARL_HPP
 
-int main() {
-    int numOfHorde = 15;
+#include <string>
 
-    Zombie* horde = zombieHorde(numOfHorde, "James Bond");
+class Harl
+{
+private:
+    void debug();
+    void info();
+    void warning();
+    void error();
 
-    if (horde == NULL)
-        return 0;
-    for (int i = 0; i < numOfHorde; i++)
-        horde[i].announce();
+public:
+    Harl();
+    ~Harl();
+    void complain(std::string level);
+};
 
-    std::cout << "\n";
-
-    delete[] horde;
-    
-    return 0;
-}
+#endif

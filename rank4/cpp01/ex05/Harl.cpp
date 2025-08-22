@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 22:15:40 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/08/20 22:51:57 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/08/22 19:52:20 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,22 @@ Harl::Harl()
     _level[3] = "ERROR";
 }
 
-Harl::~Harl()
-{
-}
+Harl::~Harl() {}
 
 void Harl::debug() {
-    std::cout << "Let's debug all evaluator proposed errors\n";
+    std::cout << "DEBUG: Let's debug all evaluator proposed errors\n";
 }
 
 void Harl::info() {
-    std::cout << "Check out, an evaluator entered the frame now\n";
+    std::cout << "INFO: Check out, an evaluator entered the frame now\n";
 }
 
 void Harl::warning() {
-    std::cout << "Tell the evaluator to treat this as a warning\n";
+    std::cout << "WARNING: Tell the evaluator to treat this as a warning\n";
 }
 
 void Harl::error() {
-    std::cout << "Evaluator error, that's certainly not my fault.\n";
+    std::cout << "ERROR: Evaluator error, that's certainly not my fault.\n";
 }
 
 void Harl::complain(std::string level) {
@@ -51,7 +49,7 @@ void Harl::complain(std::string level) {
     {
         if (_level[i] == level)
         {
-            (this->*_functionPtr[i])();
+            (this->*_functionPtr[i]) ();
             return ;
         }
     }

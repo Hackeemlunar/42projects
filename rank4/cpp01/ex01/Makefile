@@ -6,11 +6,11 @@
 #    By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/16 17:53:25 by hmensah-          #+#    #+#              #
-#    Updated: 2025/08/17 17:44:07 by hmensah-         ###   ########.fr        #
+#    Updated: 2025/08/22 19:26:18 by hmensah-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = 'Moar brainz!'
+NAME = Moar_brainz!
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98

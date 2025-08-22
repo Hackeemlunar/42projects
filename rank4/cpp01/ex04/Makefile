@@ -6,11 +6,11 @@
 #    By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/16 17:53:38 by hmensah-          #+#    #+#              #
-#    Updated: 2025/08/20 17:07:25 by hmensah-         ###   ########.fr        #
+#    Updated: 2025/08/22 19:32:24 by hmensah-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = 'Sed is for losers'
+NAME = sed_is_for_losers
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98

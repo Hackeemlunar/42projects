@@ -5,27 +5,23 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/17 16:38:43 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/08/22 19:27:07 by hmensah-         ###   ########.fr       */
+/*   Created: 2025/08/20 22:15:47 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/08/21 12:38:38 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Zombie.hpp"
+#include "Harl.hpp"
 #include <iostream>
 
-int main() {
-    int numOfHorde = 15;
+int main(int argc, char **argv) {
+    Harl instance;
 
-    Zombie* horde = zombieHorde(numOfHorde, "James Bond");
-
-    if (horde == NULL)
-        return 0;
-    for (int i = 0; i < numOfHorde; i++)
-        horde[i].announce();
-
-    std::cout << "\n";
-
-    delete[] horde;
+    if (argc != 2 ) {
+        std::cerr << "Error: Usage <filename> LEVEL\n";
+        return 1;
+    }
     
+    std::string level = std::string(argv[1]);
+    instance.complain(level);
     return 0;
 }

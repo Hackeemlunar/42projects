@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Fixed.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/17 16:38:43 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/08/22 19:27:07 by hmensah-         ###   ########.fr       */
+/*   Created: 2025/08/21 17:29:33 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/08/22 19:13:21 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Zombie.hpp"
-#include <iostream>
+#ifndef FIXED_HPP
+#define FIXED_HPP
 
-int main() {
-    int numOfHorde = 15;
+class Fixed
+{
+private:
+    int fixedPart;
+    static const int fractionalPart;
 
-    Zombie* horde = zombieHorde(numOfHorde, "James Bond");
+public:
+    Fixed();
+    Fixed(const Fixed& other);
+    Fixed& operator=(const Fixed& other);
+    ~Fixed();
 
-    if (horde == NULL)
-        return 0;
-    for (int i = 0; i < numOfHorde; i++)
-        horde[i].announce();
+    int getRawBits(void) const;
+    void setRawBits(int const raw);
+};
 
-    std::cout << "\n";
-
-    delete[] horde;
-    
-    return 0;
-}
+#endif

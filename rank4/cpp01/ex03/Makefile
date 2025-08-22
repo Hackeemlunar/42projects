@@ -6,11 +6,11 @@
 #    By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/16 17:53:34 by hmensah-          #+#    #+#              #
-#    Updated: 2025/08/18 16:06:44 by hmensah-         ###   ########.fr        #
+#    Updated: 2025/08/22 19:30:05 by hmensah-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = 'HI THIS IS BRAIN'
+NAME = HI_THIS_IS_BRAIN
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
