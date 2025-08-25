@@ -6,14 +6,14 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 17:30:29 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/08/22 20:32:49 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/08/24 15:43:03 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Fixed.hpp"
 #include "iostream"
 
-const int Fixed::fractionalPart = 0;
+const int Fixed::fractionalPart = 8;
 
 Fixed::Fixed() : fixedPart(0) {
     std::cout << "Default constructor called\n";
