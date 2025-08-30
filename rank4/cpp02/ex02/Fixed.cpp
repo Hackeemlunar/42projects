@@ -16,36 +16,28 @@
 
 const int Fixed::fractionalPart = 8;
 
-Fixed::Fixed() : fixedPart(0) {
-    std::cout << "Default constructor called\n";
-}
+Fixed::Fixed() : fixedPart(0) {}
 
 Fixed::Fixed(const int initial) : fixedPart(initial) {
-    std::cout << "Int constructor called\n";
     this->fixedPart = initial << fractionalPart;
 }
 
 Fixed::Fixed(const float initial) : fixedPart(initial) {
-    std::cout << "Float constructor called\n";
-    this->fixedPart = static_cast<int>(std::roundf(initial * (1 << fractionalPart)));
+    this->fixedPart = static_cast<int>(roundf(initial * (1 << fractionalPart)));
 }
 
 Fixed::Fixed(const Fixed &other) {
-    std::cout << "Copy constructor called\n";
     *this = other;
 }
 
 Fixed& Fixed::operator=(const Fixed &other) {
-    std::cout << "Copy assignment operator called\n";
     if (this != &other) {
         this->fixedPart= other.getRawBits();
     }
     return *this;
 }
 
-Fixed::~Fixed() {
-    std::cout << "Destructor called\n";
-}
+Fixed::~Fixed() {}
 
 int Fixed::getRawBits(void) const {
     return this->fixedPart;
@@ -118,6 +110,28 @@ Fixed Fixed::operator/(const Fixed& other) const {
     Fixed result;
     result.setRawBits(raw / other.getRawBits());
     return result;
+}
+
+Fixed Fixed::operator++(int) {
+    Fixed temp = *this;
+    ++(*this);
+    return temp;
+}
+
+Fixed& Fixed::operator++() {
+    this->fixedPart++;
+    return *this;
+}
+
+Fixed Fixed::operator--(int) {
+    Fixed temp = *this;
+    --(*this);
+    return temp;
+}
+
+Fixed& Fixed::operator--() {
+    this->fixedPart--;
+    return *this;
 }
 
 Fixed& Fixed::min(Fixed &first, Fixed &second) {

@@ -20,7 +20,7 @@ int main() {
     heapZombie->announce();
 
     delete heapZombie;
-    heapZombie = nullptr;
+    heapZombie = NULL;
 
     std::cout << "\n";
 

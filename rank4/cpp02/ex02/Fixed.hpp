@@ -46,6 +46,11 @@ public:
 	Fixed operator*(const Fixed& other) const;
 	Fixed operator/(const Fixed& other) const;
 
+	Fixed operator++(int);
+	Fixed& operator++();
+	Fixed operator--(int);
+	Fixed& operator--();
+
 	static Fixed& min(Fixed &first, Fixed &second);
 	static const Fixed& min(const Fixed &first, const Fixed &second);
 	static Fixed& max(Fixed &first, Fixed &second);
