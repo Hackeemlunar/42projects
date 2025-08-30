@@ -1,37 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Zombie.hpp                                         :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/16 22:58:01 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/08/30 19:14:34 by hmensah-         ###   ########.fr       */
+/*   Created: 2025/08/30 23:19:53 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/08/30 23:25:34 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ZOMBIE_HPP
-# define ZOMBIE_HPP
+#include "ClapTrap.hpp"
+#include <iostream>
 
-#include <string>
 
-class Zombie {
+int main(int argc, char **argv) {
+    (void) argc;
+    (void) argv;
+    ClapTrap jnr;
+    jnr.attack("john");
+    jnr.beRepaired(5);
+    jnr.takeDamage(2);
 
-private:
-    std::string name;
-
-public:
-    Zombie();
-    Zombie(const std::string &name);
-    ~Zombie();
-    
-    void announce(void);
-    void setName(const std::string &name);
-
-    std::string getName() const;
-};
-
-Zombie* newZombie(std::string name);
-void    randomChump(std::string name);
-
-#endif
+    return 0;
+}

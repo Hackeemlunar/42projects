@@ -16,10 +16,8 @@ public:
 
     Fixed getX() const;
     Fixed getY() const;
-
 };
 
-// point-in-triangle test: points passed by value as const
 bool bsp(Point const a, Point const b, Point const c, Point const p);
 
-#endif // POINT_HPP
+#endif

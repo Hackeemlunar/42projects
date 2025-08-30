@@ -6,16 +6,16 @@
 #    By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/22 20:24:13 by hmensah-          #+#    #+#              #
-#    Updated: 2025/08/30 17:42:17 by hmensah-         ###   ########.fr        #
+#    Updated: 2025/08/30 23:19:42 by hmensah-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = bsp
+NAME = clap_trap
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
-SOURCES = Fixed.cpp main.cpp Point.cpp bsp.cpp
+SOURCES = ClapTrap.cpp main.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 
 all: $(NAME)

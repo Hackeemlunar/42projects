@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 22:58:01 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/08/17 17:31:13 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/08/30 19:50:06 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 class Zombie {
 
 private:
-    std::string _name;
+    std::string name;
 
 public:
     Zombie();

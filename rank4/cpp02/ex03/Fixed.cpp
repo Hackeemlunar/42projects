@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 17:30:29 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/08/25 18:41:00 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/08/30 14:53:28 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,36 +16,28 @@
 
 const int Fixed::fractionalPart = 8;
 
-Fixed::Fixed() : fixedPart(0) {
-
-}
+Fixed::Fixed() : fixedPart(0) {}
 
 Fixed::Fixed(const int initial) : fixedPart(initial) {
-
     this->fixedPart = initial << fractionalPart;
 }
 
 Fixed::Fixed(const float initial) : fixedPart(initial) {
-
     this->fixedPart = static_cast<int>(roundf(initial * (1 << fractionalPart)));
 }
 
 Fixed::Fixed(const Fixed &other) {
-
     *this = other;
 }
 
 Fixed& Fixed::operator=(const Fixed &other) {
-
     if (this != &other) {
         this->fixedPart= other.getRawBits();
     }
     return *this;
 }
 
-Fixed::~Fixed() {
-
-}
+Fixed::~Fixed() {}
 
 int Fixed::getRawBits(void) const {
     return this->fixedPart;
@@ -94,12 +86,14 @@ bool Fixed::operator>=(const Fixed& other)  const {
 
 Fixed Fixed::operator+(const Fixed& other) const {
     Fixed result;
+
     result.setRawBits(this->getRawBits() + other.getRawBits());
     return result;
 }
 
 Fixed Fixed::operator-(const Fixed& other) const {
     Fixed result;
+
     result.setRawBits(this->getRawBits() - other.getRawBits());
     return result;
 }
