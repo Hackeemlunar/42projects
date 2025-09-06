@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Brain.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/30 23:19:53 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/09/02 14:45:01 by hmensah-         ###   ########.fr       */
+/*   Created: 2025/09/06 21:23:18 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/09/06 21:53:57 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ClapTrap.hpp"
-#include <iostream>
+#ifndef BRAIN_HPP
+#define BRAIN_HPP
 
+#include <string>
 
-int main(int argc, char **argv) {
-    (void) argc;
-    (void) argv;
-    ClapTrap bw("Boy_Wonder");
-    bw.attack("john");
-    bw.beRepaired(5);
-    bw.takeDamage(2);
+class Brain
+{
+private:
+    std::string _ideas[100];
+public:
+    Brain();
+    Brain(const Brain& other);
+    Brain& operator=(const Brain& other);
+    ~Brain();
+} ;
 
-    std::cout << '\n';
-
-    ClapTrap jnr;
-    jnr.attack("john");
-    jnr.beRepaired(5);
-    jnr.takeDamage(2);
-
-    return 0;
-}
+#endif

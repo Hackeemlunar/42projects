@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Animal.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/30 23:19:53 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/09/02 14:45:01 by hmensah-         ###   ########.fr       */
+/*   Created: 2025/09/06 15:46:20 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/09/06 17:25:18 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ClapTrap.hpp"
-#include <iostream>
+#ifndef ANIMAL_HPP
+#define ANIMAL_HPP
 
+#include <string>
 
-int main(int argc, char **argv) {
-    (void) argc;
-    (void) argv;
-    ClapTrap bw("Boy_Wonder");
-    bw.attack("john");
-    bw.beRepaired(5);
-    bw.takeDamage(2);
+class Animal
+{
+protected:
+    std::string _type;
 
-    std::cout << '\n';
+public:
+    Animal();
+    Animal& operator=(const Animal& other);
+    Animal(const Animal& other);
+    virtual ~Animal();
 
-    ClapTrap jnr;
-    jnr.attack("john");
-    jnr.beRepaired(5);
-    jnr.takeDamage(2);
+    virtual void makeSound() const;
+    virtual const std::string& getType() const;
+};
 
-    return 0;
-}
+#endif

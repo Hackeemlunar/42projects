@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 22:02:34 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/08/30 20:39:34 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/09/02 18:00:20 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ void replace(std::string& tempLine, size_t pos, size_t len, const std::string& t
 void findAndReplace(std::string& tempLine, const std::string& toFind, const std::string& toReplace)
 {
     size_t pos = 0;
-    while ((pos = tempLine.find(toFind)) != std::string::npos) {
+    size_t old_pos = 0;
+    while ((pos = tempLine.find(toFind, old_pos)) != std::string::npos) {
         replace(tempLine, pos, toFind.length(), toReplace);
+        old_pos = pos + toReplace.length();
     }
 }
 

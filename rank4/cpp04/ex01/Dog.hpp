@@ -1,33 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Dog.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/30 23:19:53 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/09/02 14:45:01 by hmensah-         ###   ########.fr       */
+/*   Created: 2025/09/06 16:17:28 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/09/06 17:18:14 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ClapTrap.hpp"
-#include <iostream>
+#ifndef DOG_HPP
+#define DOG_HPP
 
+#include "Animal.hpp"
 
-int main(int argc, char **argv) {
-    (void) argc;
-    (void) argv;
-    ClapTrap bw("Boy_Wonder");
-    bw.attack("john");
-    bw.beRepaired(5);
-    bw.takeDamage(2);
+class Dog : public Animal
+{
+private:
+    /* data */
+public:
+    Dog();
+    Dog(const Dog& other);
+    Dog& operator=(const Dog& other);
+    ~Dog();
 
-    std::cout << '\n';
+    void makeSound() const;
+    const std::string& getType() const;
+};
 
-    ClapTrap jnr;
-    jnr.attack("john");
-    jnr.beRepaired(5);
-    jnr.takeDamage(2);
-
-    return 0;
-}
+#endif
