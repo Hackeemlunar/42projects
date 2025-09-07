@@ -10,12 +10,13 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = diamond_trap
+NAME = main
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -Wno-shadow -std=c++98
 
-SOURCES = ClapTrap.cpp ScavTrap.cpp FragTrap.cpp DiamondTrap.cpp main.cpp
+SOURCES =	AMateria.cpp Ice.cpp Cure.cpp Character.cpp MateriaSource.cpp \
+			main.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 
 all: $(NAME)
