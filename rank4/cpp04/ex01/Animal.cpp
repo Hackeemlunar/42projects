@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 15:48:10 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/09/06 17:17:47 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/09/07 13:46:59 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ Animal::Animal() : _type("Kingdom Animalia")
     std::cout << "Animal default constructor called\n";
 }
 
-Animal::Animal(const Animal &other) {
-    this->_type = other._type;
+Animal::Animal(const Animal &other) : _type(other._type) {
     std::cout << "Animal copy constructor called\n";
 }
 

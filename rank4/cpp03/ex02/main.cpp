@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 23:19:53 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/08/30 23:25:34 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/09/14 14:52:36 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ int main(int argc, char **argv) {
     frag.beRepaired(15);
     frag.takeDamage(40);
     frag.highFivesGuys();
+
+    std::cout << "\n===== Testing construction/destruction chaining =====\n";
+    {
+        ScavTrap temp("TempScav");
+    }
     
     std::cout << "\n=== Testing construction/destruction chaining ===" << std::endl;
     {

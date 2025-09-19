@@ -6,15 +6,16 @@
 #    By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/22 20:24:13 by hmensah-          #+#    #+#              #
-#    Updated: 2025/09/14 15:04:50 by hmensah-         ###   ########.fr        #
+#    Updated: 2025/09/19 20:29:29 by hmensah-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = diamond_trap
+NAME = main
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -Wno-shadow -std=c++98
-SOURCES = ClapTrap.cpp ScavTrap.cpp FragTrap.cpp DiamondTrap.cpp main.cpp
+
+SOURCES = Bureaucrat.cpp main.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 
 all: $(NAME)

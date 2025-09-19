@@ -6,28 +6,31 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 00:00:00 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/09/02 00:00:00 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/09/14 15:27:49 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "DiamondTrap.hpp"
 #include <iostream>
 
-DiamondTrap::DiamondTrap() : ClapTrap("default_clap_name"), ScavTrap(), FragTrap(), _name("default") {
+DiamondTrap::DiamondTrap() : ClapTrap("default_clap_name"), ScavTrap(), FragTrap(),
+        _name("default") {
     this->_hitPoint = FragTrap::_hitPoint;
     this->_energyPoint = ScavTrap::_energyPoint;
     this->_attackDamage = FragTrap::_attackDamage;
     std::cout << "DiamondTrap default constructor called\n";
 }
 
-DiamondTrap::DiamondTrap(const std::string& name) : ClapTrap(name + "_clap_name"), ScavTrap(name), FragTrap(name), _name(name) {
+DiamondTrap::DiamondTrap(const std::string& name) : ClapTrap(name + "_clap_name"),
+        ScavTrap(name), FragTrap(name), _name(name) {
     this->_hitPoint = FragTrap::_hitPoint;
     this->_energyPoint = ScavTrap::_energyPoint;
     this->_attackDamage = FragTrap::_attackDamage;
     std::cout << "DiamondTrap constructor called for " << name << "\n";
 }
 
-DiamondTrap::DiamondTrap(const DiamondTrap& other) : ClapTrap(other), ScavTrap(other), FragTrap(other), _name(other._name) {
+DiamondTrap::DiamondTrap(const DiamondTrap& other) : ClapTrap(other), ScavTrap(other),
+        FragTrap(other), _name(other._name) {
     std::cout << "DiamondTrap copy constructor called\n";
 }
 
@@ -47,5 +50,6 @@ DiamondTrap::~DiamondTrap() {
 }
 
 void DiamondTrap::whoAmI() {
-    std::cout << "DiamondTrap name: " << this->_name << ", ClapTrap name: " << ClapTrap::_name << "\n";
+    std::cout << "DiamondTrap name: " << this->_name << ", ClapTrap name: " <<
+        ClapTrap::_name << "\n";
 }

@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 16:30:40 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/09/06 21:04:28 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/09/15 17:22:39 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 int main()
 {
     std::cout << "\n===== Testing abstract class - Animal cannot be instantiated =====\n";
-    // const Animal* animal = new Animal(); // This would cause a compilation error
+    // const Animal* animal = new Animal();
     std::cout << "Animal class is now abstract and cannot be instantiated directly.\n";
     
     std::cout << "\n===== Testing basic polymorphism =====\n";

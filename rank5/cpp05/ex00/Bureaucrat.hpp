@@ -1,37 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   AMateria.hpp                                       :+:      :+:    :+:   */
+/*   Bureaucrat.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/06 22:30:00 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/09/16 15:03:03 by hmensah-         ###   ########.fr       */
+/*   Created: 2025/09/19 20:17:05 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/09/19 20:34:58 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AMATERIA_HPP
-#define AMATERIA_HPP
+#ifndef BUREAUCRAT_HPP
+#define BUREAUCRAT_HPP
 
 #include <string>
-#include "ICharacter.hpp"
 
-class AMateria
+class Bureaucrat
 {
-protected:
-    std::string _type;
+private:
+    const std::string _name;
+    int _grade;
 
 public:
-    AMateria();
-    AMateria(std::string const &type);
-    AMateria(const AMateria &other);
-    AMateria &operator=(const AMateria &other);
-    virtual ~AMateria();
+    Bureaucrat();
+    Bureaucrat& operator=(const Bureaucrat& other);
+    Bureaucrat(const Bureaucrat& other);
+    ~Bureaucrat();
 
-    std::string const &getType() const;
-
-    virtual AMateria* clone() const = 0;
-    virtual void use(ICharacter &target);
+    std::string& const getName() const;
+    int getGrade() const;
+    void incrementGrade();
+    void decrementGrade();
 };
+
+
+
 
 #endif

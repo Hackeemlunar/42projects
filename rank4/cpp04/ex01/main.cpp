@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 16:30:40 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/09/06 21:04:28 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/09/15 17:16:15 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int main()
     const Animal* j = new Dog();
     const Animal* i = new Cat();
     
-    delete j;  //should not create a leak
+    delete j;
     delete i;
 
     std::cout << "\n===== Testing array of Animals =====\n";
@@ -50,7 +50,7 @@ int main()
         delete animals[idx];
     }
 
-    std::cout << "\n===== Testing deep copy =====\n";
+    std::cout << "\n===== Testing deep copy with Dogs =====\n";
     {
         Dog original;
         std::cout << "\n--- Creating copy using copy constructor ---\n";

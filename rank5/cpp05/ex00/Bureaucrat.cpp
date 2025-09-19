@@ -1,31 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ScavTrap.hpp                                       :+:      :+:    :+:   */
+/*   Bureaucrat.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/02 00:00:00 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/09/14 15:27:21 by hmensah-         ###   ########.fr       */
+/*   Created: 2025/09/19 20:19:39 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/09/19 20:36:42 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SCAVTRAP_HPP
-#define SCAVTRAP_HPP
+#include "Bureaucrat.hpp"
 
-#include "ClapTrap.hpp"
-
-class ScavTrap : virtual public ClapTrap
+Bureaucrat::Bureaucrat()
 {
-public:
-    ScavTrap();
-    ScavTrap(const std::string& name);
-    ScavTrap(const ScavTrap& other);
-    ScavTrap& operator=(const ScavTrap& other);
-    ~ScavTrap();
+}
 
-    void attack(const std::string& target);
-    void guardGate();
-};
+Bureaucrat& Bureaucrat::operator=(const Bureaucrat& other) {
+    
+}
 
-#endif
+Bureaucrat::Bureaucrat(const Bureaucrat& other) {
+
+}
+
+Bureaucrat::~Bureaucrat()
+{
+}
+
+std::string &const Bureaucrat::getName() const {
+
+}
+
+int Bureaucrat::getGrade() const {
+
+}
+
+void Bureaucrat::incrementGrade() {
+
+}
+
+void Bureaucrat::decrementGrade() {
+    
+}

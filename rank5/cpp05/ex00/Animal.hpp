@@ -1,38 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ClapTrap.hpp                                       :+:      :+:    :+:   */
+/*   Animal.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/30 21:35:58 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/09/09 21:23:31 by hmensah-         ###   ########.fr       */
+/*   Created: 2025/09/06 15:46:20 by hmensah-          #+#    #+#             */
+/*   Updated: 2025/09/06 17:25:18 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CLAPTRAP_HPP
-#define CLAPTRAP_HPP
+#ifndef ANIMAL_HPP
+#define ANIMAL_HPP
 
 #include <string>
 
-class ClapTrap
+class Animal
 {
 protected:
-    std::string _name;
-    int         _hitPoint;
-    int         _energyPoint;
-    int         _attackDamage;
+    std::string _type;
 
 public:
-    ClapTrap();
-    ClapTrap& operator=(const ClapTrap& other);
-    ClapTrap(const ClapTrap& other);
-    ClapTrap(std::string name);
-    ~ClapTrap();
+    Animal();
+    Animal& operator=(const Animal& other);
+    Animal(const Animal& other);
+    virtual ~Animal();
 
-    void attack(const std::string& target);
-    void takeDamage(unsigned int amount);
-    void beRepaired(unsigned int amount);
+    virtual void makeSound() const;
+    virtual const std::string& getType() const;
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 22:30:00 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/09/06 22:30:00 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:48:40 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void Character::unequip(int idx)
         return;
     }
     
-    this->_inventory[idx] = NULL; // Don't delete, as per instructions
+    this->_inventory[idx] = NULL;
 }
 
 void Character::use(int idx, ICharacter& target)

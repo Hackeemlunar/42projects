@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 22:30:00 by hmensah-          #+#    #+#             */
-/*   Updated: 2025/09/06 22:30:00 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/09/16 17:03:13 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,30 +19,43 @@
 #include "Cure.hpp"
 #include <iostream>
 
+int mainTest()
+{
+    IMateriaSource* src = new MateriaSource();
+
+    AMateria* ice = new Ice();
+    AMateria* cure = new Cure();
+
+    src->learnMateria(ice);
+    src->learnMateria(cure);
+    delete ice;
+    delete cure;
+
+    ICharacter* me = new Character("me");
+
+    AMateria* tmp;
+    tmp = src->createMateria("ice");
+    me->equip(tmp);
+    tmp = src->createMateria("cure");
+    me->equip(tmp);
+
+    ICharacter* bob = new Character("bob");
+
+    me->use(0, *bob);
+    me->use(1, *bob);
+
+    delete bob;
+    delete me;
+    delete src;
+
+    return 0;
+}
+
 int main()
 {
     std::cout << "\n===== Subject Test =====\n";
     {
-        IMateriaSource* src = new MateriaSource();
-        src->learnMateria(new Ice());
-        src->learnMateria(new Cure());
-
-        ICharacter* me = new Character("me");
-
-        AMateria* tmp;
-        tmp = src->createMateria("ice");
-        me->equip(tmp);
-        tmp = src->createMateria("cure");
-        me->equip(tmp);
-
-        ICharacter* bob = new Character("bob");
-
-        me->use(0, *bob);
-        me->use(1, *bob);
-
-        delete bob;
-        delete me;
-        delete src;
+        mainTest();
     }
 
     std::cout << "\n===== Additional Tests =====\n";
@@ -50,17 +63,21 @@ int main()
     std::cout << "\n--- Testing inventory full ---\n";
     {
         MateriaSource* src = new MateriaSource();
-        src->learnMateria(new Ice());
+        AMateria* ice = new Ice();
+        src->learnMateria(ice);
+        delete ice;
         
         Character* hero = new Character("hero");
         
-        for (int i = 0; i < 6; i++) { // Try to equip more than 4
+        for (int i = 0; i < 6; i++) {
             AMateria* materia = src->createMateria("ice");
             hero->equip(materia);
             if (i >= 4) {
                 delete materia; // Clean up when inventory is full
             }
         }
+        hero->use(0, *hero);
+        hero->use(3, *hero);
         
         delete hero;
         delete src;
@@ -69,8 +86,14 @@ int main()
     std::cout << "\n--- Testing unequip ---\n";
     {
         MateriaSource* src = new MateriaSource();
-        src->learnMateria(new Ice());
-        src->learnMateria(new Cure());
+        
+        AMateria* tempIce = new Ice();
+        AMateria* tempCure = new Cure();
+    
+        src->learnMateria(tempIce);
+        src->learnMateria(tempCure);
+        delete tempIce;
+        delete tempCure;
         
         Character* mage = new Character("mage");
         Character* target = new Character("target");
@@ -130,8 +153,13 @@ int main()
         Character original("original");
         
         MateriaSource* src = new MateriaSource();
-        src->learnMateria(new Ice());
-        src->learnMateria(new Cure());
+        AMateria* tempIce = new Ice();
+        AMateria* tempCure = new Cure();
+    
+        src->learnMateria(tempIce);
+        src->learnMateria(tempCure);
+        delete tempIce;
+        delete tempCure;
         
         original.equip(src->createMateria("ice"));
         original.equip(src->createMateria("cure"));
