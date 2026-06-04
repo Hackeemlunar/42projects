@@ -6,7 +6,7 @@
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 20:19:39 by hmensah-          #+#    #+#             */
-/*   Updated: 2026/05/16 17:36:15 by hmensah-         ###   ########.fr       */
+/*   Updated: 2025/09/19 20:36:42 by hmensah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,80 @@
 #include "ShrubberyCreationForm.hpp"
 #include "RobotomyRequestForm.hpp"
 #include "PresidentialPardonForm.hpp"
+#include <iostream>
 
-Intern::Intern() {}
-Intern::Intern(const Intern&) {}
-Intern& Intern::operator=(const Intern&) { return *this; }
-Intern::~Intern() {}
+// Default constructor
+Intern::Intern()
+{
+    std::cout << "Intern default constructor called" << std::endl;
+}
 
-static AForm* makeShrubbery(const std::string& target) {
+// Copy constructor
+Intern::Intern(const Intern& other)
+{
+    (void)other;
+    std::cout << "Intern copy constructor called" << std::endl;
+}
+
+// Assignment operator
+Intern& Intern::operator=(const Intern& other)
+{
+    (void)other;
+    std::cout << "Intern assignment operator called" << std::endl;
+    return *this;
+}
+
+// Destructor
+Intern::~Intern()
+{
+    std::cout << "Intern destructor called" << std::endl;
+}
+
+// Private helper methods
+AForm* Intern::createShrubberyForm(const std::string& target) const
+{
     return new ShrubberyCreationForm(target);
 }
-static AForm* makeRobotomy(const std::string& target) {
+
+AForm* Intern::createRobotomyForm(const std::string& target) const
+{
     return new RobotomyRequestForm(target);
 }
-static AForm* makePardon(const std::string& target) {
+
+AForm* Intern::createPresidentialForm(const std::string& target) const
+{
     return new PresidentialPardonForm(target);
 }
 
-AForm* Intern::makeForm(const std::string& formName, const std::string& target) const {
-    struct {
-        const char* name;
-        AForm* (*create)(const std::string&);
-    } forms[] = {
-        { "shrubbery creation", makeShrubbery },
-        { "robotomy request",   makeRobotomy  },
-        { "presidential pardon", makePardon   }
+// makeForm method - uses function pointer array to avoid messy if/else
+AForm* Intern::makeForm(const std::string& formName, const std::string& target) const
+{
+    // Array of form names
+    const std::string formNames[3] = {
+        "shrubbery creation",
+        "robotomy request",
+        "presidential pardon"
     };
-
-    for (std::size_t i = 0; i < 3; i++) {
-        if (formName == forms[i].name) {
-            std::cout << "Intern creates " << formName << "\n";
-            return forms[i].create(target);
+    
+    // Array of function pointers (member function pointers)
+    typedef AForm* (Intern::*FormCreator)(const std::string&) const;
+    FormCreator formCreators[3] = {
+        &Intern::createShrubberyForm,
+        &Intern::createRobotomyForm,
+        &Intern::createPresidentialForm
+    };
+    
+    // Find matching form name and create it
+    for (int i = 0; i < 3; i++)
+    {
+        if (formName == formNames[i])
+        {
+            std::cout << "Intern creates " << formName << std::endl;
+            return (this->*formCreators[i])(target);
         }
     }
-    std::cout << "Intern: unknown form \"" << formName << "\"\n";
+    
+    // No matching form found
+    std::cerr << "Error: Form name '" << formName << "' does not exist!" << std::endl;
     return NULL;
 }

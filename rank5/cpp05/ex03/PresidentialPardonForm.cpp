@@ -11,22 +11,48 @@
 /* ************************************************************************** */
 
 #include "PresidentialPardonForm.hpp"
-#include "Bureaucrat.hpp"
 
+// Default constructor
+PresidentialPardonForm::PresidentialPardonForm()
+    : AForm("PresidentialPardonForm", 25, 5), _target("default")
+{
+    std::cout << "PresidentialPardonForm default constructor called" << std::endl;
+}
+
+// Parameterized constructor
 PresidentialPardonForm::PresidentialPardonForm(const std::string& target)
-    : AForm("PresidentialPardonForm", 25, 5), _target(target) {}
+    : AForm("PresidentialPardonForm", 25, 5), _target(target)
+{
+    std::cout << "PresidentialPardonForm parameterized constructor called" << std::endl;
+}
 
+// Copy constructor
 PresidentialPardonForm::PresidentialPardonForm(const PresidentialPardonForm& other)
-    : AForm(other), _target(other._target) {}
+    : AForm(other), _target(other._target)
+{
+    std::cout << "PresidentialPardonForm copy constructor called" << std::endl;
+}
 
-PresidentialPardonForm& PresidentialPardonForm::operator=(const PresidentialPardonForm& other) {
-    AForm::operator=(other);
+// Assignment operator
+PresidentialPardonForm& PresidentialPardonForm::operator=(const PresidentialPardonForm& other)
+{
+    std::cout << "PresidentialPardonForm assignment operator called" << std::endl;
+    if (this != &other)
+    {
+        AForm::operator=(other);
+        _target = other._target;
+    }
     return *this;
 }
 
-PresidentialPardonForm::~PresidentialPardonForm() {}
+// Destructor
+PresidentialPardonForm::~PresidentialPardonForm()
+{
+    std::cout << "PresidentialPardonForm destructor called" << std::endl;
+}
 
-void PresidentialPardonForm::execute(Bureaucrat const& executor) const {
-    checkExecute(executor);
-    std::cout << _target << " has been pardoned by Zaphod Beeblebrox.\n";
+// Execute action - inform that target has been pardoned by Zaphod Beeblebrox
+void PresidentialPardonForm::executeAction() const
+{
+    std::cout << _target << " has been pardoned by Zaphod Beeblebrox." << std::endl;
 }

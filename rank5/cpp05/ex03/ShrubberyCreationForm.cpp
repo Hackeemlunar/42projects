@@ -11,42 +11,77 @@
 /* ************************************************************************** */
 
 #include "ShrubberyCreationForm.hpp"
-#include "Bureaucrat.hpp"
 #include <fstream>
 
+// Default constructor
+ShrubberyCreationForm::ShrubberyCreationForm()
+    : AForm("ShrubberyCreationForm", 145, 137), _target("default")
+{
+    std::cout << "ShrubberyCreationForm default constructor called" << std::endl;
+}
+
+// Parameterized constructor
 ShrubberyCreationForm::ShrubberyCreationForm(const std::string& target)
-    : AForm("ShrubberyCreationForm", 145, 137), _target(target) {}
+    : AForm("ShrubberyCreationForm", 145, 137), _target(target)
+{
+    std::cout << "ShrubberyCreationForm parameterized constructor called" << std::endl;
+}
 
+// Copy constructor
 ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm& other)
-    : AForm(other), _target(other._target) {}
+    : AForm(other), _target(other._target)
+{
+    std::cout << "ShrubberyCreationForm copy constructor called" << std::endl;
+}
 
-ShrubberyCreationForm& ShrubberyCreationForm::operator=(const ShrubberyCreationForm& other) {
-    AForm::operator=(other);
+// Assignment operator
+ShrubberyCreationForm& ShrubberyCreationForm::operator=(const ShrubberyCreationForm& other)
+{
+    std::cout << "ShrubberyCreationForm assignment operator called" << std::endl;
+    if (this != &other)
+    {
+        AForm::operator=(other);
+        _target = other._target;
+    }
     return *this;
 }
 
-ShrubberyCreationForm::~ShrubberyCreationForm() {}
+// Destructor
+ShrubberyCreationForm::~ShrubberyCreationForm()
+{
+    std::cout << "ShrubberyCreationForm destructor called" << std::endl;
+}
 
-void ShrubberyCreationForm::execute(Bureaucrat const& executor) const {
-    checkExecute(executor);
-    std::ofstream file((_target + "_shrubbery").c_str());
-    file << "       _-_\n"
-         << "    /~~   ~~\\\n"
-         << " /~~         ~~\\\n"
-         << "{               }\n"
-         << " \\  _-     -_  /\n"
-         << "   ~  \\\\ //  ~\n"
-         << "_- -   | | _- _\n"
-         << "  _ -  | |   -_\n"
-         << "      // \\\\\n"
-         << "       _-_\n"
-         << "    /~~   ~~\\\n"
-         << " /~~         ~~\\\n"
-         << "{               }\n"
-         << " \\  _-     -_  /\n"
-         << "   ~  \\\\ //  ~\n"
-         << "_- -   | | _- _\n"
-         << "  _ -  | |   -_\n"
-         << "      // \\\\\n";
+// Execute action - create file with ASCII trees
+void ShrubberyCreationForm::executeAction() const
+{
+    std::string filename = _target + "_shrubbery";
+    std::ofstream file(filename.c_str());
+    
+    if (!file.is_open())
+    {
+        std::cerr << "Error: Could not create file " << filename << std::endl;
+        return;
+    }
+
+    file << "       ###" << std::endl;
+    file << "      #o###" << std::endl;
+    file << "    #####o###" << std::endl;
+    file << "   #o#\\#|#/###" << std::endl;
+    file << "    ###\\|/#o#" << std::endl;
+    file << "     # }|{  #" << std::endl;
+    file << "       }|{" << std::endl;
+    file << std::endl;
+    file << "      /\\|/\\" << std::endl;
+    file << "     // |\\ \\\\" << std::endl;
+    file << "    ///o|o\\\\\\" << std::endl;
+    file << "   ////||\\\\\\\\" << std::endl;
+    file << "  /////||\\\\\\\\\\   " << std::endl;
+    file << "      /  \\" << std::endl;
+    file << "      |  |" << std::endl;
+    file << "      |  |" << std::endl;
+    file << "      =====" << std::endl;
+
     file.close();
+    std::cout << "Created file " << filename << " with ASCII trees" << std::endl;
 }

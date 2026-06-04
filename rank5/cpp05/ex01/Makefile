@@ -1,21 +1,9 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/08/22 20:24:13 by hmensah-          #+#    #+#              #
-#    Updated: 2026/05/16 16:05:33 by hmensah-         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = main
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -Wno-shadow -std=c++98
 
-SOURCES =	Bureaucrat.cpp Form.cpp main.cpp
+SOURCES = Bureaucrat.cpp Form.cpp main.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 
 all: $(NAME)
