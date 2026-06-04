@@ -1,0 +1,24 @@
+# Git files
+.git
+.gitignore
+.gitkeep
+
+# Documentation
+README.md
+*.md
+
+# IDE
+.vscode
+.idea
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# WordPress files (will be downloaded at runtime)
+wp-content/
+wp-includes/
+wp-admin/

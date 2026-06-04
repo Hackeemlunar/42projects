@@ -1,22 +1,9 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/08/22 20:24:13 by hmensah-          #+#    #+#              #
-#    Updated: 2025/09/06 22:12:02 by hmensah-         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = main
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -Wno-shadow -std=c++98
 
-SOURCES =	Animal.cpp Dog.cpp Cat.cpp WrongAnimal.cpp WrongCat.cpp Brain.cpp \
-			main.cpp
+SOURCES = Bureaucrat.cpp Form.cpp main.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 
 all: $(NAME)

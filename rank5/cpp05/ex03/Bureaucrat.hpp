@@ -17,6 +17,8 @@
 #include <iostream>
 #include <exception>
 
+class AForm; // Forward declaration
+
 class Bureaucrat
 {
 private:
@@ -38,6 +40,10 @@ public:
     // Grade manipulation
     void incrementGrade();
     void decrementGrade();
+
+    // AForm signing and execution
+    void signForm(AForm& form);
+    void executeForm(const AForm& form) const;
 
     // Exception classes
     class GradeTooHighException : public std::exception

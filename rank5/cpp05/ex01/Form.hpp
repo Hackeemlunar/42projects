@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Bureaucrat.hpp                                     :+:      :+:    :+:   */
+/*   Form.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,34 +10,39 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUREAUCRAT_HPP
-#define BUREAUCRAT_HPP
+#ifndef FORM_HPP
+#define FORM_HPP
 
 #include <string>
 #include <iostream>
 #include <exception>
 
-class Bureaucrat
+class Bureaucrat; // Forward declaration
+
+class Form
 {
 private:
     const std::string _name;
-    int _grade;
+    bool _isSigned;
+    const int _gradeToSign;
+    const int _gradeToExecute;
 
 public:
     // Orthodox Canonical Form
-    Bureaucrat();
-    Bureaucrat(const std::string& name, int grade);
-    Bureaucrat(const Bureaucrat& other);
-    Bureaucrat& operator=(const Bureaucrat& other);
-    ~Bureaucrat();
+    Form();
+    Form(const std::string& name, int gradeToSign, int gradeToExecute);
+    Form(const Form& other);
+    Form& operator=(const Form& other);
+    ~Form();
 
     // Getters
     const std::string& getName() const;
-    int getGrade() const;
+    bool isSigned() const;
+    int getGradeToSign() const;
+    int getGradeToExecute() const;
 
-    // Grade manipulation
-    void incrementGrade();
-    void decrementGrade();
+    // Member function
+    void beSigned(const Bureaucrat& bureaucrat);
 
     // Exception classes
     class GradeTooHighException : public std::exception
@@ -54,6 +59,6 @@ public:
 };
 
 // Overload of insertion operator
-std::ostream& operator<<(std::ostream& os, const Bureaucrat& bureaucrat);
+std::ostream& operator<<(std::ostream& os, const Form& form);
 
 #endif

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
+#include "AForm.hpp"
 
 // Default constructor
 Bureaucrat::Bureaucrat() : _name("Default"), _grade(150)
@@ -36,14 +37,12 @@ Bureaucrat::Bureaucrat(const Bureaucrat& other) : _name(other._name), _grade(oth
 }
 
 // Assignment operator
-// Note: We cannot reassign _name because it's const, so we only copy the grade
 Bureaucrat& Bureaucrat::operator=(const Bureaucrat& other)
 {
     std::cout << "Bureaucrat assignment operator called" << std::endl;
     if (this != &other)
     {
         _grade = other._grade;
-        // _name cannot be assigned because it's const
     }
     return *this;
 }
@@ -65,7 +64,7 @@ int Bureaucrat::getGrade() const
     return _grade;
 }
 
-// Increment grade (decrease number, 3 -> 2)
+// Increment grade (decrease number)
 void Bureaucrat::incrementGrade()
 {
     if (_grade - 1 < 1)
@@ -73,12 +72,42 @@ void Bureaucrat::incrementGrade()
     _grade--;
 }
 
-// Decrement grade (increase number, 3 -> 4)
+// Decrement grade (increase number)
 void Bureaucrat::decrementGrade()
 {
     if (_grade + 1 > 150)
         throw GradeTooLowException();
     _grade++;
+}
+
+// Sign form
+void Bureaucrat::signForm(AForm& form)
+{
+    try
+    {
+        form.beSigned(*this);
+        std::cout << _name << " signed " << form.getName() << std::endl;
+    }
+    catch (std::exception& e)
+    {
+        std::cout << _name << " couldn't sign " << form.getName()
+                  << " because " << e.what() << std::endl;
+    }
+}
+
+// Execute form
+void Bureaucrat::executeForm(const AForm& form) const
+{
+    try
+    {
+        form.execute(*this);
+        std::cout << _name << " executed " << form.getName() << std::endl;
+    }
+    catch (std::exception& e)
+    {
+        std::cout << _name << " couldn't execute " << form.getName()
+                  << " because " << e.what() << std::endl;
+    }
 }
 
 // Exception implementations

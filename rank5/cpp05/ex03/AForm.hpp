@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Bureaucrat.hpp                                     :+:      :+:    :+:   */
+/*   AForm.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,34 +10,44 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUREAUCRAT_HPP
-#define BUREAUCRAT_HPP
+#ifndef AFORM_HPP
+#define AFORM_HPP
 
 #include <string>
 #include <iostream>
 #include <exception>
 
-class Bureaucrat
+class Bureaucrat; // Forward declaration
+
+class AForm
 {
 private:
     const std::string _name;
-    int _grade;
+    bool _isSigned;
+    const int _gradeToSign;
+    const int _gradeToExecute;
+
+protected:
+    // Pure virtual function to be implemented by derived classes
+    virtual void executeAction() const = 0;
 
 public:
     // Orthodox Canonical Form
-    Bureaucrat();
-    Bureaucrat(const std::string& name, int grade);
-    Bureaucrat(const Bureaucrat& other);
-    Bureaucrat& operator=(const Bureaucrat& other);
-    ~Bureaucrat();
+    AForm();
+    AForm(const std::string& name, int gradeToSign, int gradeToExecute);
+    AForm(const AForm& other);
+    AForm& operator=(const AForm& other);
+    virtual ~AForm();
 
     // Getters
     const std::string& getName() const;
-    int getGrade() const;
+    bool isSigned() const;
+    int getGradeToSign() const;
+    int getGradeToExecute() const;
 
-    // Grade manipulation
-    void incrementGrade();
-    void decrementGrade();
+    // Member functions
+    void beSigned(const Bureaucrat& bureaucrat);
+    void execute(const Bureaucrat& executor) const;
 
     // Exception classes
     class GradeTooHighException : public std::exception
@@ -51,9 +61,15 @@ public:
     public:
         virtual const char* what() const throw();
     };
+
+    class FormNotSignedException : public std::exception
+    {
+    public:
+        virtual const char* what() const throw();
+    };
 };
 
 // Overload of insertion operator
-std::ostream& operator<<(std::ostream& os, const Bureaucrat& bureaucrat);
+std::ostream& operator<<(std::ostream& os, const AForm& form);
 
 #endif
