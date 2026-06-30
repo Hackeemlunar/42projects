@@ -8,13 +8,14 @@ services:
       dockerfile: Dockerfile
     image: nginx
     ports:
-      - "443:443"
+      - "${WP_PORT}:${WP_PORT}"
     volumes:
       - wordpress_data:/var/www/html
     networks:
       - inception_network
     environment:
       - DOMAIN_NAME=${DOMAIN_NAME}
+      - WP_PORT=${WP_PORT}
     restart: always
     depends_on:
       - wordpress

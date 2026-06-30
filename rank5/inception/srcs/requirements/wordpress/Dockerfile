@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Dockerfile                                         :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+         #
+#    By: hmensah- <hmensah-@student.42abudhabi.a    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/07 00:00:00 by hmensah-          #+#    #+#              #
-#    Updated: 2025/10/07 00:00:00 by hmensah-         ###   ########.fr        #
+#    Updated: 2026/06/22 23:06:50 by hmensah-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ COPY conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 # Install WP-CLI for WordPress management
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \
-    && mv wp-cli.phar /usr/local/bin/wp
+    && mv wp-cli.phar /usr/local/bin/wpd
 
 # Copy setup script
 COPY tools/setup.sh /usr/local/bin/setup.sh

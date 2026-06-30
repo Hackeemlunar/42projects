@@ -36,7 +36,10 @@ if [ ! -f wp-config.php ]; then
         --dbpass="${MYSQL_PASSWORD}" \
         --dbhost="${MYSQL_HOST}" \
         --allow-root
-    
+
+    wp config set WP_HOME "${WP_URL}" --type=constant --allow-root
+    wp config set WP_SITEURL "${WP_URL}" --type=constant --allow-root
+
     echo "Installing WordPress..."
     wp core install \
         --url="${WP_URL}" \
@@ -59,6 +62,8 @@ if [ ! -f wp-config.php ]; then
     echo "Regular user: ${WP_USER}"
 else
     echo "WordPress is already installed."
+    wp config set WP_HOME "${WP_URL}" --type=constant --allow-root
+    wp config set WP_SITEURL "${WP_URL}" --type=constant --allow-root
 fi
 
 # Set permissions

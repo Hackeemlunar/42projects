@@ -25,7 +25,7 @@ if [ ! -f /etc/nginx/ssl/nginx.crt ]; then
 fi
 
 # Replace ${DOMAIN_NAME} in default.conf with actual value
-envsubst '${DOMAIN_NAME}' < /etc/nginx/sites-available/default > /tmp/default.conf
+envsubst '${DOMAIN_NAME} ${WP_PORT}' < /etc/nginx/sites-available/default > /tmp/default.conf
 mv /tmp/default.conf /etc/nginx/sites-available/default
 
 # Test NGINX configuration
