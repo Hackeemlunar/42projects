@@ -1,0 +1,14 @@
+RPN defence-style explanation
+=============================
+
+For this exercise, I implemented a Reverse Polish Notation evaluator. The program reads an expression made of numbers and operators, evaluates it using a stack, and returns the final result.
+
+I chose std::list for the stack because the exercise only requires simple stack behavior. I needed to push values, read the last one, and pop values when an operator is encountered. std::list gives me exactly that in a straightforward way, and it is simple to reason about during the evaluation.
+
+The evaluation works by reading the expression token by token. When I encounter a number, I push it onto the stack. When I encounter an operator, I pop the last two values, apply the operation, and push the result back. This matches the logic of RPN, because operators always act on the two most recent values.
+
+If the expression is invalid, for example if there are not enough operands for an operator, the program throws an error. That is important because the evaluator must not produce a wrong result on invalid input.
+
+A simple example is the expression 8 9 * 9 - 9 - 9 - 4 - 1 +. The program processes it step by step: it multiplies 8 and 9, then subtracts values one by one, and finally ends with the result 42.
+
+So the main idea of the program is simple: use a stack to process numbers and operators in the correct order, and produce one final value at the end.

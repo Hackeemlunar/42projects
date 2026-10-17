@@ -1,0 +1,14 @@
+BitcoinExchange defence-style explanation
+======================================
+
+For this exercise, I implemented a program that reads a CSV database of exchange rates and then processes an input file containing dates and values. The main idea is to validate each line, find the correct exchange rate, and print the converted result.
+
+I chose std::map for the database because I needed ordered dates and quick lookup. The subject requires the program to use the nearest lower date when the exact date is not available, and std::map is well suited for that because it keeps keys sorted and supports lower_bound. That is why I used it instead of another container.
+
+The program starts by loading the CSV file. I read it line by line, skip the header, and store each valid date and rate in the map. Then I process the input file. For each line, I check the format, validate the date, and ensure that the value is positive and not larger than 1000. If something is invalid, I print an error message and continue with the next line.
+
+When I need the rate for a date, I first try to find the exact date in the map. If it does not exist, I use the nearest lower date. That is the behavior required by the exercise. The result is then printed as the original value multiplied by the selected exchange rate.
+
+A simple example is this: if the database contains 2011-01-03 with a rate of 1.5 and the input file contains 2011-01-04 with a value of 2, then the program will use the rate from 2011-01-03 because 2011-01-04 is not present. So the output will be based on 1.5 and not on a missing date.
+
+So in short, the program is about three main steps: load the database, validate and process the input, and use the correct exchange rate for each date.

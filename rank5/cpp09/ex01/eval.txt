@@ -1,0 +1,137 @@
+RPN explanation
+===============
+
+This file is separate from the implementation. Its purpose is to explain how the program works, why each part exists, and how the data flows through the code.
+
+1) What the header file is doing
+--------------------------------
+
+The header file declares the structure of the class and the data that the program uses.
+
+Private member variable:
+- _stack: stores the numbers while the expression is being evaluated. It is a std::list<int> because the program needs to push and pop values in a simple stack-like way.
+
+Why this variable exists:
+- Reverse Polish Notation is evaluated using a stack.
+- The program needs to keep intermediate values until they are combined by an operator.
+
+Private methods:
+- stringToInt(const std::string& str) const: converts a token from the expression into an integer.
+- isOperator(const std::string& token) const: checks whether a token is one of the supported operators.
+- performOperation(const std::string& operation, int operand1, int operand2) const: applies the requested arithmetic operation.
+
+Public methods:
+- RPN(): default constructor.
+- ~RPN(): destructor.
+- evaluate(const std::string& expression): reads the expression and returns the final result.
+
+2) What the source file is doing
+--------------------------------
+
+The implementation is simple and focused on parsing and evaluation.
+
+A) isOperator
+-------------
+
+This checks whether a token is one of the four supported operators:
+- +
+- -
+- *
+- /
+
+Why it exists:
+- The parser must know whether a token is a number or an operator.
+
+B) stringToInt
+--------------
+
+This function converts a token string into an integer.
+Why it exists:
+- The expression is read as text, so each number must be converted to an integer before it can be used in arithmetic.
+
+C) performOperation
+-------------------
+
+This function applies the arithmetic operation selected by the token.
+It handles:
+- addition
+- subtraction
+- multiplication
+- division
+
+Why it matters:
+- The program must behave correctly for all valid operators.
+- Division by zero is handled by throwing an exception.
+
+D) evaluate
+-----------
+
+This is the main function of the class.
+It reads the expression token by token.
+For each token:
+- if it is an operator, the program pops the two most recent values from the stack
+- it performs the operation
+- it pushes the result back onto the stack
+- if it is a number, it is pushed directly onto the stack
+
+Why this works:
+- In RPN, operators always apply to the two most recent values.
+- That is exactly what the stack structure supports.
+
+At the end of the expression:
+- the stack must contain exactly one value
+- if not, the expression is invalid
+- if it is valid, the last value is the final result
+
+3) Strong example
+-----------------
+
+Suppose the expression is:
+8 9 * 9 - 9 - 9 - 4 - 1 +
+
+The evaluation flow is:
+- push 8
+- push 9
+- read * -> 8 * 9 = 72
+- push 72
+- read 9 -> push 9
+- read - -> 72 - 9 = 63
+- read 9 -> push 9
+- read - -> 63 - 9 = 54
+- read 9 -> push 9
+- read - -> 54 - 9 = 45
+- read 4 -> push 4
+- read - -> 45 - 4 = 41
+- read 1 -> push 1
+- read + -> 41 + 1 = 42
+
+Final result: 42
+
+4) Flow of the full process
+---------------------------
+
+The flow is:
+1. The expression is read as a stream of tokens.
+2. Each token is checked.
+3. If it is a number, it is pushed onto the stack.
+4. If it is an operator, the last two numbers are popped and combined.
+5. The result is pushed back onto the stack.
+6. When all tokens are processed, the stack should contain one value, which is the result.
+
+5) Why std::list is used
+------------------------
+
+std::list is used because the program only needs a simple stack-like behavior.
+It supports:
+- push_back
+- pop_back
+- back
+- size
+
+This makes it easy to implement the RPN evaluation logic in a clear way.
+
+6) Summary
+----------
+
+The program reads a Reverse Polish Notation expression, evaluates it using a stack, and returns the final numeric result.
+The important idea is that operators are applied to the most recent values, which is exactly what a stack naturally supports.

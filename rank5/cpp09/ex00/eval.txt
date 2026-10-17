@@ -1,0 +1,161 @@
+BitcoinExchange explanation
+==========================
+
+This file is separate from the implementation. Its purpose is to explain how the program works, why each part exists, and how the data flows through the code.
+
+1) What the header file is doing
+--------------------------------
+
+The header file declares the structure of the class and the data that the program uses.
+
+Private member variables:
+- _rates: stores the exchange rates from the CSV database. It is a std::map<string, double> because the program needs fast lookup by date.
+- _valid: stores whether the database loaded successfully.
+
+Why these variables exist:
+- The program must keep the database in memory so it can answer every input date quickly.
+- It also needs a flag to know whether the database was loaded correctly.
+
+Private methods:
+- loadDatabase(const std::string& databaseFile): reads the CSV file and stores the rates in the map.
+- getRate(const std::string& date) const: returns the exchange rate for a date, or the nearest earlier rate if the exact date is not present.
+- isValidDate(const std::string& date): verifies that the date string is valid.
+- isLeapYear(int year): helps validate February in leap years.
+- trim(const std::string& s): removes spaces or newline characters from the input.
+
+Public methods:
+- BitcoinExchange(): default constructor.
+- BitcoinExchange(const std::string& databaseFile): loads the database directly.
+- Copy constructor and assignment operator: needed because the class stores data in a container.
+- Destructor: cleans up normally, but there is no dynamic memory to free explicitly.
+- isValid() const: tells whether the database loaded properly.
+- processInputFile(const std::string& inputFile) const: reads and processes the user input file.
+
+2) What the source file is doing
+--------------------------------
+
+The implementation is divided into small parts.
+
+A) Constructors and assignment operator
+--------------------------------------
+
+The constructor initializes _valid to false and then loads the database.
+This is useful because the object must not be considered valid if the database cannot be opened or is empty.
+
+The copy constructor and assignment operator simply copy the map and the validity flag.
+This keeps the object state consistent when it is copied.
+
+B) Helper functions
+-------------------
+
+trim
+- Removes spaces and newline characters from strings.
+- This is important because input files may have CRLF endings or extra spaces.
+
+isLeapYear
+- Checks leap years for correct February validation.
+
+isValidDate
+- Verifies that the date has the correct format: YYYY-MM-DD.
+- It also checks whether the month and day are real values.
+
+Why this matters:
+- If the date is invalid, the program should print an error instead of trying to process it.
+
+C) loadDatabase
+---------------
+
+This function opens the CSV file and reads it line by line.
+For each valid line:
+- it removes spaces
+- it splits the date and the exchange rate
+- it validates the date and the rate
+- it stores the values in _rates
+
+Why std::map is used here:
+- The dates need to be stored in order.
+- The program later needs to find the nearest lower date using lower_bound.
+- std::map provides this naturally because it stores keys in sorted order.
+
+D) getRate
+----------
+
+This function returns the exchange rate for a specific date.
+If the exact date is not available, the program uses the nearest lower date.
+Why this is important:
+- The subject requires the program to use the closest lower date if the exact date is missing.
+
+How it works:
+- lower_bound finds the first date that is not smaller than the requested date.
+- If the exact date is found, the program returns that rate.
+- If the requested date is earlier than the first entry, there is no lower date, so the function returns the first available one.
+- Otherwise, it goes one step back and uses the previous date.
+
+E) processInputFile
+-------------------
+
+This is the main workhorse of the program.
+It reads the input file line by line and processes each line.
+For each line, it:
+- trims whitespace
+- skips empty lines
+- skips the header line if present
+- splits the line at the pipe character
+- validates the date and the value
+- checks that the value is positive and not bigger than 1000
+- gets the exchange rate using getRate
+- prints the result
+
+Why this is useful:
+- The program should continue processing the whole file even if one line is invalid.
+- That is why each bad line prints an error and continues to the next one.
+
+3) Strong example
+-----------------
+
+Suppose the database contains:
+- 2011-01-01 -> 1.0
+- 2011-01-02 -> 1.2
+- 2011-01-03 -> 1.5
+
+Now the input file contains:
+- 2011-01-02 | 3
+
+The program will:
+- validate the date and the value
+- find the exact rate for 2011-01-02
+- multiply 3 by 1.2
+- print: 2011-01-02 => 3 = 3.6
+
+If the input is:
+- 2011-01-04 | 2
+
+Then the exact date is missing, so the program will use the nearest lower date, which is 2011-01-03.
+It will print the value using the rate from 2011-01-03.
+
+4) Flow of the full process
+---------------------------
+
+The flow is:
+1. The program starts and creates a BitcoinExchange object.
+2. The constructor loads the CSV database.
+3. The program reads the input file.
+4. Each line is validated.
+5. The correct exchange rate is found.
+6. The result is printed.
+7. If a line is invalid, an error message is printed and the program continues.
+
+5) Why std::map is used
+-----------------------
+
+std::map is used because the program needs ordered dates and efficient lookup.
+It is perfect for:
+- storing the exchange rates
+- finding the exact date
+- finding the nearest lower date
+
+6) Summary
+----------
+
+The program reads a CSV database of exchange rates, stores them in a map, reads a file of dates and values, validates each line, finds the correct rate, and prints the converted value.
+The core idea is to combine validation, date handling, and ordered lookup in a clean and reliable way.
