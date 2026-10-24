@@ -21,6 +21,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     mariadb-client \
     && rm -rf /var/lib/apt/lists/*
 
+# Start with an empty data directory; the named volume must not be
+# pre-populated with the package's default MySQL system tables.
+RUN rm -rf /var/lib/mysql/*
+
 # Create directory for MariaDB socket and pid
 RUN mkdir -p /var/run/mysqld && \
     chown -R mysql:mysql /var/run/mysqld && \

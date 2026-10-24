@@ -75,12 +75,12 @@ if [ ! -f wp-config.php ]; then
 fi
 
 # Keep wp-config.php in sync with the current environment/secrets.
-wp config set DB_NAME "${MYSQL_DATABASE}" --type=constant --allow-root
-wp config set DB_USER "${MYSQL_USER}" --type=constant --allow-root
-wp config set DB_PASSWORD "${MYSQL_PASSWORD}" --type=constant --allow-root
-wp config set DB_HOST "${MYSQL_HOST}" --type=constant --allow-root
-wp config set WP_HOME "${WP_URL}" --type=constant --allow-root
-wp config set WP_SITEURL "${WP_URL}" --type=constant --allow-root
+wp config set DB_NAME "${MYSQL_DATABASE}" --type=constant --allow-root --quiet
+wp config set DB_USER "${MYSQL_USER}" --type=constant --allow-root --quiet
+wp config set DB_PASSWORD "${MYSQL_PASSWORD}" --type=constant --allow-root --quiet
+wp config set DB_HOST "${MYSQL_HOST}" --type=constant --allow-root --quiet
+wp config set WP_HOME "${WP_URL}" --type=constant --allow-root --quiet
+wp config set WP_SITEURL "${WP_URL}" --type=constant --allow-root --quiet
 
 # Install WordPress if the database does not contain a site yet.
 if ! wp core is-installed --allow-root >/dev/null 2>&1; then

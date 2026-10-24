@@ -4,7 +4,7 @@ services:
     build:
       context: ./requirements/nginx
       dockerfile: Dockerfile
-    image: nginx
+    image: nginx:42
     ports:
       - "${WP_PORT}:${WP_PORT}"
     volumes:
@@ -23,7 +23,7 @@ services:
     build:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
-    image: wordpress
+    image: wordpress:42
     volumes:
       - wordpress_data:/var/www/html
     networks:
@@ -55,7 +55,7 @@ services:
     build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
-    image: mariadb
+    image: mariadb:42
     volumes:
       - mariadb_data:/var/lib/mysql
     networks:
