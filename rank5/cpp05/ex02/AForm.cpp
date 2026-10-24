@@ -99,17 +99,17 @@ void AForm::execute(const Bureaucrat& executor) const
 // Exception implementations
 const char* AForm::GradeTooHighException::what() const throw()
 {
-    return "AForm grade is too high!";
+    return "AForm grade is too high";
 }
 
 const char* AForm::GradeTooLowException::what() const throw()
 {
-    return "AForm grade is too low!";
+    return "AForm grade is too low";
 }
 
 const char* AForm::FormNotSignedException::what() const throw()
 {
-    return "AForm is not signed!";
+    return "AForm is not signed";
 }
 
 // Overload of insertion operator

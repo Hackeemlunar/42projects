@@ -60,7 +60,7 @@ void ShrubberyCreationForm::executeAction() const
     
     if (!file.is_open())
     {
-        std::cerr << "Error: Could not create file " << filename << std::endl;
+        std::cout << "Error: Could not create file " << filename << std::endl;
         return;
     }
 

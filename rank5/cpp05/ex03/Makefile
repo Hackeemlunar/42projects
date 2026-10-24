@@ -1,7 +1,7 @@
 NAME = main
 
 CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -Wno-shadow -std=c++98
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
 SOURCES = Bureaucrat.cpp AForm.cpp ShrubberyCreationForm.cpp \
           RobotomyRequestForm.cpp PresidentialPardonForm.cpp \

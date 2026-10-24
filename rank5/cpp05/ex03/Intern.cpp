@@ -88,6 +88,6 @@ AForm* Intern::makeForm(const std::string& formName, const std::string& target) 
     }
     
     // No matching form found
-    std::cerr << "Error: Form name '" << formName << "' does not exist!" << std::endl;
+    std::cout << "Error: Form name '" << formName << "' does not exist!" << std::endl;
     return NULL;
 }
