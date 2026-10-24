@@ -1,5 +1,10 @@
 #include "BitcoinExchange.hpp"
 
+#include <cctype>
+#include <cstdlib>
+#include <fstream>
+#include <iostream>
+
 /* ---------------------------- Canonical form ---------------------------- */
 
 BitcoinExchange::BitcoinExchange() : _valid(false)
@@ -80,7 +85,7 @@ bool BitcoinExchange::isValidDate(const std::string &date)
 	int month = std::atoi(date.substr(5, 2).c_str());
 	int day = std::atoi(date.substr(8, 2).c_str());
 
-	if (year < 2009 || year > 9999)
+	if (year < 1 || year > 9999)
 		return (false);
 	if (month < 1 || month > 12)
 		return (false);
@@ -113,16 +118,11 @@ bool BitcoinExchange::loadDatabase(const std::string &databaseFile)
 	}
 
 	std::string line;
-	bool firstLine = true;
 	while (std::getline(ifs, line))
 	{
+		line = trim(line);
 		if (line.empty())
 			continue;
-		if (firstLine)
-		{
-			firstLine = false;
-			continue; // skip "date,exchange_rate" header
-		}
 		size_t pos = line.find(',');
 		if (pos == std::string::npos)
 			continue;
@@ -130,6 +130,8 @@ bool BitcoinExchange::loadDatabase(const std::string &databaseFile)
 		std::string date = trim(line.substr(0, pos));
 		std::string valueStr = trim(line.substr(pos + 1));
 
+		if (date == "date") // skip "date,exchange_rate" header
+			continue;
 		if (!isValidDate(date) || valueStr.empty())
 			continue;
 
@@ -149,16 +151,20 @@ bool BitcoinExchange::loadDatabase(const std::string &databaseFile)
 	return (true);
 }
 
-double BitcoinExchange::getRate(const std::string &date) const
+bool BitcoinExchange::getRate(const std::string &date, double &rate) const
 {
 	std::map<std::string, double>::const_iterator it = _rates.lower_bound(date);
 
 	if (it != _rates.end() && it->first == date)
-		return (it->second);
+	{
+		rate = it->second;
+		return (true);
+	}
 	if (it == _rates.begin())
-		return (it->second); // no earlier date exists; best available
+		return (false); // no earlier date exists
 	--it;
-	return (it->second);
+	rate = it->second;
+	return (true);
 }
 
 /* ----------------------------- Input processing ----------------------------- */
@@ -173,7 +179,6 @@ bool BitcoinExchange::processInputFile(const std::string &inputFile) const
 	}
 
 	std::string line;
-	std::getline(ifs, line);
 	while (std::getline(ifs, line))
 	{
 		line = trim(line); // handles CRLF-terminated input files too
@@ -189,6 +194,8 @@ bool BitcoinExchange::processInputFile(const std::string &inputFile) const
 		std::string datePart = trim(line.substr(0, pos));
 		std::string valuePart = trim(line.substr(pos + 1));
 
+		if (datePart == "date") // skip "date | value" header if present
+			continue;
 		if (!isValidDate(datePart))
 		{
 			std::cout << "Error: bad input => " << line << std::endl;
@@ -202,7 +209,7 @@ bool BitcoinExchange::processInputFile(const std::string &inputFile) const
 
 		char *endptr = NULL;
 		double value = std::strtod(valuePart.c_str(), &endptr);
-		if (endptr == valuePart.c_str() || *endptr != '\0')
+		if (endptr == valuePart.c_str() || *endptr != '\0' || value != value)
 		{
 			std::cout << "Error: bad input => " << line << std::endl;
 			continue;
@@ -219,7 +226,12 @@ bool BitcoinExchange::processInputFile(const std::string &inputFile) const
 			continue;
 		}
 
-		double rate = getRate(datePart);
+		double rate = 0;
+		if (!getRate(datePart, rate))
+		{
+			std::cout << "Error: no exchange rate available for " << datePart << "." << std::endl;
+			continue;
+		}
 		std::cout << datePart << " => " << valuePart << " = "
 			<< (value * rate) << std::endl;
 	}

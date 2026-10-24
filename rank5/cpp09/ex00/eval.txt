@@ -88,7 +88,7 @@ Why this is important:
 How it works:
 - lower_bound finds the first date that is not smaller than the requested date.
 - If the exact date is found, the program returns that rate.
-- If the requested date is earlier than the first entry, there is no lower date, so the function returns the first available one.
+- If the requested date is earlier than the first entry, there is no lower date, so the program reports an error.
 - Otherwise, it goes one step back and uses the previous date.
 
 E) processInputFile

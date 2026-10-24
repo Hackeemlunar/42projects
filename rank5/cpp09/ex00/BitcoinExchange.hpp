@@ -1,10 +1,8 @@
 #ifndef BITCOINEXCHANGE_HPP
 #define BITCOINEXCHANGE_HPP
 
-#include <iostream>
-#include <fstream>
-#include <cstdlib>
 #include <map>
+#include <string>
 
 class BitcoinExchange
 {
@@ -23,7 +21,7 @@ class BitcoinExchange
 		bool							_valid;
 
 		bool	loadDatabase(const std::string &databaseFile);
-		double	getRate(const std::string &date) const;
+		bool	getRate(const std::string &date, double &rate) const;
 
 		static bool			isValidDate(const std::string &date);
 		static bool			isLeapYear(int year);
