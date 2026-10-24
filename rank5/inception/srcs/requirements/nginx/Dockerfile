@@ -10,11 +10,13 @@
 #                                                                              #
 # **************************************************************************** #
 
-# Use Debian 11 (Bullseye) - penultimate stable version
-FROM debian:11
+# Use Debian 12 (Bookworm) - penultimate stable version
+FROM debian:12
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Install NGINX and OpenSSL for TLS certificate generation
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     nginx \
     openssl \
     gettext-base \

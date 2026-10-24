@@ -1,68 +1,87 @@
 #!/bin/bash
 
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    setup.sh                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: hmensah- <hmensah-@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/10/05 00:00:00 by hmensah-          #+#    #+#              #
-#    Updated: 2025/10/05 00:00:00 by hmensah-         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+set -eu
 
-set -e
-
-# Data directory
 DATA_DIR="/var/lib/mysql"
 
-# Initialize MariaDB data directory if it doesn't exist
+read_secret() {
+    local value="$1"
+    local file="$2"
+
+    if [ -n "$file" ]; then
+        if [ ! -r "$file" ]; then
+            echo "Error: cannot read secret file: $file" >&2
+            exit 1
+        fi
+        cat "$file"
+    else
+        printf '%s' "$value"
+    fi
+}
+
+MYSQL_ROOT_PASSWORD="$(read_secret "${MYSQL_ROOT_PASSWORD:-}" "${MYSQL_ROOT_PASSWORD_FILE:-}")"
+MYSQL_PASSWORD="$(read_secret "${MYSQL_PASSWORD:-}" "${MYSQL_PASSWORD_FILE:-}")"
+
+: "${MYSQL_DATABASE:?MYSQL_DATABASE is required}"
+: "${MYSQL_USER:?MYSQL_USER is required}"
+
+if [ -z "$MYSQL_ROOT_PASSWORD" ] || [ -z "$MYSQL_PASSWORD" ]; then
+    echo "Error: database passwords are missing or empty." >&2
+    exit 1
+fi
+
+# The host directory behind the named volume may be created by the host user.
+# MariaDB must own its data directory.
+mkdir -p "$DATA_DIR"
+chown -R mysql:mysql "$DATA_DIR"
+
+# Initialize MariaDB data directory if it does not exist yet.
 if [ ! -d "$DATA_DIR/mysql" ]; then
     echo "Initializing MariaDB data directory..."
-    mysql_install_db --user=mysql --datadir="$DATA_DIR" --skip-test-db
-    
+    mariadb-install-db --user=mysql --datadir="$DATA_DIR" --skip-test-db
+
     echo "Starting temporary MariaDB server for setup..."
-    mysqld --user=mysql --datadir="$DATA_DIR" --skip-networking &
+    mariadbd --user=mysql --datadir="$DATA_DIR" --skip-networking &
     MYSQL_PID=$!
-    
-    # Wait for MariaDB to start
+
     echo "Waiting for MariaDB to start..."
-    for i in {1..30}; do
-        if mysqladmin ping --silent; then
-            echo "MariaDB is ready!"
+    READY=0
+    for i in $(seq 1 30); do
+        if mariadb-admin ping --silent >/dev/null 2>&1; then
+            echo "MariaDB is ready."
+            READY=1
             break
         fi
         echo "Waiting for MariaDB to be ready... ($i/30)"
         sleep 1
     done
-    
-    # Create database and users
+
+    if [ "$READY" -ne 1 ]; then
+        echo "Error: MariaDB did not start in time." >&2
+        kill "$MYSQL_PID" 2>/dev/null || true
+        exit 1
+    fi
+
     echo "Setting up database and users..."
-    mysql -u root <<-EOSQL
-        -- Set root password
+    mariadb -u root <<-EOSQL
         ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
-        
-        -- Create database
-        CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};
-        
-        -- Create user and grant privileges
+
+        CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`;
+
         CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
-        GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';
-        
-        -- Flush privileges
+        GRANT ALL PRIVILEGES ON \`${MYSQL_DATABASE}\`.* TO '${MYSQL_USER}'@'%';
+
         FLUSH PRIVILEGES;
 EOSQL
-    
-    echo "Database setup complete!"
-    
-    # Stop temporary server
-    mysqladmin -u root -p"${MYSQL_ROOT_PASSWORD}" shutdown
-    wait $MYSQL_PID
+
+    echo "Database setup complete."
+
+    mariadb-admin -u root -p"${MYSQL_ROOT_PASSWORD}" shutdown
+    wait "$MYSQL_PID" || true
 else
     echo "MariaDB data directory already exists. Skipping initialization."
 fi
 
-# Start MariaDB in foreground (no daemon mode)
+# Start MariaDB in the foreground so it stays PID 1.
 echo "Starting MariaDB server..."
-exec mysqld --user=mysql --datadir="$DATA_DIR"
+exec mariadbd --user=mysql --datadir="$DATA_DIR"

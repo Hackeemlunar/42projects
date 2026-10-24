@@ -10,22 +10,25 @@
 #                                                                              #
 # **************************************************************************** #
 
-# Use Debian 11 (Bullseye) - penultimate stable version
-FROM debian:11
+# Use Debian 12 (Bookworm) - penultimate stable version
+FROM debian:12
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Install PHP-FPM and WordPress dependencies (NO NGINX)
-RUN apt-get update && apt-get install -y \
-    php7.4-fpm \
-    php7.4-mysql \
-    php7.4-curl \
-    php7.4-gd \
-    php7.4-intl \
-    php7.4-mbstring \
-    php7.4-soap \
-    php7.4-xml \
-    php7.4-xmlrpc \
-    php7.4-zip \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    php8.2-fpm \
+    php8.2-cli \
+    php8.2-mysql \
+    php8.2-curl \
+    php8.2-gd \
+    php8.2-intl \
+    php8.2-mbstring \
+    php8.2-soap \
+    php8.2-xml \
+    php8.2-zip \
     curl \
+    ca-certificates \
     mariadb-client \
     && rm -rf /var/lib/apt/lists/*
 
@@ -33,12 +36,12 @@ RUN apt-get update && apt-get install -y \
 RUN mkdir -p /run/php
 
 # Copy PHP-FPM configuration
-COPY conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
+COPY conf/www.conf /etc/php/8.2/fpm/pool.d/www.conf
 
 # Install WP-CLI for WordPress management
-RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-    && chmod +x wp-cli.phar \
-    && mv wp-cli.phar /usr/local/bin/wpd
+RUN curl -fsSL -o /usr/local/bin/wp \
+    https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+    && chmod +x /usr/local/bin/wp
 
 # Copy setup script
 COPY tools/setup.sh /usr/local/bin/setup.sh

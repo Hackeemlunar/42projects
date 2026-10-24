@@ -8,9 +8,6 @@ secrets/*.txt
 # Data directories
 /home/*/data/
 
-# Docker
-.dockerignore
-
 # OS
 .DS_Store
 Thumbs.db
