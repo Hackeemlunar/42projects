@@ -1,88 +1,95 @@
-#include <iostream>
+#ifndef ARRAY_HPP
+#define ARRAY_HPP
+
+#include <cstddef>
 #include <exception>
 
-template<typename T>
-class Array {
+template <typename T>
+class Array
+{
 private:
-    T* array;
+    T *array;
     unsigned int ret_sz;
 
 public:
-    Array() {
-        std::cout << "Default Constructor Called" << std::endl;
-        ret_sz = 0;
-        array = NULL;
+    Array() : array(NULL), ret_sz(0)
+    {
     }
 
-    Array(unsigned int n) {
-        std::cout << "Paramitrized Constructor Called" << std::endl;
-        ret_sz = n;
-        if (n > 0)
-            array = new T[n];
-        else
-            array = NULL;
+    Array(unsigned int n) : array(n > 0 ? new T[n]() : NULL), ret_sz(n)
+    {
     }
 
-    Array(const Array &cpy) {
-        std::cout << "Copy Constructor Called" << std::endl;
-
-        ret_sz = cpy.ret_sz;
-
-        if (ret_sz > 0)
-            array = new T[ret_sz];
-        else
-            array = NULL;
-
-        for (unsigned int i = 0; i < ret_sz; i++)
-            array[i] = cpy.array[i];
+    Array(const Array &cpy)
+        : array(cpy.ret_sz > 0 ? new T[cpy.ret_sz]() : NULL), ret_sz(cpy.ret_sz)
+    {
+        try
+        {
+            for (unsigned int i = 0; i < ret_sz; ++i)
+                array[i] = cpy.array[i];
+        }
+        catch (...)
+        {
+            delete[] array;
+            throw;
+        }
     }
 
-    Array &operator=(const Array &b) {
-        std::cout << "Copy assignement operator Called" << std::endl;
-
+    Array &operator=(const Array &b)
+    {
         if (this == &b)
             return *this;
 
+        T *newArray = (b.ret_sz > 0) ? new T[b.ret_sz]() : NULL;
+        try
+        {
+            for (unsigned int i = 0; i < b.ret_sz; ++i)
+                newArray[i] = b.array[i];
+        }
+        catch (...)
+        {
+            delete[] newArray;
+            throw;
+        }
+
         delete[] array;
-
+        array = newArray;
         ret_sz = b.ret_sz;
-
-        if (ret_sz > 0)
-            array = new T[ret_sz];
-        else
-            array = NULL;
-
-        for (unsigned int i = 0; i < ret_sz; i++)
-            array[i] = b.array[i];
-
         return *this;
     }
 
-    unsigned int size(void) const {
+    ~Array()
+    {
+        delete[] array;
+    }
+
+    unsigned int size(void) const
+    {
         return ret_sz;
     }
 
-    class Above : public std::exception {
+    class Above : public std::exception
+    {
     public:
-        const char *what() const throw() {
+        const char *what() const throw()
+        {
             return "Error: index is greater than the size";
         }
     };
 
-    T& operator[](unsigned int i) {
+    T &operator[](unsigned int i)
+    {
         if (i >= ret_sz)
             throw Above();
         return array[i];
     }
 
-    const T &operator[](unsigned int i) const {
+    const T &operator[](unsigned int i) const
+    {
         if (i >= ret_sz)
             throw Above();
         return array[i];
-    }
-
-    ~Array() {
-        std::cout << "Destructor Called" << std::endl;
-        delete[] array;
     }
 };
+
+#endif
