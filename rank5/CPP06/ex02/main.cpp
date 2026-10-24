@@ -10,22 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include "A.hpp"
-#include "B.hpp"
-#include "C.hpp"
 #include "Base.hpp"
+#include <iostream>
 
 int main()
 {
-    srand(time(NULL));
-    Base* basePtr = Base::generate();
-    Base& baseRef = *basePtr;
-    Base* p5 = Base::generate();
-    basePtr->identify(basePtr);
-    basePtr->identify(baseRef);
-    p5->identify(*p5);
-    delete basePtr;
-    delete p5;
+    for (int i = 0; i < 6; ++i)
+    {
+        Base* object = generate();
+
+        std::cout << "identify(pointer): ";
+        identify(object);
+        std::cout << "identify(reference): ";
+        identify(*object);
+
+        delete object;
+    }
     return 0;
 }

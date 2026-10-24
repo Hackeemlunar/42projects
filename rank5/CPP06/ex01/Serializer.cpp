@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "Serializer.hpp"
 
 Serializer::Serializer()
@@ -20,22 +19,26 @@ Serializer::Serializer()
 Serializer::~Serializer()
 {
 }
+
 Serializer::Serializer(const Serializer& other)
 {
     (void)other;
+}
+
+Serializer& Serializer::operator=(const Serializer& other)
+{
+    (void)other;
+    return *this;
 }
 
 uintptr_t Serializer::serialize(Data* ptr)
 {
     if (!ptr)
         return 0;
-    uintptr_t raw = reinterpret_cast<uintptr_t>(ptr);
-    return raw;
+    return reinterpret_cast<uintptr_t>(ptr);
 }
 
 Data* Serializer::deserialize(uintptr_t raw)
 {
-    Data* ptr = reinterpret_cast<Data*>(raw);
-    return ptr;
+    return reinterpret_cast<Data*>(raw);
 }
-

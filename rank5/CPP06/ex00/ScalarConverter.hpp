@@ -14,25 +14,16 @@
 #define SCALARCONVERTER_HPP
 
 #include <string>
-#include <iostream>
-#include <cstdlib>
-#include <cfloat>
-#include <cmath>
-#include <climits>
-#include <iomanip>
-
 
 class ScalarConverter
 {
 private:
     ScalarConverter();
+    ScalarConverter(const ScalarConverter& other);
+    ScalarConverter& operator=(const ScalarConverter& other);
 
 public:
     static void convert(const std::string& literal);
-    static void toChar(const std::string& input);
-    static void toInt(const std::string& input);
-    static void toFloat(const std::string& input);
-    static void toDouble(const std::string& input);
 };
 
 #endif

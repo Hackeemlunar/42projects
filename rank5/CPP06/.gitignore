@@ -1,0 +1,5 @@
+*.o
+ex00/convert
+ex00/ScalarConverter
+ex01/Serializer
+ex02/Base

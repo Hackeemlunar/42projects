@@ -10,21 +10,33 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "Serializer.hpp"
+#include <iostream>
 
 int main()
 {
-    Serializer *a = NULL;
-    Data *b = new Data();
-    uintptr_t raw;
-    Data *after;
-    std::cout << "Original pointer: " << b << std::endl;
-    raw = a->serialize(b);
-    std::cout << "Serialized to uintptr_t: " << raw << std::endl;
-    after = a->deserialize(raw);
-    std::cout << "Deserialized back to pointer: " << after << std::endl;
-    delete b;
-    return 0;
+    Data* data = new Data();
+    data->id = 42;
+    data->name = "Bureaucrat";
 
+    std::cout << "Original pointer: " << data << std::endl;
+
+    uintptr_t raw = Serializer::serialize(data);
+    std::cout << "Serialized value: " << raw << std::endl;
+
+    Data* after = Serializer::deserialize(raw);
+    std::cout << "Deserialized pointer: " << after << std::endl;
+
+    if (after == data)
+        std::cout << "OK: deserialized pointer matches original" << std::endl;
+    else
+        std::cout << "KO: deserialized pointer does not match original" << std::endl;
+
+    if (after->id == 42 && after->name == "Bureaucrat")
+        std::cout << "OK: data content preserved" << std::endl;
+    else
+        std::cout << "KO: data content corrupted" << std::endl;
+
+    delete data;
+    return 0;
 }
